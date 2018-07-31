@@ -67,10 +67,10 @@ color: black;
 .rettangolo {
     position: relative;
 	width:700px;
-	height:800px;
+	
     
     margin: 0 auto;
-	background:tan;
+	background:#ffc38e;
 }
 .carousel {
   width:80%;
@@ -81,7 +81,19 @@ color: black;
   height: auto;
   max-width: 100%;
 }
-
+.registrazione{
+    position: absolute;
+    left: 1100px;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    
+}
+.link a{
+    color: black;
+    text-decoration: underline;
+}
+.alto{
+    height: 700px;
+}
 
 
 
