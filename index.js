@@ -74,4 +74,17 @@ server.post('/registrati/locale', function(req, res) {
     }
 
     console.log(User);
+});
+
+server.get('/login', function(req, res) {
+    res.sendFile (path.join(__dirname, 'views', 'login.html'));
+})
+
+server.post('/login/locale', function(req, res) {
+    var dati = {
+        email: req.body.email,
+        password: req.body.password
+    }
+
+    console.log(dati);
 })
