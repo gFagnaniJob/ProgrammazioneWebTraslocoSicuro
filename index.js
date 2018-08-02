@@ -56,7 +56,21 @@ server.get('/registrati', function (req, res) {
     res.sendFile(path.join(__dirname, '/views', 'registrati.html'));
 });
 
-server.post('/registrati/locale', function(req, res) {
+function controlloData(data) {
+    var dataInserita = new Date(data);
+    var anno = dataInserita.getFullYear();
+    var dataAttuale = new Date();
+    dataMaggiorenne = dataAttuale.setFullYear(anno - 18);
+
+    if (dataInserita > dataMaggiorenne) {
+        return false;
+    }
+    return true;
+}
+
+
+server.post('/registrati/locale', function (req, res) {
+
     var User = {
         nome: req.body.nome,
         cognome: req.body.cognome,
@@ -70,17 +84,32 @@ server.post('/registrati/locale', function(req, res) {
         },
         telefono: req.body.telefono,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        confermaPassword: req.body.confermaPassword
     }
 
+    if (User.password !== User.confermaPassword) {
+        return console.log(" Le due password inserite non corrispondono ")
+    }
+
+
+    if (controlloData(User.dataNascita) === false) {
+        return console.log("non è maggiorenne")
+    }
+
+
+
+
     console.log(User);
+
+
 });
 
-server.get('/login', function(req, res) {
-    res.sendFile (path.join(__dirname, 'views', 'login.html'));
+server.get('/login', function (req, res) {
+    res.sendFile(path.join(__dirname, 'views', 'login.html'));
 })
 
-server.post('/login/locale', function(req, res) {
+server.post('/login/locale', function (req, res) {
     var dati = {
         email: req.body.email,
         password: req.body.password

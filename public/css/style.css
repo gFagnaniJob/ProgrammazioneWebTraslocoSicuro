@@ -93,8 +93,9 @@ color: black;
 }
 .alto{
     height: 700px;
+    position: relative;
 }
-#centrato{
+.centrato{
     margin:auto;
 }
 

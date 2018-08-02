@@ -33,7 +33,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/chiSiamo">Chi Siamo</a>
                     <a class="dropdown-item" href="/doveSiamo">Dove Siamo</a>
-                     <a class="dropdown-item" href="/contattaci">Contattaci</a>
+                    <a class="dropdown-item" href="/contattaci">Contattaci</a>
                 </div>
 
 
@@ -63,74 +63,95 @@
     
                 </button>
             </div>
-            
+
         </div>
 
 
-        
-    <div class="row">
-    <div class= "col">        
-        <h5 class="p-4">Inserisci i tuoi dati per registrarti ai nostri servizi</h5>
 
-        
-            <form method="POST" action="/registrati/locale">
-                <div class="row pt-4 pl-4">
-                    <div class="form-group col-4">
+        <div class="row">
+            <div class="col">
+                <h2 class="p-4"> Registrati</h2>
+            </div>
+        </div>
+
+        <form method="POST" action="/registrati/locale">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group ">
                         <label for="nome">Nome: </label>
                         <input type="text" class="form-control" id="nome" name="nome" required>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group ">
                         <label for="cognome">Cognome: </label>
                         <input type="text" class="form-control" id="cognome" name="cognome" required>
                     </div>
-                    <div class="form-group col-3">
-                        <label for="dataNascita">Data di Nascita: </label>
-                        <input type="date" class="form-control" id="dataNascita" name="dataNascita" required>
-                    </div>
-                </div>
-                <div class="row pt-1 pl-4">
-                    <div class="form-group col-3">
-                        <label for="via">Via: </label>
-                        <input type="text" class="form-control" id="via" name="via" required>
-                    </div>
-                    <div class="form-group col-3">
-                        <label for="stato">Stato: </label>
-                        <input type="text" class="form-control" id="stato" name="stato" required>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="citta">Città: </label>
-                        <input type="text" class="form-control" id="citta" name="citta" required>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="provincia">Prov: </label>
-                        <input type="text" class="form-control" id="provincia" name="provincia" required>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="cap">CAP: </label>
-                        <input type="text" class="form-control" id="cap" name="cap" required>
-                    </div>
-                </div>
-                <div class="row pt-1 pl-4">
-                    <div class="form-group col-4">
-                        <label for="telefono">Telefono: </label>
-                        <input type="number" class="form-control" id="telefono" name="telefono" required>
-                    </div>
-                    <div class="form-group col-4">
+                    <div class="form-group ">
                         <label for="email">Email: </label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group ">
                         <label for="password">Password: </label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                </div>
-                <div class="row pt-1 pl-4">
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary">Registrati</button>
+
+                    <div class="form-group ">
+                        <label for="password">Conferma Password: </label>
+                        <input type="password" class="form-control" id="confermaPassword" name="confermaPassword" required>
                     </div>
+
+                    <div class="form-group ">
+                        <label for="dataNascita">Data di Nascita: </label>
+                        <input type="date" class="form-control" id="dataNascita" name="dataNascita" required>
+                    </div>
+
+
+
+
+
                 </div>
+                <div class="col-6">
+
+                    <div class="form-group ">
+                        <label for="via">Via: </label>
+                        <input type="text" class="form-control" id="via" name="via" required>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="stato">Stato: </label>
+                        <input type="text" class="form-control" id="stato" name="stato" required>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <label for="citta">Città: </label>
+                        <input type="text" class="form-control" id="citta" name="citta" required>
+                    </div>
+                    <div class="form-group ">
+                        <label for="provincia">Prov: </label>
+                        <input type="text" class="form-control" id="provincia" name="provincia" required>
+                    </div>
+                    <div class="form-group ">
+                        <label for="cap">CAP: </label>
+                        <input type="number" class="form-control" id="cap" name="cap" required>
+
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="telefono">Telefono: </label>
+                        <input type="number" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+
                 </div>
-            </form>
+            </div>
+
+            <div class="row pt-1 pl-4">
+                <div class="col-12 p-4 text-center">
+                    <button type="submit" class="btn btn-info">Registrati</button>
+                </div>
+            </div>
+
+
+        </form>
     </div>
 
     <!-- Optional JavaScript -->
