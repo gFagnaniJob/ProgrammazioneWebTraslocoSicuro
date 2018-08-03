@@ -56,18 +56,7 @@ server.get('/registrati', function (req, res) {
     res.sendFile(path.join(__dirname, '/views', 'registrati.html'));
 });
 
-function controlloData(data) {
-    var dataInserita = new Date(data);
-    var anno = dataInserita.getFullYear();
-    var dataAttuale = new Date();
-    dataMaggiorenne = dataAttuale.setFullYear(anno - 18);
-
-    if (dataInserita > dataMaggiorenne) {
-        return false;
-    }
-    return true;
-}
-
+var controllersUser = require("./controllers/user.js");
 
 server.post('/registrati/locale', function (req, res) {
 
@@ -93,7 +82,7 @@ server.post('/registrati/locale', function (req, res) {
     }
 
 
-    if (controlloData(User.dataNascita) === false) {
+    if (controllersUser.controlloData(User.dataNascita) === false) {
         return console.log("non è maggiorenne")
     }
 
