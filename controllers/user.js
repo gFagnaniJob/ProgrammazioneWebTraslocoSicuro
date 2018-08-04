@@ -43,5 +43,12 @@ module.exports = {
                 }
             }
         }
+    },
+
+    controllaPasswordCoincidenti : (pw1, pw2) => {
+        if (pw1 === pw2) {
+            return true;
+        }
+        return false;
     }
 }
