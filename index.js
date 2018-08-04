@@ -76,7 +76,7 @@ server.post('/registrati/locale', function (req, res) {
     }
 
 
-    if (controllersUser.controlloData(User.dataNascita) === false) {
+    if (controllersUser.controlloData(User.dataNascita) == false) {
         return console.log("non è maggiorenne")
     }
 
