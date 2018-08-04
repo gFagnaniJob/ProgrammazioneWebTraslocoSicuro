@@ -3,7 +3,7 @@ var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
-var controllersUser = require("./controllers/user.js");
+var userController = require("./controllers/user.js");
 
 server.use(express.static("public"));
 server.use(bodyParser.json());
@@ -71,13 +71,15 @@ server.post('/registrati/locale', function (req, res) {
         confermaPassword: req.body.confermaPassword
     }
 
-    if (User.password !== User.confermaPassword) {
-        return console.log(" Le due password inserite non corrispondono ")
+    if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
+        console.log(" Le due password inserite non corrispondono ");
+        return;
     }
 
 
-    if (controllersUser.controlloData(User.dataNascita) == false) {
-        return console.log("non è maggiorenne")
+    if (!userController.controlloData(User.dataNascita)) {
+        console.log("non è maggiorenne");
+        return;
     }
 
     console.log(User);
