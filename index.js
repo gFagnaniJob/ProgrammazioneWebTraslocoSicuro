@@ -5,6 +5,7 @@ const porta = 2000; //la porta
 const path = require('path');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
@@ -126,14 +127,6 @@ server.post('/registrati/locale', function(req, res) {
     }
 
 
-    var newUser = new modelloUtenti({ nome: req.body.nome, cognome: req.body.cognome, email: req.body.email, password: req.body.password, provincia: req.body.provincia, stato: req.body.stato, citta: req.body.citta, cap: req.body.cap, dataNascita: req.body.dataNascita, telefono: req.body.telefono, via: req.body.via });
-    newUser.save(function(err) {
-        if (err) return handleError(err);
-
-    });
-
-
-
     if (User.password !== User.confermaPassword) {
         return console.log(" Le due password inserite non corrispondono ")
     }
@@ -142,6 +135,28 @@ server.post('/registrati/locale', function(req, res) {
     if (controllersUser.controlloData(User.dataNascita) === false) {
         return console.log("non è maggiorenne")
     }
+
+
+
+    var newUser = new modelloUtenti({ nome: req.body.nome, cognome: req.body.cognome, email: req.body.email, password: req.body.password, provincia: req.body.provincia, stato: req.body.stato, citta: req.body.citta, cap: req.body.cap, dataNascita: req.body.dataNascita, telefono: req.body.telefono, via: req.body.via });
+    //prima di salvare i dati nel database crypto la password
+    utentiSchema.pre('save', function(next) {
+        var newUser = this;
+        bcrypt.hash(newUser.password, 10, function(err, hash) {
+            if (err) {
+                return next(err);
+            }
+            newUser.password = hash;
+            next();
+        })
+    });
+    newUser.save(function(err) {
+        if (err) return handleError(err);
+    });
+
+
+
+
 
 
 
