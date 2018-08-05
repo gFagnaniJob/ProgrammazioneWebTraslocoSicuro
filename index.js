@@ -136,7 +136,17 @@ server.post('/registrati/locale', function(req, res) {
 
 
 
-    var newUser = new modelloUtenti({ nome: req.body.nome, cognome: req.body.cognome, email: req.body.email, password: req.body.password, provincia: req.body.provincia, stato: req.body.stato, citta: req.body.citta, cap: req.body.cap, dataNascita: req.body.dataNascita, telefono: req.body.telefono, via: req.body.via });
+    var newUser = new modelloUtenti({ nome: req.body.nome, cognome: req.body.cognome,
+                                    email: req.body.email, password: req.body.password,
+                                    indirizzo: {
+                                        provincia: req.body.provincia,
+                                        stato: req.body.stato,
+                                        citta: req.body.citta,
+                                        cap: req.body.cap,
+                                        via: req.body.via
+                                    },
+                                    dataNascita: req.body.dataNascita,
+                                    telefono: req.body.telefono, });
     //prima di salvare i dati nel database crypto la password
     utentiSchema.pre('save', function(next) {
         var newUser = this;
@@ -151,6 +161,25 @@ server.post('/registrati/locale', function(req, res) {
     newUser.save(function(err) {
         if (err) return handleError(err);
     });
+
+    /* TODO: Aggiungere il salt
+    userSchema.pre('save', async function (next) {
+    try {
+        if (this.method !== 'local') {
+            next();
+        }
+        //Generate a salt
+        const salt = await bcrypt.genSalt(10);
+        //Generate a password hash (salt + hash)
+        const passwordHash = await bcrypt.hash(this.local.password, salt);
+        //Re-assign hashed version over original, plain text password
+        this.local.password = passwordHash;
+        next();
+    } catch (error) {
+        next(error);
+    }
+    });
+    */
 
 
 
