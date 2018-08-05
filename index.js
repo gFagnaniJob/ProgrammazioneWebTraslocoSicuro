@@ -97,7 +97,7 @@ server.get("/servizi", function(req, res) {
 });
 
 server.get('/registrati', function(req, res) {
-    res.render('registrati');
+    res.render('registrati', {messaggioErrore: ""});
 });
 
 server.post('/registrati/locale', function(req, res) {
@@ -121,14 +121,18 @@ server.post('/registrati/locale', function(req, res) {
 
     if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
         console.log(" Le due password inserite non corrispondono ");
+        res.render('registrati', {messaggioErrore: "Le due password non coincidono"});
         return;
     }
 
 
     if (!userController.controlloData(User.dataNascita)) {
         console.log("non è maggiorenne");
+        res.render('registrati', {messaggioErrore: "Non sei maggiorenne"});
         return;
     }
+
+    res.render('benvenuto', User);
 
 
 
