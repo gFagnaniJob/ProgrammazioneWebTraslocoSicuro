@@ -3,11 +3,16 @@ var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
+var userController = require("./controllers/user.js");
+
 server.use(express.static("public"));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
     extended: true
 }));
+
+server.set ('view engine', 'ejs');
+
 server.listen(porta, function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
 
@@ -15,48 +20,37 @@ server.listen(porta, function () { //inserisco cosa fa il server quando lo richi
 
 
 server.get("/", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'home.html'));
+    res.render ('home');
 });
 
 server.get("/chiSiamo", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'chiSiamo.html'));
+    res.render('chiSiamo');
 });
 server.get("/doveSiamo", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'doveSiamo.html'));
+    res.render('doveSiamo');
 });
 server.get("/comeFunziona", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'comeFunziona.html'));
+    res.render('comeFunziona');
 });
 server.get("/conChiLavoriamo", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'conChiLavoriamo.html'));
+    res.render('conChiLavoriamo');
 });
 server.get("/condizioniDiVendita", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'condizioniDiVendita.html'));
+    res.render('condizioniDiVendita');
 });
 server.get("/contattaci", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'contattaci.html'));
+    res.render('contattaci');
 });
 server.get("/informativaSullaPrivacy", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'informativaSullaPrivacy.html'));
+    res.render('informativaSullaPrivacy');
 });
 server.get("/servizi", function (req, res) {
-
-    res.sendFile(path.join(__dirname, '/views', 'servizi.html'));
+    res.render('servizi');
 });
 
 server.get('/registrati', function (req, res) {
-    res.sendFile(path.join(__dirname, '/views', 'registrati.html'));
+    res.render('registrati');
 });
-
-var controllersUser = require("./controllers/user.js");
 
 server.post('/registrati/locale', function (req, res) {
 
@@ -77,25 +71,22 @@ server.post('/registrati/locale', function (req, res) {
         confermaPassword: req.body.confermaPassword
     }
 
-    if (User.password !== User.confermaPassword) {
-        return console.log(" Le due password inserite non corrispondono ")
+    if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
+        console.log(" Le due password inserite non corrispondono ");
+        return;
     }
 
 
-    if (controllersUser.controlloData(User.dataNascita) === false) {
-        return console.log("non è maggiorenne")
+    if (!userController.controlloData(User.dataNascita)) {
+        console.log("non è maggiorenne");
+        return;
     }
-
-
-
 
     console.log(User);
-
-
 });
 
 server.get('/login', function (req, res) {
-    res.sendFile(path.join(__dirname, 'views', 'login.html'));
+    res.render('login');
 })
 
 server.post('/login/locale', function (req, res) {
