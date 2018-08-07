@@ -1,0 +1,12 @@
+TODO list:
+
+1) Creare una chiave per Google Maps API
+2) Implementare calcolatore distanze e algoritmo per resituire il traslocatore più vicino (Distance Matrix Service con Geocoding(?))
+3) Correggere bug registrazione stesso utente
+4) Implementare login
+5) Gestire sessioni e autenticazione (con cookies)
+6) Creare pagina personale dell'utente
+
+
+OPTIONAL TODO list:
+1) Creare form per registrazione traslocatore
