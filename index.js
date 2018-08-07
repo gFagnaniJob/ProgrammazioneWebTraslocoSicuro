@@ -150,7 +150,8 @@ server.post('/registrati/locale', function(req, res) {
     //prima di salvare i dati nel database crypto la password
     utentiSchema.pre('save', function(next) {
         var newUser = this;
-        bcrypt.hash(newUser.password, 10, function(err, hash) {
+        const salt = bcrypt.genSalt(10);
+        bcrypt.hash(newUser.password, salt, function(err, hash) {
             if (err) {
                 return next(err);
             }
