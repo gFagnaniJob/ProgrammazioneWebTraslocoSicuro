@@ -5,6 +5,10 @@ const porta = 2000; //la porta
 const path = require('path');
 var userController = require("./controllers/user.js");
 const UserModel = require('./models/user');
+const dotenv = require('dotenv');
+dotenv.config();
+const postino = require('./controllers/postino');
+const nodemailer = require('nodemailer'); 
 
 const mongoose = require('mongoose');
 
@@ -127,17 +131,34 @@ server.post('/registrati/locale', function (req, res) {
                 stato: User.indirizzo.stato,
                 citta: User.indirizzo.citta,
                 cap: User.indirizzo.cap,
-            },            
+            },
             dataNascita: User.dataNascita,
             telefono: User.telefono,
             email: User.email,
             password: User.password
         });
 
+    // setup email data with unicode symbols
+    let mailOptions = {
+        from: '"Trasloco Sicuro"', // sender address
+        to: User.email, // list of receivers
+        subject: 'Registrazione Completata', // Subject line
+        text: 'Benvenuto su Trasloco Sicuro. La sua registrazione è andata a buon fine :)', // plain text body
+        html: '<h1>Benvenuto su Trasloco Sicuro</h1><p>La sua registrazione è andata a buon fine :)</p>' // html body
+    };
+
+    postino.sendMail(mailOptions, (error, info) => {
+        console.log("sono dentro sendMail")
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+    });
+
     newUser.save(function (err) {
         if (err) console.log(err);//return handleError(err);
     });
-    console.log(User);
+    //console.log(User);
 });
 
 server.get('/login', function (req, res) {
