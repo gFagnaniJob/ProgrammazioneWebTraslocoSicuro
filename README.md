@@ -42,7 +42,10 @@ coordinate: {lat, lan}
 
 ## Tecnologie usate
 **Front-End**: View-Engine in EJS, Bootstrap, CSS
+
 **Back-End**: NodeJS/Express,BcryptJS, API Google Maps, Cookies, NodeMailer,
 Dotenv
+
 **Gestione DB**: Mongoose/MongoDB
+
 **Controllo Versione**: Git su Github
