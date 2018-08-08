@@ -148,7 +148,6 @@ server.post('/registrati/locale', function (req, res) {
     };
 
     postino.sendMail(mailOptions, (error, info) => {
-        console.log("sono dentro sendMail")
         if (error) {
             return console.log(error);
         }
