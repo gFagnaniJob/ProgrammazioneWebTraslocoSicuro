@@ -71,6 +71,10 @@ server.get("/servizi", function (req, res) {
     res.render('servizi');
 });
 
+server.get("/paginaPersonale", function (req, res) {
+    res.render('paginaPersonale');
+});
+
 server.get('/registrati', function (req, res) {
     res.render('registrati',
         {
@@ -102,7 +106,7 @@ server.post('/registrati/locale', function (req, res) {
         res.render('registrati',
             {
                 messaggioErrore: "Le due password non coincidono",
-                bootstrapClasses: "text-center text-danger"
+                bootstrapClasses: "text-left alert alert-danger"
             });
         return;
     }
@@ -112,12 +116,18 @@ server.post('/registrati/locale', function (req, res) {
         res.render('registrati',
             {
                 messaggioErrore: "Non sei maggiorenne",
-                bootstrapClasses: "text-center text-danger"
+                bootstrapClasses: "text-left alert alert-danger"
             });
         return;
     }
 
-    res.render('benvenuto', User);
+    res.render('', { 
+        User,
+        classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
+        classiBottone : "btn btn-custom dropdown-toggle",
+        
+        
+    });
 
 
 
