@@ -12,6 +12,8 @@ const nodemailer = require('nodemailer');
 
 const mongoose = require('mongoose');
 
+var globalUser;
+
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
@@ -117,9 +119,8 @@ server.post('/registrati/locale', function (req, res) {
         return;
     }
 
-    res.render('benvenuto', User);
-
-
+    globalUser = User;
+    res.redirect('/benvenuto');
 
     var newUser = new UserModel(
         {
@@ -153,7 +154,7 @@ server.post('/registrati/locale', function (req, res) {
 
 server.get('/login', function (req, res) {
     res.render('login');
-})
+});
 
 server.post('/login/locale', function (req, res) {
     var dati = {
@@ -162,4 +163,8 @@ server.post('/login/locale', function (req, res) {
     }
 
     console.log(dati);
-})
+});
+
+server.get('/benvenuto', function (req, res) {
+    res.render('benvenuto', globalUser);
+});
