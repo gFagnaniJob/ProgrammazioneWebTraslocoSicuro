@@ -138,20 +138,11 @@ server.post('/registrati/locale', function (req, res) {
             password: User.password
         });
 
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"Trasloco Sicuro"', // sender address
-        to: User.email, // list of receivers
-        subject: 'Registrazione Completata', // Subject line
-        text: 'Benvenuto su Trasloco Sicuro. La sua registrazione è andata a buon fine :)', // plain text body
-        html: '<h1>Benvenuto su Trasloco Sicuro</h1><p>La sua registrazione è andata a buon fine :)</p>' // html body
-    };
-
-    postino.sendMail(mailOptions, (error, info) => {
+    postino.sendMail(postino.creaMailOptions(User), (error, info) => {
         if (error) {
             return console.log(error);
         }
-        console.log('Message sent: %s', info.messageId);
+        console.log('Message sent to: %s', User.email);
     });
 
     newUser.save(function (err) {
