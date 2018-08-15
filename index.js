@@ -121,7 +121,7 @@ server.post('/registrati/locale', function (req, res) {
         return;
     }
 
-    res.render('', { 
+    res.render('paginaPersonale', { 
         User,
         classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
         classiBottone : "btn btn-custom dropdown-toggle",
