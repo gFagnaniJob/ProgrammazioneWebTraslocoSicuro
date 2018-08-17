@@ -123,10 +123,8 @@ server.post('/registrati/locale', function (req, res) {
         return;
     }
 
-<<<<<<< HEAD
     globalUser = User;
     res.redirect('/benvenuto');
-=======
     res.render('paginaPersonale', { 
         User,
         classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
@@ -136,7 +134,6 @@ server.post('/registrati/locale', function (req, res) {
     });
 
 
->>>>>>> origin
 
     var newUser = new UserModel(
         {
