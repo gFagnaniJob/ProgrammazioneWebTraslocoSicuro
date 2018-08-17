@@ -47,7 +47,7 @@ server.get("/", function (req, res) {
 });
 
 server.get("/chiSiamo", function (req, res) {
-    res.render('chiSiamo');
+    res.render('chiSiamo', {classiColonna: "", classiBottone: ""});
 });
 server.get("/doveSiamo", function (req, res) {
     res.render('doveSiamo');
