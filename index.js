@@ -8,7 +8,7 @@ const UserModel = require('./models/user');
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
-const nodemailer = require('nodemailer'); 
+const nodemailer = require('nodemailer');
 
 const mongoose = require('mongoose');
 
@@ -49,7 +49,7 @@ server.get("/", function (req, res) {
 });
 
 server.get("/chiSiamo", function (req, res) {
-    res.render('chiSiamo', {classiColonna: "", classiBottone: ""});
+    res.render('chiSiamo', { classiColonna: "", classiBottone: "" });
 });
 server.get("/doveSiamo", function (req, res) {
     res.render('doveSiamo');
@@ -125,12 +125,12 @@ server.post('/registrati/locale', function (req, res) {
 
     globalUser = User;
     res.redirect('/benvenuto');
-    res.render('paginaPersonale', { 
+    res.render('paginaPersonale', {
         User,
-        classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone : "btn btn-custom dropdown-toggle",
-        
-        
+        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
+        classiBottone: "btn btn-custom dropdown-toggle",
+
+
     });
 
 
