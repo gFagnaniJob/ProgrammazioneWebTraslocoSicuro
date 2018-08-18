@@ -6,13 +6,6 @@ var utentiSchema = new Schema({
     nome: { type: String, required: true, max: 100 },
     cognome: { type: String, required: true, max: 100 },
 
-    /*
-        via: { type: String, required: true, max: 100 },
-        provincia: { type: String, required: true, max: 150 },
-        stato: { type: String, required: true, max: 150 },
-        citta: { type: String, required: true, max: 150 },
-        cap: { type: String, required: true, max: 10 },
-    */
 
     indirizzo: {
         via: { type: String, required: true },
@@ -40,12 +33,13 @@ utentiSchema.pre('save', function(next) {
     })
 });
 
-utentiSchema.methods.controllaPassword = function (passwordImmessa) {
-   //TODO
-   //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
+utentiSchema.methods.controllaPassword = function(passwordImmessa) {
+    //TODO
+    //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
 }
 
 
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
 module.exports = modelloUtenti;
+module.exports = utentiSchema;
