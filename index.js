@@ -14,6 +14,8 @@ const nodemailer = require('nodemailer');
 
 const mongoose = require('mongoose');
 
+var globalUser;
+
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
@@ -56,8 +58,13 @@ server.get("/", function(req, res) {
     res.render('home');
 });
 
+<<<<<<< HEAD
 server.get("/chiSiamo", function(req, res) {
     res.render('chiSiamo');
+=======
+server.get("/chiSiamo", function (req, res) {
+    res.render('chiSiamo', {classiColonna: "", classiBottone: ""});
+>>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
 });
 server.get("/doveSiamo", function(req, res) {
     res.render('doveSiamo');
@@ -81,6 +88,7 @@ server.get("/servizi", function(req, res) {
     res.render('servizi');
 });
 
+<<<<<<< HEAD
 server.get("/paginaPersonale", function(req, res) {
     res.render('paginaPersonale');
 });
@@ -90,6 +98,18 @@ server.get('/registrati', function(req, res) {
         messaggioErrore: "",
         bootstrapClasses: ""
     });
+=======
+server.get("/paginaPersonale", function (req, res) {
+    res.render('paginaPersonale');
+});
+
+server.get('/registrati', function (req, res) {
+    res.render('registrati',
+        {
+            messaggioErrore: "",
+            bootstrapClasses: ""
+        });
+>>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
 });
 
 server.post('/registrati/locale', function(req, res) {
@@ -112,15 +132,24 @@ server.post('/registrati/locale', function(req, res) {
     }
 
     if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
+<<<<<<< HEAD
         res.render('registrati', {
             messaggioErrore: "Le due password non coincidono",
             bootstrapClasses: "text-left alert alert-danger"
         });
+=======
+        res.render('registrati',
+            {
+                messaggioErrore: "Le due password non coincidono",
+                bootstrapClasses: "text-left alert alert-danger"
+            });
+>>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
         return;
     }
 
 
     if (!userController.controlloData(User.dataNascita)) {
+<<<<<<< HEAD
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
             bootstrapClasses: "text-left alert alert-danger"
@@ -134,10 +163,29 @@ server.post('/registrati/locale', function(req, res) {
         classiBottone: "btn btn-custom dropdown-toggle",
 
 
+=======
+        res.render('registrati',
+            {
+                messaggioErrore: "Non sei maggiorenne",
+                bootstrapClasses: "text-left alert alert-danger"
+            });
+        return;
+    }
+
+    globalUser = User;
+    res.redirect('/benvenuto');
+    res.render('paginaPersonale', { 
+        User,
+        classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
+        classiBottone : "btn btn-custom dropdown-toggle",
+        
+        
+>>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
     });
 
 
 
+<<<<<<< HEAD
     var newUser = new UserModel({
         nome: User.nome,
         cognome: User.cognome,
@@ -164,10 +212,30 @@ server.post('/registrati/locale', function(req, res) {
     };
 
     postino.sendMail(mailOptions, (error, info) => {
+=======
+    var newUser = new UserModel(
+        {
+            nome: User.nome,
+            cognome: User.cognome,
+            indirizzo: {
+                via: User.indirizzo.via,
+                provincia: User.indirizzo.provincia,
+                stato: User.indirizzo.stato,
+                citta: User.indirizzo.citta,
+                cap: User.indirizzo.cap,
+            },
+            dataNascita: User.dataNascita,
+            telefono: User.telefono,
+            email: User.email,
+            password: User.password
+        });
+
+    postino.sendMail(postino.creaMailOptions(User), (error, info) => {
+>>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
         if (error) {
             return console.log(error);
         }
-        console.log('Message sent: %s', info.messageId);
+        console.log('Message sent to: %s', User.email);
     });
 
     newUser.save(function(err) {
@@ -178,7 +246,7 @@ server.post('/registrati/locale', function(req, res) {
 
 server.get('/login', function(req, res) {
     res.render('login');
-})
+});
 
 server.post('/login/locale', function(req, res) {
     var dati = {
@@ -187,4 +255,8 @@ server.post('/login/locale', function(req, res) {
     }
 
     console.log(dati);
-})
+});
+
+server.get('/benvenuto', function (req, res) {
+    res.render('benvenuto', globalUser);
+});

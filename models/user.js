@@ -12,7 +12,7 @@ var utentiSchema = new Schema({
         provincia: { type: String, required: true },
         stato: { type: String, required: true },
         citta: { type: String, required: true },
-        cap: { type: String, required: true }
+        cap: { type: String, required: true } 
     },
     dataNascita: { type: Date, required: true },
     telefono: { type: String, required: true, max: 100 },
