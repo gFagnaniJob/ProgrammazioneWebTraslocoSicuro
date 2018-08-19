@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 var utentiSchema = new Schema({
-    nome: { type: String, required: true, max: 100 },
-    cognome: { type: String, required: true, max: 100 },
+    nome: { type: String, max: 100 },
+    cognome: { type: String, max: 100 },
 
     /*
         via: { type: String, required: true, max: 100 },
@@ -15,16 +15,16 @@ var utentiSchema = new Schema({
     */
 
     indirizzo: {
-        via: { type: String, required: true },
-        provincia: { type: String, required: true },
-        stato: { type: String, required: true },
-        citta: { type: String, required: true },
-        cap: { type: String, required: true } 
+        via: { type: String},
+        provincia: { type: String },
+        stato: { type: String },
+        citta: { type: String },
+        cap: { type: String } 
     },
-    dataNascita: { type: Date, required: true },
-    telefono: { type: String, required: true, max: 100 },
-    email: { type: String, required: true, max: 100 },
-    password: { type: String, required: true, max: 100 },
+    dataNascita: { type: Date },
+    telefono: { type: String, max: 100 },
+    email: { type: String, max: 100 },
+    password: { type: String, max: 100 },
 
 });
 
