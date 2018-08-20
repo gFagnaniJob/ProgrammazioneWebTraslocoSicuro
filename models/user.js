@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
+var express = require("express");
+var passport = require("passport");
+var passportLocalMongoose = require('passport-local-mongoose');
+var user = express();
+
 
 var utentiSchema = new Schema({
     nome: { type: String, required: true, max: 100 },
@@ -33,7 +38,7 @@ utentiSchema.pre('save', function(next) {
     })
 });
 
-
+/*
 UtentiSchema.statics.authenticate = function(email, password, callback) {
     utentis.findOne({ email: email })
         .exec(function(err, utentis) {
@@ -53,6 +58,7 @@ UtentiSchema.statics.authenticate = function(email, password, callback) {
             })
         });
 }
+*/
 
 utentiSchema.methods.controllaPassword = function(passwordImmessa) {
     //TODO
@@ -60,7 +66,18 @@ utentiSchema.methods.controllaPassword = function(passwordImmessa) {
 }
 
 
+user.use(passport.initialize());
+user.use(passport.session());
+
+
+
+
+
+
+
+utentiSchema.plugin(passportLocalMongoose);
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
+module.exports = mongoose.model("utenti", utentiSchema);
 module.exports = modelloUtenti;
 module.exports = utentiSchema;
