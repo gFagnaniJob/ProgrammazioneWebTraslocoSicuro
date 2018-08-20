@@ -58,13 +58,8 @@ server.get("/", function(req, res) {
     res.render('home');
 });
 
-<<<<<<< HEAD
-server.get("/chiSiamo", function(req, res) {
-    res.render('chiSiamo');
-=======
 server.get("/chiSiamo", function (req, res) {
     res.render('chiSiamo', {classiColonna: "", classiBottone: ""});
->>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
 });
 server.get("/doveSiamo", function(req, res) {
     res.render('doveSiamo');
@@ -88,7 +83,6 @@ server.get("/servizi", function(req, res) {
     res.render('servizi');
 });
 
-<<<<<<< HEAD
 server.get("/paginaPersonale", function(req, res) {
     res.render('paginaPersonale');
 });
@@ -98,18 +92,6 @@ server.get('/registrati', function(req, res) {
         messaggioErrore: "",
         bootstrapClasses: ""
     });
-=======
-server.get("/paginaPersonale", function (req, res) {
-    res.render('paginaPersonale');
-});
-
-server.get('/registrati', function (req, res) {
-    res.render('registrati',
-        {
-            messaggioErrore: "",
-            bootstrapClasses: ""
-        });
->>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
 });
 
 server.post('/registrati/locale', function(req, res) {
@@ -132,43 +114,20 @@ server.post('/registrati/locale', function(req, res) {
     }
 
     if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
-<<<<<<< HEAD
-        res.render('registrati', {
-            messaggioErrore: "Le due password non coincidono",
-            bootstrapClasses: "text-left alert alert-danger"
-        });
-=======
         res.render('registrati',
             {
                 messaggioErrore: "Le due password non coincidono",
                 bootstrapClasses: "text-left alert alert-danger"
             });
->>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
         return;
     }
 
 
     if (!userController.controlloData(User.dataNascita)) {
-<<<<<<< HEAD
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
             bootstrapClasses: "text-left alert alert-danger"
         });
-        return;
-    }
-
-    res.render('', {
-        User,
-        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone: "btn btn-custom dropdown-toggle",
-
-
-=======
-        res.render('registrati',
-            {
-                messaggioErrore: "Non sei maggiorenne",
-                bootstrapClasses: "text-left alert alert-danger"
-            });
         return;
     }
 
@@ -180,39 +139,10 @@ server.post('/registrati/locale', function(req, res) {
         classiBottone : "btn btn-custom dropdown-toggle",
         
         
->>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
     });
 
 
 
-<<<<<<< HEAD
-    var newUser = new UserModel({
-        nome: User.nome,
-        cognome: User.cognome,
-        indirizzo: {
-            via: User.indirizzo.via,
-            provincia: User.indirizzo.provincia,
-            stato: User.indirizzo.stato,
-            citta: User.indirizzo.citta,
-            cap: User.indirizzo.cap,
-        },
-        dataNascita: User.dataNascita,
-        telefono: User.telefono,
-        email: User.email,
-        password: User.password
-    });
-
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"Trasloco Sicuro"', // sender address
-        to: User.email, // list of receivers
-        subject: 'Registrazione Completata', // Subject line
-        text: 'Benvenuto su Trasloco Sicuro. La sua registrazione è andata a buon fine 🙂', // plain text body
-        html: '<h1>Benvenuto su Trasloco Sicuro</h1><p>La sua registrazione è andata a buon fine :)</p>' // html body
-    };
-
-    postino.sendMail(mailOptions, (error, info) => {
-=======
     var newUser = new UserModel(
         {
             nome: User.nome,
@@ -231,7 +161,6 @@ server.post('/registrati/locale', function(req, res) {
         });
 
     postino.sendMail(postino.creaMailOptions(User), (error, info) => {
->>>>>>> ab2f0dc8f0a944d69d295dc1d3dfe3ae4bc03288
         if (error) {
             return console.log(error);
         }
