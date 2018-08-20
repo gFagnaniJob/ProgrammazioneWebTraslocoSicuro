@@ -12,7 +12,7 @@ var utentiSchema = new Schema({
         provincia: { type: String, required: true },
         stato: { type: String, required: true },
         citta: { type: String, required: true },
-        cap: { type: String, required: true } 
+        cap: { type: String, required: true }
     },
     dataNascita: { type: Date, required: true },
     telefono: { type: String, required: true, max: 100 },
@@ -32,6 +32,27 @@ utentiSchema.pre('save', function(next) {
         next();
     })
 });
+
+
+UtentiSchema.statics.authenticate = function(email, password, callback) {
+    utentis.findOne({ email: email })
+        .exec(function(err, utentis) {
+            if (err) {
+                return callback(err)
+            } else if (!utentis) {
+                var err = new Error('User not found.');
+                err.status = 401;
+                return callback(err);
+            }
+            bcrypt.compare(password, user.password, function(err, result) {
+                if (result === true) {
+                    return callback(null, user);
+                } else {
+                    return callback();
+                }
+            })
+        });
+}
 
 utentiSchema.methods.controllaPassword = function(passwordImmessa) {
     //TODO
