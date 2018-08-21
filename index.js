@@ -21,6 +21,8 @@ index.use(passport.initialize());
 index.use(passport.session());
 
 
+
+
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
