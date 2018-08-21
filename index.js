@@ -130,7 +130,7 @@ server.get("/prenotazione", function(req, res) {
     res.render('prenotazione');
 });
 
-server.get("/prenotazione/locale", function(req, res) {
+server.post("/prenotazione/locale", function(req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -150,7 +150,14 @@ server.get("/prenotazione/locale", function(req, res) {
             piano: req.body.pianoArrivo,
             ascensore: req.body.ascensoreArrivo
         },
-        // infoAbitazione: { stanza }.req.body,    --> non so come si salva il checkbox
+        infoAbitazione: { stanze: req.body.stanza },
+        serviziAggiuntivi: {
+            imballaggio: req.body.imballaggio,
+            smontaggioRimontaggio: req.body.smontaggioRiassemblaggio,
+            depositoMerci: req.body.depositoMerci,
+
+
+        } ,
 
 
 
