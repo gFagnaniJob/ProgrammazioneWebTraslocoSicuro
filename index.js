@@ -58,51 +58,71 @@ index.use(require("express-session")({
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
-server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
+server.listen(porta, function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
 
 });
 
 
-server.get("/", function(req, res) {
+server.get("/", function (req, res) {
     res.render('home');
 });
 
 
-server.get("/chiSiamo", function(req, res) {
+server.get("/chiSiamo", function (req, res) {
     res.render('prenotazione');
 });
 
 
-server.get("/doveSiamo", function(req, res) {
+server.get("/doveSiamo", function (req, res) {
     res.render('doveSiamo');
 });
-server.get("/comeFunziona", function(req, res) {
+server.get("/comeFunziona", function (req, res) {
     res.render('comeFunziona');
 });
-server.get("/conChiLavoriamo", function(req, res) {
+server.get("/conChiLavoriamo", function (req, res) {
     res.render('conChiLavoriamo');
 });
-server.get("/condizioniDiVendita", function(req, res) {
+server.get("/condizioniDiVendita", function (req, res) {
     res.render('condizioniDiVendita');
 });
-server.get("/contattaci", function(req, res) {
+server.get("/contattaci", function (req, res) {
     res.render('contattaci');
 });
-server.get("/informativaSullaPrivacy", function(req, res) {
+server.get("/informativaSullaPrivacy", function (req, res) {
     res.render('informativaSullaPrivacy');
 });
-server.get("/servizi", function(req, res) {
+server.get("/servizi", function (req, res) {
     res.render('servizi');
 });
 
+server.get('/login', function (req, res) {
+
+    res.render('login');
+});
+
+server.get('/benvenuto', function (req, res) {
+    res.render('benvenuto', globalUser);
+});
+
+server.get("/paginaPersonale", function (req, res) {
+    res.render('paginaPersonale');
+});
+
+server.get('/registrati', function (req, res) {
+    res.render('registrati', {
+        messaggioErrore: "",
+        bootstrapClasses: ""
+    });
+});
 
 
-server.get("/prenotazione", function(req, res) {
+
+server.get("/prenotazione", function (req, res) {
     res.render('prenotazione');
 });
 
-server.post("/prenotazione/locale", function(req, res) {
+server.post("/prenotazione/locale", function (req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -122,10 +142,14 @@ server.post("/prenotazione/locale", function(req, res) {
             piano: req.body.pianoArrivo,
             ascensore: req.body.ascensorearrivo
         },
-        // infoAbitazione: { stanza }.req.body,    --> non so come si salva il checkbox
+        infoAbitazione: { stanze: req.body.stanza },
+        serviziAggiuntivi: {
+            imballaggio: req.body.imballaggio,
+            smontaggioRimontaggio: req.body.smontaggioRiassemblaggio,
+            depositoMerci: req.body.depositoMerci,
 
 
-
+        },
 
 
 
@@ -133,19 +157,8 @@ server.post("/prenotazione/locale", function(req, res) {
     console.log(DatiPrenotazione);
 });
 
-server.get("/paginaPersonale", function(req, res) {
-    res.render('paginaPersonale');
 
-});
-
-server.get('/registrati', function(req, res) {
-    res.render('registrati', {
-        messaggioErrore: "",
-        bootstrapClasses: ""
-    });
-});
-
-server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', function (req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -244,12 +257,12 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         console.log('Message sent to: %s', User.email);
     });
 
-    newUser.save(function(err) {
+    newUser.save(function (err) {
         if (err) console.log(err); //return handleError(err);
     });
 
 
-    passport.authenticate("local")(req, res, function() {
+    passport.authenticate("local")(req, res, function () {
         res.redirect("/home");
     });
     //console.log(User);
@@ -257,12 +270,9 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
 });
 
 
-server.get('/login', function(req, res) {
 
-    res.render('login');
-});
 
-server.post('/login/locale', function(req, res) {
+server.post('/login/locale', function (req, res) {
     var dati = {
         email: req.body.email,
         password: req.body.password
@@ -280,157 +290,5 @@ server.post('/login/locale', function(req, res) {
     console.log(dati);
 });
 
-server.get('/benvenuto', function(req, res) {
-    res.render('benvenuto', globalUser);
-});
-
-server.get("/paginaPersonale", function(req, res) {
-    res.render('paginaPersonale');
-});
-
-server.get('/registrati', function(req, res) {
-    res.render('registrati', {
-        messaggioErrore: "",
-        bootstrapClasses: ""
-    });
-});
-
-server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCALE
-
-    var User = {
-        nome: req.body.nome,
-        cognome: req.body.cognome,
-        dataNascita: req.body.dataNascita,
-        indirizzo: {
-            via: req.body.via,
-            stato: req.body.stato,
-            citta: req.body.citta,
-            provincia: req.body.provincia,
-            cap: req.body.cap
-        },
-        telefono: req.body.telefono,
-        email: req.body.email,
-        password: req.body.password,
-        confermaPassword: req.body.confermaPassword
-    }
-
-    if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
-        res.render('registrati', {
-            messaggioErrore: "Le due password non coincidono",
-            bootstrapClasses: "text-left alert alert-danger"
-        });
-        return;
-    }
 
 
-    if (!userController.controlloData(User.dataNascita)) {
-        res.render('registrati', {
-            messaggioErrore: "Non sei maggiorenne",
-            bootstrapClasses: "text-left alert alert-danger"
-        });
-        return;
-    }
-    res.render('home'
-
-
-
-        /*res.render('chiSiamo', { 
-            User,
-            classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-            classiBottone : "btn btn-custom dropdown-toggle", }*/
-
-
-    );
-
-
-
-
-
-
-    var globalUser = User;
-    res.redirect('/benvenuto');
-    res.render('paginaPersonale', {
-        User,
-
-        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone: "btn btn-custom dropdown-toggle",
-
-
-    });
-
-
-
-    var newUser = new UserModel({
-        nome: User.nome,
-        cognome: User.cognome,
-        indirizzo: {
-            via: User.indirizzo.via,
-            provincia: User.indirizzo.provincia,
-            stato: User.indirizzo.stato,
-            citta: User.indirizzo.citta,
-            cap: User.indirizzo.cap,
-        },
-        dataNascita: User.dataNascita,
-        telefono: User.telefono,
-        email: User.email,
-        password: User.password
-    });
-
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"Trasloco Sicuro"', // sender address
-        to: User.email, // list of receivers
-        subject: 'Registrazione Completata', // Subject line
-        text: 'Benvenuto su Trasloco Sicuro. La sua registrazione è andata a buon fine 🙂', // plain text body
-        html: '<h1>Benvenuto su Trasloco Sicuro</h1><p>La sua registrazione è andata a buon fine :)</p>' // html body
-    };
-
-    postino.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent to: %s', User.email);
-    });
-
-    newUser.save(function(err) {
-        if (err) console.log(err); //return handleError(err);
-    });
-
-
-    passport.authenticate("local")(req, res, function() {
-        res.redirect("/home");
-    });
-    //console.log(User);
-
-
-});
-//CHIUSURA REGISTRATI LOCALE
-
-
-
-server.get('/login', function(req, res) {
-
-    res.render('login');
-});
-
-server.post('/login/locale', function(req, res) {
-    var dati = {
-        email: req.body.email,
-        password: req.body.password
-    }
-
-    if (req.body.email == "admin@admin.it" && req.body.password == "admin") {
-        session.id = "admin00101";
-        res.render('home');
-        console.log(session.id);
-    }
-
-
-
-
-    console.log(dati);
-});
-
-server.get('/benvenuto', function(req, res) {
-    res.render('benvenuto', globalUser);
-});
