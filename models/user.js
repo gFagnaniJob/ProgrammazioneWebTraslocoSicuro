@@ -38,11 +38,6 @@ utentiSchema.pre('save', function(next) {
     })
 });
 
-
-
-
-
-
 /*
 UtentiSchema.statics.authenticate = function(email, password, callback) {
     utentis.findOne({ email: email })
@@ -65,7 +60,6 @@ UtentiSchema.statics.authenticate = function(email, password, callback) {
 }
 */
 
-
 utentiSchema.methods.controllaPassword = function(passwordImmessa) {
     //TODO
     //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
@@ -84,20 +78,6 @@ user.use(passport.session());
 utentiSchema.plugin(passportLocalMongoose);
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
-
-
-
-
 module.exports = mongoose.model("utenti", utentiSchema);
-
-
-module.exports = mongoose.model("utenti", utentiSchema);
-
-
-module.exports = mongoose.model("utenti", utentiSchema);
-
-
-module.exports = mongoose.model("utenti", utentiSchema);
-
 module.exports = modelloUtenti;
 module.exports = utentiSchema;
