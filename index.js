@@ -14,6 +14,9 @@ const postino = require('./controllers/postino');
 const nodemailer = require('nodemailer');
 const passportLocalMongoose = require("passport-local-mongoose");
 
+
+
+
 const mongoose = require('mongoose');
 var session;
 var globalUser;
@@ -42,6 +45,28 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+
+index.use(bodyParser.json());
+index.use(bodyParser.urlencoded({ extended: true }));
+
+
+//use sessions for tracking logins
+
+
+
+
+//use sessions for tracking logins
+
+index.use(require("express-session")({
+    secret: "Hello World, this is a session",
+    resave: false,
+    saveUninitialized: false
+}));
+
+
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
 index.use(bodyParser.json());
 index.use(bodyParser.urlencoded({ extended: true }));
 
@@ -58,7 +83,6 @@ index.use(require("express-session")({
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
-
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
 
@@ -70,7 +94,12 @@ server.get("/", function(req, res) {
 });
 
 server.get("/chiSiamo", function(req, res) {
+    res.render('prenotazione');
+});
+
+server.get("/chiSiamo", function(req, res) {
     res.render('chiSiamo');
+
 });
 server.get("/doveSiamo", function(req, res) {
     res.render('doveSiamo');
@@ -94,8 +123,46 @@ server.get("/servizi", function(req, res) {
     res.render('servizi');
 });
 
+
+
+server.get("/prenotazione", function(req, res) {
+    res.render('prenotazione');
+});
+
+server.get("/prenotazione/locale", function(res, req) {
+    var DatiPrenotazione = {
+        indirizzoPartenza: {
+            via: req.body.viaPartenza,
+            numero: req.body.numeroCivicoPartenza,
+            cap: req.body.capPartenza,
+            città: req.body.cittàPartenza,
+            stato: req.body.statoPartenza,
+            piano: req.body.pianoPartenza,
+            ascensore: req.body.ascensorePartenza,
+        },
+        indirizzoArrivo: {
+            via: req.body.viaArrivo,
+            numero: req.body.numeroCivicoArrivo,
+            cap: req.body.capArrivo,
+            città: req.body.cittàArrivo,
+            stato: req.body.statoArrivo,
+            piano: req.body.pianoArrivo,
+            ascensore: req.body.ascensorearrivo
+        },
+        // infoAbitazione: { stanza }.req.body,    --> non so come si salva il checkbox
+
+
+
+
+
+
+    }
+    console.log(DatiPrenotazione);
+});
+
 server.get("/paginaPersonale", function(req, res) {
     res.render('paginaPersonale');
+
 });
 
 server.get('/registrati', function(req, res) {
@@ -140,16 +207,35 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         });
         return;
     }
+    res.render('home'
 
-    globalUser = User;
+
+
+        /*res.render('chiSiamo', { 
+            User,
+            classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
+            classiBottone : "btn btn-custom dropdown-toggle", }*/
+
+
+    );
+
+
+
+
+
+
+    var globalUser = User;
     res.redirect('/benvenuto');
     res.render('paginaPersonale', {
         User,
+
         classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
         classiBottone: "btn btn-custom dropdown-toggle",
 
 
     });
+
+
 
 
 
@@ -194,20 +280,10 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         res.redirect("/home");
     });
     //console.log(User);
-}); //CHIUSURA REGISTRATI LOCALE
 
 
-
-
-
-
-//ABBIAMO DEI PROBLEMI CON IL REPOSITORY 
-
-
-
-
-
-
+});
+//CHIUSURA REGISTRATI LOCALE
 
 
 
