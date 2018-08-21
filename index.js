@@ -39,27 +39,6 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
-
-index.use(bodyParser.json());
-index.use(bodyParser.urlencoded({ extended: true }));
-
-
-//use sessions for tracking logins
-
-
-
-
-//use sessions for tracking logins
-
-index.use(require("express-session")({
-    secret: "Hello World, this is a session",
-    resave: false,
-    saveUninitialized: false
-}));
-
-
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
@@ -68,13 +47,6 @@ index.use(bodyParser.urlencoded({ extended: true }));
 
 //use sessions for tracking logins
 
-//use sessions for tracking logins
-
-index.use(require("express-session")({
-    secret: "Hello World, this is a session",
-    resave: false,
-    saveUninitialized: false
-}));
 
 index.use(require("express-session")({
     secret: "Hello World, this is a session",

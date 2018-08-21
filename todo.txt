@@ -7,10 +7,8 @@ TODO list:
 5) Gestire sessioni e autenticazione (con cookies)
 6) Gestire Esci dalla pagina
 7) Eliminare i bottoni dopo il login e visualizzare il bottone della pagina personale
-----> 8) Creare un database con tutti i traslocatori e inserire le voci nei collaboratori
-----> 9) inventarsi i traslocatori e i vari prezzi 
-----> 10) algoritmo per i prezzi 
-11) Aggiungere al bottone pagina personale i miei appuntamenti
+8) Creare un database con tutti i traslocatori e inserire le voci nei collaboratori
+9) Implementare un algoritmo che calcola i prezzi
 
 
 
