@@ -16,7 +16,7 @@
 
             <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                 <button type="button" class="btn btn-custom "><a href="..">Home</a>
-    
+
                 </button>
             </div>
 
@@ -101,12 +101,20 @@
                             <label for="cittàPartenza">Città: </label>
                             <input type="text" class="form-control" id="cittàPartenza" name="cittàPartenza" required>
                         </div>
-                        <div class="form-group">
-                            <label for="ascensore"> Ascensore:</label><br>
-                            <label><input type="radio" name="ascensorepartenza"> Sì  </label><br>
-                            <label><input type="radio" name="ascensorepartenza"> No </label>
+                        <div class="form-check">
+                            <p> Ascensore: </p>
 
+                            <input class="form-check-input" type="radio" name="ascensorePartenza">
+                            <label class="form-check-label" for="ascensorePatenza"> Sì</label>
                         </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="ascensorePartenza">
+                            <label class="form-check-label" for="ascensorePatenza"> No</label>
+
+
+                        </div> <br>
+
 
                         <div class="form-group ">
                             <label for="statoPartenza">Stato: </label>
@@ -137,12 +145,22 @@
                             <label for="cittàArrivo">Città: </label>
                             <input type="text" class="form-control" id="cittàArrivo" name="cittàArrivo" required>
                         </div>
-                        <div class="form-group">
-                            <label for="ascensore"> Ascensore:</label><br>
-                            <label><input type="radio" name="ascensorearrivo"> Sì  </label><br>
-                            <label><input type="radio" name="ascensorearrivo"> No </label>
 
+                        <div class="form-check">
+                            <p> Ascensore: </p>
+
+                            <input class="form-check-input" type="radio" name="ascensoreArrivo">
+                            <label class="form-check-label" for="ascensoreArrivo"> Sì</label>
                         </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="ascensoreArrivo">
+                            <label class="form-check-label" for="ascensoreArrivo"> No</label>
+
+
+                        </div> <br>
+
+
                         <div class="form-group ">
                             <label for="statoArrivo">Stato: </label>
                             <input type="text" class="form-control" id="statoArrivo" name="statoArrivo" required>
@@ -168,18 +186,25 @@
             <div class="row">
 
                 <div class="col-6">
-                    <fieldset>
+                    <fieldset class="form-check">
 
-                        <ul class="form-group lista-senza-decorazioni">
-                            <li><label> <input type="checkbox" name="stanza" value="cucina">  Cucina</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="salone">  Salone</label></li>
-                            <li><label> <input type="checkbox" name="stanza" value="salone2"> Salone 2</label></li>
-                            <li><label> <input type="checkbox" name="stanza" value="salaDaPranzo"> Sala da pranzo</label></li>
-                            <li><label> <input type="checkbox" name="stanza" value="camera"> Camera</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="camera2"> Camera 2</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="cameretta"> Cameretta</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="cameretta2"> Cameretta 2</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="bagno"> Bagno</label></li>
+                        <ul class="lista-senza-decorazioni">
+                            <li><label> <input class="form-check-input" type="checkbox" name="stanza" value="cucina"> Cucina</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="salone"> Salone</label></li>
+                            <li><label> <input class="form-check-input" type="checkbox" name="stanza" value="salone2"> Salone
+                                    2
+                                </label></li>
+                            <li><label> <input class="form-check-input" type="checkbox" name="stanza" value="salaDaPranzo">                                    Sala
+                                    da pranzo</label></li>
+                            <li><label> <input class="form-check-input" type="checkbox" name="stanza" value="camera"> Camera</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="camera2"> Camera
+                                    2
+                                </label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="cameretta">                                    Cameretta</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="cameretta2">                                    Cameretta
+                                    2
+                                </label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="bagno"> Bagno</label></li>
                         </ul>
                     </fieldset>
                 </div>
@@ -187,18 +212,20 @@
 
 
                 <div class="col-6">
-                    <fieldset>
+                    <fieldset class="form-check">
 
-                        <ul class=" form-group lista-senza-decorazioni">
-                            <li> <label><input type="checkbox" name="stanza" value="bagno2"> Bagno 2</label></li>
-                            <li><label><input type="checkbox" name="stanza" value="ingresso"> Ingresso</label></li>
-                            <li><label> <input type="checkbox" name="stanza"value="studio"> Studio</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="balcone"> Balcone</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="soffitta"> Soffitta</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="giardino"> Giardino</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="box/garage"> Box/Garage</label></li>
-                            <li> <label><input type="checkbox" name="stanza" value="ripostiglio"> Ripostiglio</label></li>
-                            <li><label> <input type="checkbox" name="stanza" value="cantina"> Cantina</label></li>
+                        <ul class=" lista-senza-decorazioni">
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="bagno2"> Bagno
+                                    2
+                                </label></li>
+                            <li><label><input class="form-check-input" type="checkbox" name="stanza" value="ingresso"> Ingresso</label></li>
+                            <li><label> <input class="form-check-input" type="checkbox" name="stanza" value="studio"> Studio</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="balcone"> Balcone</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="soffitta"> Soffitta</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="giardino"> Giardino</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="box/garage">                                    Box/Garage</label></li>
+                            <li> <label><input class="form-check-input" type="checkbox" name="stanza" value="ripostiglio">                                    Ripostiglio</label></li>
+                            <li><label> <input class="form-check-input" type="checkbox" name="stanza" value="cantina"> Cantina</label></li>
                         </ul>
                     </fieldset>
                 </div>
@@ -211,43 +238,57 @@
             <div class="row">
 
                 <div class="col">
-                    <fieldset>
-                        <div class="form-group">
-                            <h5> Servizi Aggiuntivi </h5>
 
 
-                            <p>Vuoi usufruire del servizio di imballaggio? (comprende il costo per i materiali di imballaggio)</p>
+                    <h5> Servizi Aggiuntivi </h5>
 
-                            <label><input type="radio" name="imballaggio" > Sì</label>
-                            <label><input type="radio" name="imballaggio" > No</label> <br>
 
-                            <p>Vuoi usufruire del servizio di Smontaggio e Rimontaggio dei mobili?</p>
+                    <p>Vuoi usufruire del servizio di imballaggio? (comprende il costo per i materiali di imballaggio)</p>
 
-                            <label><input type="radio" name="smontaggio/riassemblaggio" > Sì</label>
-                            <label><input type="radio" name="smontaggio/riassemblaggio" > No</label> <br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="imballaggio"><label> Sì</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="imballaggio"></label> No</label>
+                    </div><br>
 
-                            <p> Vuoi usufruire del deposio merci?</p>
 
-                            <label><input type="radio" name="depositoMerci" > Sì</label>
-                            <label><input type="radio" name="depositoMerci" > No</label>
-                    </fieldset>
 
+
+
+                    <p>Vuoi usufruire del servizio di Smontaggio e Rimontaggio dei mobili?</p>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="smontaggio/riassemblaggio"><label> Sì</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="smontaggio/riassemblaggio"></label> No</label>
+                    </div><br>
+
+                    <p> Vuoi usufruire del deposio merci?</p>
+                    <div class="form-check form-check-inline">
+                        <label><input class="form-check-input" type="radio" name="depositoMerci"> Sì</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label><input class="form-check-input" type="radio" name="depositoMerci"> No</label>
                     </div>
 
                 </div>
 
-                <div class="row pt-1 pt-2">
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-info">Prenota</button>
-                    </div>
+            </div>
+
+            <div class="row pt-1 pt-2">
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-info">Prenota</button>
                 </div>
-        </form>
-
-        </div>
-
-
-
+            </div>
     </div>
+
+    </form>
+
+
+
+
+
 
 
 
