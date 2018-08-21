@@ -46,8 +46,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 index.use(bodyParser.json());
 index.use(bodyParser.urlencoded({ extended: true }));
-
-
 //use sessions for tracking logins
 
 
@@ -67,25 +65,6 @@ index.use(require("express-session")({
 
 index.use(bodyParser.json());
 index.use(bodyParser.urlencoded({ extended: true }));
-
-//use sessions for tracking logins
-
-//use sessions for tracking logins
-
-index.use(require("express-session")({
-    secret: "Hello World, this is a session",
-    resave: false,
-    saveUninitialized: false
-}));
-
-index.use(require("express-session")({
-    secret: "Hello World, this is a session",
-    resave: false,
-    saveUninitialized: false
-}));
-
-
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
@@ -132,7 +111,7 @@ server.get("/prenotazione", function(req, res) {
     res.render('prenotazione');
 });
 
-server.get("/prenotazione/locale", function(res, req) {
+server.post("/prenotazione/locale", function(req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -150,8 +129,14 @@ server.get("/prenotazione/locale", function(res, req) {
             città: req.body.cittàArrivo,
             stato: req.body.statoArrivo,
             piano: req.body.pianoArrivo,
+            <<
+            << << < HEAD
             ascensore: req.body.ascensorearrivo
 
+                ===
+                === =
+                ascensore: req.body.ascensoreArrivo >>>
+                >>> > 98e d4e1097f20ec2ca96f68774b82d2343abd2a9
         },
         // infoAbitazione: { stanza }.req.body,    --> non so come si salva il checkbox
 
