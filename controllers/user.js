@@ -52,12 +52,23 @@ module.exports = {
     },
 
     controllaUtenteGiaRegistrato : (utente) => {
-        const utenteTrovato = ModelloUtente.findOne({ email : "giuseppe.fagnani@studenti.unicam.it" });
+        var UtenteTrovato;
+        ModelloUtente.findOne({email : utente.email}, function(err, result) {
+            if (err) {
+                console.log("ERRORE", err);
+                return;
+            }        
+            if (result) {
+                console.log("result", result);
+                UtenteTrovato = result;
+                return true;
+            } else {
+                console.log("result", result);
+                UtenteTrovato = null;
+                return false;
+            }
+        });
 
-        if (utenteTrovato) {
-            return true;
-        } else {
-            return false;
-        }
+        console.log("UtenteTrovato", UtenteTrovato);
     }
 }

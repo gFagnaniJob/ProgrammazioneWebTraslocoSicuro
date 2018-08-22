@@ -65,7 +65,7 @@ utentiSchema.methods.controllaPassword = function(passwordImmessa) {
     //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
 }
 
-utentiSchema.plugin(passportLocalMongoose);
+//utentiSchema.plugin(passportLocalMongoose);
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
 //module.exports = mongoose.model("utenti", utentiSchema);
