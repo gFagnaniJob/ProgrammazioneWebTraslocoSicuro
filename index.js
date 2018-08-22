@@ -194,42 +194,16 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         });
         return;
     }
-    res.render('home'
 
-
-
-        /*res.render('chiSiamo', { 
-            User,
-            classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-            classiBottone : "btn btn-custom dropdown-toggle", }*/
-
-
-    );
-
-
-
-    if (userController.controllaUtenteGiaRegistrato(User)) {
+    /*if (userController.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
             messaggioErrore: "Email già utilizzata",
             bootstrapClasses: "text-left alert alert-danger"
         });
         return;
-    }
+    }*/
 
     globalUser = User;
-    res.redirect('/benvenuto');
-    res.render('paginaPersonale', {
-        User,
-
-        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone: "btn btn-custom dropdown-toggle",
-
-
-    });
-
-
-
-
 
     var newUser = new UserModel({
         nome: User.nome,
@@ -268,9 +242,20 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
     });
 
 
-    passport.authenticate("local")(req, res, function() {
+    /*passport.authenticate("local")(req, res, function() {
         res.redirect("/home");
+    });*/
+
+    res.redirect('/benvenuto');
+    res.render('paginaPersonale', {
+        User,
+
+        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
+        classiBottone: "btn btn-custom dropdown-toggle",
+
+
     });
+
     //console.log(User);
     //CHIUSURA REGISTRATI LOCALE
 });
