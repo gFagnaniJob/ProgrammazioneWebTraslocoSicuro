@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const ModelloUtente = require('../models/user');
 /*function controlloData(data){
     /*
     var dataInserita = new Date(data);
@@ -49,5 +49,15 @@ module.exports = {
             return true;
         }
         return false;
+    },
+
+    controllaUtenteGiaRegistrato : (utente) => {
+        const utenteTrovato = ModelloUtente.findOne({ email : "giuseppe.fagnani@studenti.unicam.it" });
+
+        if (utenteTrovato) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
