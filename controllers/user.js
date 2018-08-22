@@ -51,7 +51,7 @@ module.exports = {
         return false;
     },
 
-    controllaUtenteGiaRegistrato : async (utente, callback) => {
+    controllaUtenteGiaRegistrato : async (utente) => {
         const utenteTrovato = await ModelloUtente.findOne({email: utente.email});/*, function(err, userObj){
             if(err){
                 return callback(err);
