@@ -18,8 +18,8 @@ user.use(passport.session());
 
 
 var utentiSchema = new Schema({
-    nome: { type: String, required: true, max: 100 },
-    cognome: { type: String, required: true, max: 100 },
+    nome: { type: String, max: 100, required: true },
+    cognome: { type: String, max: 100, required: true },
 
 
     indirizzo: {
@@ -30,9 +30,9 @@ var utentiSchema = new Schema({
         cap: { type: String, required: true }
     },
     dataNascita: { type: Date, required: true },
-    telefono: { type: String, required: true, max: 100 },
-    email: { type: String, required: true, max: 100 },
-    password: { type: String, required: true, max: 100 },
+    telefono: { type: String, max: 100, required: true },
+    email: { type: String, max: 100, required: true },
+    password: { type: String, max: 100, required: true },
 
 });
 
@@ -67,25 +67,17 @@ UtentiSchema.statics.authenticate = function(email, password, callback) {
                 }
             })
         });
-}
-*/
+}*/
+
 
 utentiSchema.methods.controllaPassword = function(passwordImmessa) {
     //TODO
     //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
 }
 
-
-
-
-
-
-
-
-
-utentiSchema.plugin(passportLocalMongoose);
+//utentiSchema.plugin(passportLocalMongoose);
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
-module.exports = mongoose.model("utenti", utentiSchema);
+//module.exports = mongoose.model("utenti", utentiSchema);
 module.exports = modelloUtenti;
-module.exports = utentiSchema;
+//module.exports = utentiSchema;

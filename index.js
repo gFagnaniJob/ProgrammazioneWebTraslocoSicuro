@@ -6,13 +6,13 @@ const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
 var userController = require("./controllers/user.js");
-const UserModel = require('./models/user');
+const modelloUtenti = require('./models/user');
 var passport = require("passport");
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
-const nodemailer = require('nodemailer');
 const passportLocalMongoose = require("passport-local-mongoose");
+var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 var session;
 var globalUser;
@@ -41,23 +41,23 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
 index.use(bodyParser.json());
-index.use(bodyParser.urlencoded({ extended: true }));
-
-//use sessions for tracking logins
-
-
-index.use(require("express-session")({
-    secret: "Hello World, this is a session",
-    resave: false,
-    saveUninitialized: false
+index.use(bodyParser.urlencoded({
+    extended: true
 }));
 
 
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||
+index.use(session({
+    secret: 'pinkie pie',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+}));
+
 
 
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
@@ -99,8 +99,8 @@ server.get("/servizi", function(req, res) {
 });
 
 server.get('/login', function(req, res) {
-
     res.render('login');
+
 });
 
 server.get('/benvenuto', function(req, res) {
@@ -144,7 +144,9 @@ server.post("/prenotazione/locale", function(req, res) {
             piano: req.body.pianoArrivo,
             ascensore: req.body.ascensorearrivo
         },
-        infoAbitazione: { stanze: req.body.stanza },
+        infoAbitazione: {
+            stanze: req.body.stanza
+        },
         serviziAggiuntivi: {
             imballaggio: req.body.imballaggio,
             smontaggioRimontaggio: req.body.smontaggioRiassemblaggio,
@@ -195,39 +197,21 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         });
         return;
     }
-    res.render('home'
+
+    if (userController.controllaUtenteGiaRegistrato(User)) {
+        res.render('registrati', {
+            messaggioErrore: "Email già utilizzata",
+            bootstrapClasses: "text-left alert alert-danger"
+        });
+        return;
+    }
+
+    globalUser = User;
+
+    var newUser = new modelloUtenti
 
 
-
-        /*res.render('chiSiamo', { 
-            User,
-            classiColonna : "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-            classiBottone : "btn btn-custom dropdown-toggle", }*/
-
-
-    );
-
-
-
-
-
-
-    var globalUser = User;
-    res.redirect('/benvenuto');
-    res.render('paginaPersonale', {
-        User,
-
-        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone: "btn btn-custom dropdown-toggle",
-
-
-    });
-
-
-
-
-
-    var newUser = new UserModel({
+        ({
         nome: User.nome,
         cognome: User.cognome,
         indirizzo: {
@@ -260,34 +244,57 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
     });
 
     newUser.save(function(err) {
-        if (err) console.log(err); //return handleError(err);
+        if (err) return res.status(404).send();
     });
 
 
-    //) passport.authenticate("local")(req, res, function() {
-    //  res.redirect("/home");
-});
-//console.log(User);
-//CHIUSURA REGISTRATI LOCALE
-//});
+    /*passport.authenticate("local")(req, res, function() {
+        res.redirect("/home");
+    });*/
+
+    req.session.email = newUser.email;
+    console.log(user.email);
+
+
+    return res.render('paginaPersonale', {
+        User,
+
+        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
+        classiBottone: "btn btn-custom dropdown-toggle",
+
+
+    });
+
+
+
+
+}); //FINE REGISTRATI LOCALE
+
+
+
 
 
 
 
 server.post('/login/locale', function(req, res) {
-    var dati = {
-        email: req.body.email,
-        password: req.body.password
-    }
 
-    if (req.body.email == "admin@admin.it" && req.body.password == "admin") {
-        session.id = "admin00101";
-        res.render('home');
-        console.log(session.id);
-    }
+    var email = req.body.Email;
+    var password = req.body.password;
+
+    modelloUtenti.findOne({
+            email: email,
+            password: password
+        }, function(err, user) {
+            if (err) {
+                console.log(err);
+                return res.status(404).send();
+            }
+        }
+
+    )
+
+    console.log("benvenuto Signor " + modelloUtenti.nome);
 
 
-
-
-    console.log(dati);
+    console.log(email);
 });
