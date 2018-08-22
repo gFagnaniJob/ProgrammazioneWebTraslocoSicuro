@@ -8,21 +8,21 @@ var user = express();
 
 
 var utentiSchema = new Schema({
-    nome: { type: String, required: true, max: 100 },
-    cognome: { type: String, required: true, max: 100 },
+    nome: { type: String, max: 100 , required: true},
+    cognome: { type: String, max: 100, required: true },
 
 
     indirizzo: {
-        via: { type: String, required: true },
+        via: { type: String, required: true},
         provincia: { type: String, required: true },
         stato: { type: String, required: true },
         citta: { type: String, required: true },
         cap: { type: String, required: true } 
     },
     dataNascita: { type: Date, required: true },
-    telefono: { type: String, required: true, max: 100 },
-    email: { type: String, required: true, max: 100 },
-    password: { type: String, required: true, max: 100 },
+    telefono: { type: String, max: 100, required: true },
+    email: { type: String, max: 100, required: true },
+    password: { type: String, max: 100, required: true },
 
 });
 

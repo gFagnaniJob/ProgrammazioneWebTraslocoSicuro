@@ -5,7 +5,6 @@ const ModelloUtente = require('../models/user');
     var anno = dataInserita.getFullYear();
     var dataAttuale = new Date();
     dataMaggiorenne = dataAttuale.setFullYear(anno-18);
-
     if(dataInserita > dataMaggiorenne){
         return false;
     }
