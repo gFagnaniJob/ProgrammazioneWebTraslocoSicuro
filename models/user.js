@@ -66,7 +66,7 @@ utentiSchema.methods.controllaPassword = function(passwordImmessa) {
 }
 
 //utentiSchema.plugin(passportLocalMongoose);
-var modelloUtenti = mongoose.model('utenti', utentiSchema);
+var modelloUtenti = mongoose.model('utenti', utentiSchema, 'utenti');
 
 //module.exports = mongoose.model("utenti", utentiSchema);
 module.exports = modelloUtenti;

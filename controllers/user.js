@@ -51,24 +51,22 @@ module.exports = {
         return false;
     },
 
-    controllaUtenteGiaRegistrato : (utente) => {
-        var UtenteTrovato;
-        ModelloUtente.findOne({email : utente.email}, function(err, result) {
-            if (err) {
-                console.log("ERRORE", err);
-                return;
-            }        
-            if (result) {
-                console.log("result", result);
-                UtenteTrovato = result;
-                return true;
+    controllaUtenteGiaRegistrato : async (utente, callback) => {
+        const utenteTrovato = await ModelloUtente.findOne({email: utente.email});/*, function(err, userObj){
+            if(err){
+                return callback(err);
+            } else if (userObj){
+                return callback(null,userObj);
             } else {
-                console.log("result", result);
-                UtenteTrovato = null;
-                return false;
+                return callback();
             }
-        });
+        });*/
 
-        console.log("UtenteTrovato", UtenteTrovato);
+        console.log("utenteTrovato", utenteTrovato);
+        if (utenteTrovato) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
