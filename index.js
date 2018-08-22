@@ -17,8 +17,8 @@ const mongoose = require('mongoose');
 var session;
 var globalUser;
 
-index.use(passport.initialize());
-index.use(passport.session());
+//index.use(passport.initialize());
+//index.use(passport.session());
 
 
 
@@ -264,12 +264,12 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
     });
 
 
-    passport.authenticate("local")(req, res, function() {
-        res.redirect("/home");
-    });
-    //console.log(User);
-    //CHIUSURA REGISTRATI LOCALE
+    //) passport.authenticate("local")(req, res, function() {
+    //  res.redirect("/home");
 });
+//console.log(User);
+//CHIUSURA REGISTRATI LOCALE
+//});
 
 
 

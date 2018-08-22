@@ -7,6 +7,16 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var user = express();
 
 
+
+/*
+
+
+user.use(passport.initialize());
+user.use(passport.session());
+
+*/
+
+
 var utentiSchema = new Schema({
     nome: { type: String, required: true, max: 100 },
     cognome: { type: String, required: true, max: 100 },
@@ -17,7 +27,7 @@ var utentiSchema = new Schema({
         provincia: { type: String, required: true },
         stato: { type: String, required: true },
         citta: { type: String, required: true },
-        cap: { type: String, required: true } 
+        cap: { type: String, required: true }
     },
     dataNascita: { type: Date, required: true },
     telefono: { type: String, required: true, max: 100 },
@@ -66,8 +76,6 @@ utentiSchema.methods.controllaPassword = function(passwordImmessa) {
 }
 
 
-user.use(passport.initialize());
-user.use(passport.session());
 
 
 
