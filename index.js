@@ -10,7 +10,6 @@ const UserModel = require('./models/user');
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
-const nodemailer = require('nodemailer');
 
 const mongoose = require('mongoose');
 
@@ -126,6 +125,14 @@ server.post('/registrati/locale', function(req, res) {
     if (!userController.controlloData(User.dataNascita)) {
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
+            bootstrapClasses: "text-left alert alert-danger"
+        });
+        return;
+    }
+
+    if (userController.controllaUtenteGiaRegistrato(User)) {
+        res.render('registrati', {
+            messaggioErrore: "Email già utilizzata",
             bootstrapClasses: "text-left alert alert-danger"
         });
         return;

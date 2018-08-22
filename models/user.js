@@ -42,4 +42,4 @@ utentiSchema.methods.controllaPassword = function(passwordImmessa) {
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
 module.exports = modelloUtenti;
-module.exports = utentiSchema;
+//module.exports = utentiSchema;
