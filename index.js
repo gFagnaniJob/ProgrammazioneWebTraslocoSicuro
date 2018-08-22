@@ -195,13 +195,13 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         return;
     }
 
-    /*if (userController.controllaUtenteGiaRegistrato(User)) {
+    if (userController.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
             messaggioErrore: "Email già utilizzata",
             bootstrapClasses: "text-left alert alert-danger"
         });
         return;
-    }*/
+    }
 
     globalUser = User;
 
@@ -246,7 +246,6 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         res.redirect("/home");
     });*/
 
-    res.redirect('/benvenuto');
     res.render('paginaPersonale', {
         User,
 
