@@ -3,12 +3,10 @@ const ModelloUtente = require('../models/user');
 module.exports = {
     controlloData : (data) => {
         var dataInserita = new Date(data);
-        console.log("dataInserita", dataInserita);
         var annoInserito = dataInserita.getFullYear();
         var meseInserito = dataInserita.getMonth()+1;
         var giornoInserito = dataInserita.getDate();
         var dataAttuale = new Date();
-        console.log("dataAttuale", dataAttuale);
         var annoAttuale = dataAttuale.getFullYear();
         var meseAttuale = dataAttuale.getMonth()+1;
         var giornoAttuale = dataAttuale.getDate();
