@@ -6,18 +6,14 @@ const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
 var userController = require("./controllers/user.js");
-const UserModel = require('./models/user');
-var passport = require("passport");
+const modelloUtenti = require('./models/user');
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
-const passportLocalMongoose = require("passport-local-mongoose");
 const mongoose = require('mongoose');
 var session;
 var globalUser;
 
-//index.use(passport.initialize());
-//index.use(passport.session());
 
 
 
@@ -26,7 +22,7 @@ var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
 
 server.set('view engine', 'ejs');
@@ -51,9 +47,10 @@ index.use(bodyParser.urlencoded({ extended: true }));
 
 index.use(require("express-session")({
     secret: "Hello World, this is a session",
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: false,
 }));
+
 
 
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -104,7 +101,7 @@ server.get('/login', function(req, res) {
 
 server.get('/benvenuto', function(req, res) {
     res.render('benvenuto', globalUser);
-});
+}); 
 
 server.get("/paginaPersonale", function(req, res) {
     res.render('paginaPersonale');
@@ -159,7 +156,7 @@ server.post("/prenotazione/locale", function(req, res) {
 });
 
 
-server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -195,7 +192,7 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         return;
     }
 
-    if (userController.controllaUtenteGiaRegistrato(User)) {
+    if (await userController.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
             messaggioErrore: "Email già utilizzata",
             bootstrapClasses: "text-left alert alert-danger"
@@ -205,7 +202,7 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
 
     globalUser = User;
 
-    var newUser = new UserModel({
+    var newUser = new modelloUtenti({
         nome: User.nome,
         cognome: User.cognome,
         indirizzo: {
@@ -235,16 +232,13 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
             return console.log(error);
         }
         console.log('Message sent to: %s', User.email);
-    });
+    }); 
 
     newUser.save(function(err) {
-        if (err) console.log(err); //return handleError(err);
+        if (err) return res.status(400).send(); //return handleError(err);
     });
 
 
-    /*passport.authenticate("local")(req, res, function() {
-        res.redirect("/home");
-    });*/
 
     res.render('paginaPersonale', {
         User,
@@ -255,7 +249,7 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
 
     });
 
-    //console.log(User);
+    
     //CHIUSURA REGISTRATI LOCALE
 });
 
@@ -279,3 +273,5 @@ server.post('/login/locale', function(req, res) {
 
     console.log(dati);
 });
+
+

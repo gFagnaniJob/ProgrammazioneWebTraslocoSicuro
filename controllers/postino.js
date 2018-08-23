@@ -9,6 +9,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+
 transporter.creaMailOptions = function (destinatario) {
     return {
         from: '"Trasloco Sicuro"', // sender address
@@ -19,4 +20,6 @@ transporter.creaMailOptions = function (destinatario) {
     }
 }
 
+
 module.exports = transporter;
+

@@ -38,34 +38,14 @@ utentiSchema.pre('save', function(next) {
     })
 });
 
-/*
-UtentiSchema.statics.authenticate = function(email, password, callback) {
-    utentis.findOne({ email: email })
-        .exec(function(err, utentis) {
-            if (err) {
-                return callback(err)
-            } else if (!utentis) {
-                var err = new Error('User not found.');
-                err.status = 401;
-                return callback(err);
-            }
-            bcrypt.compare(password, user.password, function(err, result) {
-                if (result === true) {
-                    return callback(null, user);
-                } else {
-                    return callback();
-                }
-            })
-        });
-}
-*/
 
 utentiSchema.methods.controllaPassword = function(passwordImmessa) {
     //TODO
     //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
 }
 
-//utentiSchema.plugin(passportLocalMongoose);
+
+
 var modelloUtenti = mongoose.model('utenti', utentiSchema);
 
 //module.exports = mongoose.model("utenti", utentiSchema);
