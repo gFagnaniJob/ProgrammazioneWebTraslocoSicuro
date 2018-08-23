@@ -71,7 +71,7 @@ server.get("/", function (req, res) {
 
 
 server.get("/chiSiamo", function (req, res) {
-    res.render('prenotazione');
+    res.render('prenotazione', {nome: "prova", cognome: "cognome"});
 });
 
 
@@ -193,28 +193,6 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         return;
     }
 
-    /*var utenteTrovato;
-
-    userController.controllaUtenteGiaRegistrato(User, function (error, userFound) {
-        utenteTrovato = userFound;
-        console.log(utenteTrovato);
-    });
-    if (utenteTrovato) {
-        res.render('registrati', {
-            messaggioErrore: "Email già registrata",
-            bootstrapClasses: "text-left alert alert-danger"
-        });
-        return;
-    }
-    
-    if (utenteTrovato) {
-        res.render('/registrati', {
-            messaggioErrore: "Email già registrata",
-            bootstrapClasses: "text-left alert alert-danger"
-        });
-        return;
-    }
-    */
     if (await userController.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
             messaggioErrore: "Email già Registrata",
@@ -262,11 +240,6 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
     newUser.save(function (err) {
         if (err) console.log(err); //return handleError(err);
     });
-
-
-    /*passport.authenticate("local")(req, res, function() {
-        res.redirect("/home");
-    });*/
 
     res.redirect('/prenotazione');
 
