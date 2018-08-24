@@ -17,36 +17,6 @@ var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 var globalUser;
 
-
-index.use(session({ secret: "applejack" }));
-index.use(express.urlencoded({ extended: true })); // express body-parser
-
-
-
-
-
-
-/*
-passport.use(new LocalStrategy(
-    function(email, password, done) {
-        modelloUtenti.findOne({ email: email }, function(err, modelloUtenti) {
-            if (err) { return done(err); }
-            if (!modelloUtenti) {
-                return done(null, false, { message: 'Incorrect email.' });
-            }
-            if (!modelloUtenti.validPassword(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            return done(null, user);
-        });
-    }
-));
-*/
-
-
-
-
-
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
@@ -61,11 +31,8 @@ var mongoDB = 'mongodb://127.0.0.1/traslocosicuro';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-
 
 index.use(bodyParser.json());
 index.use(bodyParser.urlencoded({
@@ -90,26 +57,26 @@ server.listen(porta, function() { //inserisco cosa fa il server quando lo richia
 
 });
 
-
 server.get("/", function(req, res) {
     res.render('home');
 });
 
-
 server.get("/chiSiamo", function(req, res) {
-    res.render('prenotazione');
+    res.render('prenotazione', { nome: "prova", cognome: "cognome" });
 });
-
 
 server.get("/doveSiamo", function(req, res) {
     res.render('doveSiamo');
 });
+
 server.get("/comeFunziona", function(req, res) {
     res.render('comeFunziona');
 });
+
 server.get("/conChiLavoriamo", function(req, res) {
     res.render('conChiLavoriamo');
 });
+
 server.get("/condizioniDiVendita", function(req, res) {
     res.render('condizioniDiVendita');
 });
@@ -175,12 +142,7 @@ server.post("/prenotazione/locale", function(req, res) {
             imballaggio: req.body.imballaggio,
             smontaggioRimontaggio: req.body.smontaggioRiassemblaggio,
             depositoMerci: req.body.depositoMerci,
-
-
         },
-
-
-
     }
     console.log(DatiPrenotazione);
 });
@@ -213,7 +175,6 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         return;
     }
 
-
     if (!userController.controlloData(User.dataNascita)) {
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
@@ -229,7 +190,6 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         });
         return;
     }
-
 
     globalUser = User;
 
@@ -272,19 +232,8 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         if (err) return res.status(404).send();
     });
 
+    res.redirect('/prenotazione');
 
-
-
-
-    /*
-        // req.session.email = newUser.email;
-        //  console.log(user.email);
-
-        passport.authenticate("local")(req, res, function() {
-            return res.render('paginaPersonale');
-
-        });
-    */
 
 
 }); //FINE REGISTRATI LOCALE

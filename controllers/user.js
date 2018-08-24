@@ -5,12 +5,10 @@ const modelloUtenti = modelUser.modelloUtenti;
 module.exports = {
     controlloData: (data) => {
         var dataInserita = new Date(data);
-        console.log("dataInserita", dataInserita);
         var annoInserito = dataInserita.getFullYear();
         var meseInserito = dataInserita.getMonth() + 1;
         var giornoInserito = dataInserita.getDate();
         var dataAttuale = new Date();
-        console.log("dataAttuale", dataAttuale);
         var annoAttuale = dataAttuale.getFullYear();
         var meseAttuale = dataAttuale.getMonth() + 1;
         var giornoAttuale = dataAttuale.getDate();
@@ -43,7 +41,7 @@ module.exports = {
     },
 
     controllaUtenteGiaRegistrato: async(utente) => {
-        const utenteTrovato = await modelloUtenti.findOne({ email: utente.email });
+        const utenteTrovato = await ModelloUtente.findOne({ email: utente.email });
         console.log("utenteTrovato", utenteTrovato);
         if (utenteTrovato) {
             return true;
