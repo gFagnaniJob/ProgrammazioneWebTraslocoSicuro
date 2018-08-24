@@ -7,7 +7,9 @@ const porta = 2000; //la porta
 const path = require('path');
 
 var userController = require("./controllers/user.js");
-const modelloUtenti = require('./models/user');
+const modelUser = require('./models/user');
+const modelloUtenti = modelUser.modelloUtenti;
+const utentiSchema = modelUser.utentiSchema;
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
@@ -54,70 +56,73 @@ index.use(session({
 }));
 
 
-server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
+server.listen(porta, function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
 
 });
 
-server.get("/", function(req, res) {
+server.get("/", function (req, res) {
     res.render('home');
 });
 
-server.get("/chiSiamo", function(req, res) {
+server.get("/chiSiamo", function (req, res) {
     res.render('prenotazione', { nome: "prova", cognome: "cognome" });
 });
 
-server.get("/doveSiamo", function(req, res) {
+server.get("/doveSiamo", function (req, res) {
     res.render('doveSiamo');
 });
 
-server.get("/comeFunziona", function(req, res) {
+server.get("/comeFunziona", function (req, res) {
     res.render('comeFunziona');
 });
 
-server.get("/conChiLavoriamo", function(req, res) {
+server.get("/conChiLavoriamo", function (req, res) {
     res.render('conChiLavoriamo');
 });
 
-server.get("/condizioniDiVendita", function(req, res) {
+server.get("/condizioniDiVendita", function (req, res) {
     res.render('condizioniDiVendita');
 });
-server.get("/contattaci", function(req, res) {
+server.get("/contattaci", function (req, res) {
     res.render('contattaci');
 });
-server.get("/informativaSullaPrivacy", function(req, res) {
+server.get("/informativaSullaPrivacy", function (req, res) {
     res.render('informativaSullaPrivacy');
 });
-server.get("/servizi", function(req, res) {
+server.get("/servizi", function (req, res) {
     res.render('servizi');
 });
 
-server.get('/login', function(req, res) {
+server.get('/login', function (req, res) {
 
-    res.render('login');
+    res.render('login', {
+        messaggioErrore: "",
+        bootstrapClasses: ""
+    });
 
 });
 
-server.get('/benvenuto', function(req, res) {
+server.get('/benvenuto', function (req, res) {
     res.render('benvenuto', globalUser);
-}); 
+});
 
-server.get("/paginaPersonale", function(req, res) {
+server.get("/paginaPersonale", function (req, res) {
     res.render('paginaPersonale');
 });
 
-server.get('/registrati', function(req, res) {
+server.get('/registrati', function (req, res) {
     res.render('registrati', {
         messaggioErrore: "",
         bootstrapClasses: ""
     });
 });
 
-server.get("/prenotazione", function(req, res) {
+server.get("/prenotazione", function (req, res) {
     res.render('prenotazione', globalUser);
 });
 
-server.post("/prenotazione/locale", function(req, res) {
+server.post("/prenotazione/locale", function (req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -150,7 +155,7 @@ server.post("/prenotazione/locale", function(req, res) {
 });
 
 
-server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -228,31 +233,31 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
             return console.log(error);
         }
         console.log('Message sent to: %s', User.email);
-    }); 
+    });
 
-    newUser.save(function(err) {
+    newUser.save(function (err) {
         if (err) return res.status(404).send();
     });
 
     res.redirect('/prenotazione');
 
 
-    
 
 
-    
+
+
     //CHIUSURA REGISTRATI LOCALE
 });
 
 
 
 
-server.post('/login/locale', function(req, res) {
+server.post('/login/locale', function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
-    modelloUtenti.findOne({ email: email, }, function(err, user) {
-        console.log(email + " -> " + password);
+    modelloUtenti.findOne({ email: email, }, function (err, user) {
+
         if (err) {
             console.log(err);
             console.log("err1");
@@ -264,27 +269,30 @@ server.post('/login/locale', function(req, res) {
             return res.status(520).send();
         }
 
-        bcrypt.compare(password, user.password, function(err, result) {
+        bcrypt.compare(password, user.password, function (err, result) {
             console.log(user.password);
             if (result === false) {
-                console.log("password errata")
-                return res.redirect('/registrati');
-            } else {
-                console.log("beh che dire");
 
+                res.render('login', {
+                    messaggioErrore: "la password inserita è errata",
+                    bootstrapClasses: "text-left alert alert-danger"
+                });
+                console.log("password errata")  //password errata
+                
+            } else {
+
+                console.log("login effettuato");
+                return res.render('home');
 
 
 
             }
         })
 
-        console.log("ciao mamma");
-        console.log(user.indirizzo);
-
     });
 });
 
 
 
-
 var Utente = mongoose.model('Utente', utentiSchema);
+
