@@ -1,17 +1,18 @@
 var express = require("express");
 var index = express();
-var session = require('express-session');
+const session = require('express-session');
 var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
+
 var userController = require("./controllers/user.js");
 const modelloUtenti = require('./models/user');
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
+var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
-var session;
 var globalUser;
 
 
@@ -32,28 +33,25 @@ var mongoDB = 'mongodb://127.0.0.1/traslocosicuro';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||
-
-
 index.use(bodyParser.json());
-index.use(bodyParser.urlencoded({ extended: true }));
-
-//use sessions for tracking logins
-
-
-index.use(require("express-session")({
-    secret: "Hello World, this is a session",
-    resave: true,
-    saveUninitialized: false,
+index.use(bodyParser.urlencoded({
+    extended: true
 }));
 
 
 
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+index.use(session({
+    secret: 'pinkie pie',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+}));
 
 
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
@@ -61,26 +59,26 @@ server.listen(porta, function() { //inserisco cosa fa il server quando lo richia
 
 });
 
-
 server.get("/", function(req, res) {
     res.render('home');
 });
 
-
 server.get("/chiSiamo", function(req, res) {
-    res.render('prenotazione');
+    res.render('prenotazione', { nome: "prova", cognome: "cognome" });
 });
-
 
 server.get("/doveSiamo", function(req, res) {
     res.render('doveSiamo');
 });
+
 server.get("/comeFunziona", function(req, res) {
     res.render('comeFunziona');
 });
+
 server.get("/conChiLavoriamo", function(req, res) {
     res.render('conChiLavoriamo');
 });
+
 server.get("/condizioniDiVendita", function(req, res) {
     res.render('condizioniDiVendita');
 });
@@ -97,6 +95,7 @@ server.get("/servizi", function(req, res) {
 server.get('/login', function(req, res) {
 
     res.render('login');
+
 });
 
 server.get('/benvenuto', function(req, res) {
@@ -114,10 +113,8 @@ server.get('/registrati', function(req, res) {
     });
 });
 
-
-
 server.get("/prenotazione", function(req, res) {
-    res.render('prenotazione');
+    res.render('prenotazione', globalUser);
 });
 
 server.post("/prenotazione/locale", function(req, res) {
@@ -140,17 +137,14 @@ server.post("/prenotazione/locale", function(req, res) {
             piano: req.body.pianoArrivo,
             ascensore: req.body.ascensorearrivo
         },
-        infoAbitazione: { stanze: req.body.stanza },
+        infoAbitazione: {
+            stanze: req.body.stanza
+        },
         serviziAggiuntivi: {
             imballaggio: req.body.imballaggio,
             smontaggioRimontaggio: req.body.smontaggioRiassemblaggio,
             depositoMerci: req.body.depositoMerci,
-
-
         },
-
-
-
     }
     console.log(DatiPrenotazione);
 });
@@ -183,7 +177,6 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         return;
     }
 
-
     if (!userController.controlloData(User.dataNascita)) {
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
@@ -194,7 +187,7 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
 
     if (await userController.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
-            messaggioErrore: "Email già utilizzata",
+            messaggioErrore: "Email già Registrata",
             bootstrapClasses: "text-left alert alert-danger"
         });
         return;
@@ -202,21 +195,24 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
 
     globalUser = User;
 
+
     var newUser = new modelloUtenti({
-        nome: User.nome,
-        cognome: User.cognome,
+        nome: User.nome.toString().toLowerCase(),
+        cognome: User.cognome.toString().toLowerCase(),
         indirizzo: {
-            via: User.indirizzo.via,
-            provincia: User.indirizzo.provincia,
-            stato: User.indirizzo.stato,
-            citta: User.indirizzo.citta,
-            cap: User.indirizzo.cap,
+            via: User.indirizzo.via.toString().toLowerCase(),
+            provincia: User.indirizzo.provincia.toString().toLowerCase(),
+            stato: User.indirizzo.stato.toString().toLowerCase(),
+            citta: User.indirizzo.citta.toString().toLowerCase(),
+            cap: User.indirizzo.cap.toString().toLowerCase(),
         },
         dataNascita: User.dataNascita,
         telefono: User.telefono,
-        email: User.email,
+        email: User.email.toString().toLowerCase(),
         password: User.password
     });
+
+
 
     // setup email data with unicode symbols
     let mailOptions = {
@@ -235,19 +231,14 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
     }); 
 
     newUser.save(function(err) {
-        if (err) return res.status(400).send(); //return handleError(err);
+        if (err) return res.status(404).send();
     });
 
+    res.redirect('/prenotazione');
 
 
-    res.render('paginaPersonale', {
-        User,
+    
 
-        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone: "btn btn-custom dropdown-toggle",
-
-
-    });
 
     
     //CHIUSURA REGISTRATI LOCALE
@@ -257,21 +248,43 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
 
 
 server.post('/login/locale', function(req, res) {
-    var dati = {
-        email: req.body.email,
-        password: req.body.password
-    }
+    var email = req.body.email;
+    var password = req.body.password;
 
-    if (req.body.email == "admin@admin.it" && req.body.password == "admin") {
-        session.id = "admin00101";
-        res.render('home');
-        console.log(session.id);
-    }
+    modelloUtenti.findOne({ email: email, }, function(err, user) {
+        console.log(email + " -> " + password);
+        if (err) {
+            console.log(err);
+            console.log("err1");
+            return res.status(500).send();
+        }
+
+        if (!user) {
+            console.log("err2");
+            return res.status(520).send();
+        }
+
+        bcrypt.compare(password, user.password, function(err, result) {
+            console.log(user.password);
+            if (result === false) {
+                console.log("password errata")
+                return res.redirect('/registrati');
+            } else {
+                console.log("beh che dire");
 
 
 
 
-    console.log(dati);
+            }
+        })
+
+        console.log("ciao mamma");
+        console.log(user.indirizzo);
+
+    });
 });
 
 
+
+
+var Utente = mongoose.model('Utente', utentiSchema);

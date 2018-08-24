@@ -7,17 +7,20 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var user = express();
 
 
+
+
+
 var utentiSchema = new Schema({
-    nome: { type: String, max: 100 , required: true},
+    nome: { type: String, max: 100, required: true },
     cognome: { type: String, max: 100, required: true },
 
 
     indirizzo: {
-        via: { type: String, required: true},
+        via: { type: String, required: true },
         provincia: { type: String, required: true },
         stato: { type: String, required: true },
         citta: { type: String, required: true },
-        cap: { type: String, required: true } 
+        cap: { type: String, required: true }
     },
     dataNascita: { type: Date, required: true },
     telefono: { type: String, max: 100, required: true },
@@ -38,16 +41,7 @@ utentiSchema.pre('save', function(next) {
     })
 });
 
-
-utentiSchema.methods.controllaPassword = function(passwordImmessa) {
-    //TODO
-    //controllaPassword dovrebbe verificare che la passwordImmessa e la password nel db (hashata) siano uguali
-}
+var modelloUtenti = mongoose.model('utenti', utentiSchema, 'utenti');
 
 
-
-var modelloUtenti = mongoose.model('utenti', utentiSchema);
-
-//module.exports = mongoose.model("utenti", utentiSchema);
-module.exports = modelloUtenti;
-//module.exports = utentiSchema;
+module.exports = { modelloUtenti, utentiSchema };
