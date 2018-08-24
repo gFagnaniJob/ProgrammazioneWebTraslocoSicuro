@@ -1,24 +1,48 @@
 var express = require("express");
 var index = express();
-var session = require('express-session');
+const session = require('express-session');
 var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
+
 var userController = require("./controllers/user.js");
-const modelloUtenti = require('./models/user');
-var passport = require("passport");
+const modelUser = require('./models/user');
+const utentiSchema = modelUser.utentiSchema;
+const modelloUtenti = modelUser.modelloUtenti;
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
-const passportLocalMongoose = require("passport-local-mongoose");
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
-var session;
 var globalUser;
 
-//index.use(passport.initialize());
-//index.use(passport.session());
+
+index.use(session({ secret: "applejack" }));
+index.use(express.urlencoded({ extended: true })); // express body-parser
+
+
+
+
+
+
+/*
+passport.use(new LocalStrategy(
+    function(email, password, done) {
+        modelloUtenti.findOne({ email: email }, function(err, modelloUtenti) {
+            if (err) { return done(err); }
+            if (!modelloUtenti) {
+                return done(null, false, { message: 'Incorrect email.' });
+            }
+            if (!modelloUtenti.validPassword(password)) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, user);
+        });
+    }
+));
+*/
+
 
 
 
@@ -27,7 +51,7 @@ var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
 
 server.set('view engine', 'ejs');
@@ -49,15 +73,16 @@ index.use(bodyParser.urlencoded({
 }));
 
 
+
+
 index.use(session({
     secret: 'pinkie pie',
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     store: new MongoStore({
         mongooseConnection: db
     })
 }));
-
 
 
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
@@ -99,6 +124,7 @@ server.get("/servizi", function(req, res) {
 });
 
 server.get('/login', function(req, res) {
+
     res.render('login');
 
 });
@@ -118,10 +144,8 @@ server.get('/registrati', function(req, res) {
     });
 });
 
-
-
 server.get("/prenotazione", function(req, res) {
-    res.render('prenotazione');
+    res.render('prenotazione', globalUser);
 });
 
 server.post("/prenotazione/locale", function(req, res) {
@@ -162,7 +186,7 @@ server.post("/prenotazione/locale", function(req, res) {
 });
 
 
-server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -198,34 +222,35 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
         return;
     }
 
-    if (userController.controllaUtenteGiaRegistrato(User)) {
+    if (await userController.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
-            messaggioErrore: "Email già utilizzata",
+            messaggioErrore: "Email già Registrata",
             bootstrapClasses: "text-left alert alert-danger"
         });
         return;
     }
 
+
     globalUser = User;
 
-    var newUser = new modelloUtenti
 
-
-        ({
-        nome: User.nome,
-        cognome: User.cognome,
+    var newUser = new modelloUtenti({
+        nome: User.nome.toString().toLowerCase(),
+        cognome: User.cognome.toString().toLowerCase(),
         indirizzo: {
-            via: User.indirizzo.via,
-            provincia: User.indirizzo.provincia,
-            stato: User.indirizzo.stato,
-            citta: User.indirizzo.citta,
-            cap: User.indirizzo.cap,
+            via: User.indirizzo.via.toString().toLowerCase(),
+            provincia: User.indirizzo.provincia.toString().toLowerCase(),
+            stato: User.indirizzo.stato.toString().toLowerCase(),
+            citta: User.indirizzo.citta.toString().toLowerCase(),
+            cap: User.indirizzo.cap.toString().toLowerCase(),
         },
         dataNascita: User.dataNascita,
         telefono: User.telefono,
-        email: User.email,
+        email: User.email.toString().toLowerCase(),
         password: User.password
     });
+
+
 
     // setup email data with unicode symbols
     let mailOptions = {
@@ -248,24 +273,18 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
     });
 
 
-    /*passport.authenticate("local")(req, res, function() {
-        res.redirect("/home");
-    });*/
-
-    req.session.email = newUser.email;
-    console.log(user.email);
 
 
-    return res.render('paginaPersonale', {
-        User,
 
-        classiColonna: "col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup",
-        classiBottone: "btn btn-custom dropdown-toggle",
+    /*
+        // req.session.email = newUser.email;
+        //  console.log(user.email);
 
+        passport.authenticate("local")(req, res, function() {
+            return res.render('paginaPersonale');
 
-    });
-
-
+        });
+    */
 
 
 }); //FINE REGISTRATI LOCALE
@@ -275,26 +294,44 @@ server.post('/registrati/locale', function(req, res) { //INIZIO REGISTRATI LOCAL
 
 
 
-
 server.post('/login/locale', function(req, res) {
-
-    var email = req.body.Email;
+    var email = req.body.email;
     var password = req.body.password;
 
-    modelloUtenti.findOne({
-            email: email,
-            password: password
-        }, function(err, user) {
-            if (err) {
-                console.log(err);
-                return res.status(404).send();
-            }
+    modelloUtenti.findOne({ email: email, }, function(err, user) {
+        console.log(email + " -> " + password);
+        if (err) {
+            console.log(err);
+            console.log("err1");
+            return res.status(500).send();
         }
 
-    )
+        if (!user) {
+            console.log("err2");
+            return res.status(520).send();
+        }
 
-    console.log("benvenuto Signor " + modelloUtenti.nome);
+        bcrypt.compare(password, user.password, function(err, result) {
+            console.log(user.password);
+            if (result === false) {
+                console.log("password errata")
+                return res.redirect('/registrati');
+            } else {
+                console.log("beh che dire");
 
 
-    console.log(email);
+
+
+            }
+        })
+
+        console.log("ciao mamma");
+        console.log(user.indirizzo);
+
+    });
 });
+
+
+
+
+var Utente = mongoose.model('Utente', utentiSchema);

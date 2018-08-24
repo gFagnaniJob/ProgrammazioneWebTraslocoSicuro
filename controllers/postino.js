@@ -9,13 +9,13 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-transporter.creaMailOptions = function (destinatario) {
+transporter.creaMailOptions = function(destinatario) {
     return {
         from: '"Trasloco Sicuro"', // sender address
         to: destinatario.email, // list of receivers
-        subject: 'Registrazione Completata', // Subject line
-        text: 'Benvenuto su Trasloco Sicuro. La sua registrazione è andata a buon fine :)', // plain text body
-        html: '<h1>Benvenuto su Trasloco Sicuro</h1><p>La sua registrazione è andata a buon fine :)</p>' // html body
+        subject: 'Completazione Registrata', // Subject line
+        text: 'CIAO PEPPE STO FACENDO DELLE PROVEBenvenuto su Trasloco Sicuro. La sua registrazione è andata a buon fine :)', // plain text body
+        html: '<h1>CIAO PEPPE STO FACENDO DELLE PROVEBenvenuto su Trasloco Sicuro</h1><p>La sua registrazione è andata a buon fine :)</p>' // html body
     }
 }
 

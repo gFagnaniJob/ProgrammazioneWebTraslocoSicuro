@@ -1,15 +1,7 @@
-const ModelloUtente = require('../models/user');
-/*function controlloData(data){
-    /*
-    var dataInserita = new Date(data);
-    var anno = dataInserita.getFullYear();
-    var dataAttuale = new Date();
-    dataMaggiorenne = dataAttuale.setFullYear(anno-18);
-    if(dataInserita > dataMaggiorenne){
-        return false;
-    }
-    return true;
-}*/
+const modelUser = require('../models/user');
+const utentiSchema = modelUser.utentiSchema;
+const modelloUtenti = modelUser.modelloUtenti;
+
 module.exports = {
     controlloData: (data) => {
         var dataInserita = new Date(data);
@@ -50,24 +42,13 @@ module.exports = {
         return false;
     },
 
-    controllaUtenteGiaRegistrato: (utente) => {
-        var UtenteTrovato;
-        ModelloUtente.findOne({ email: utente.email }, function(err, result) {
-            if (err) {
-                console.log("ERRORE", err);
-                return;
-            }
-            if (result) {
-                console.log("result", result);
-                UtenteTrovato = result;
-                return true;
-            } else {
-                console.log("result", result);
-                UtenteTrovato = null;
-                return false;
-            }
-        });
-
-        console.log("UtenteTrovato", UtenteTrovato);
+    controllaUtenteGiaRegistrato: async(utente) => {
+        const utenteTrovato = await modelloUtenti.findOne({ email: utente.email });
+        console.log("utenteTrovato", utenteTrovato);
+        if (utenteTrovato) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
