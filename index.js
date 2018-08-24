@@ -267,7 +267,7 @@ server.post('/login/locale', function (req, res) {
         if (!user) {
             console.log("err2");
             res.render('login', {
-                messaggioErrore: "l'email inserita non è ancora stata usata per la registrazione",
+                messaggioErrore: "combinazione email e password errata",
                 bootstrapClasses: "text-left alert alert-danger"
             });
             return  //utente non trovato
@@ -278,7 +278,7 @@ server.post('/login/locale', function (req, res) {
             if (result === false) {
 
                 res.render('login', {
-                    messaggioErrore: "la password inserita è errata",
+                    messaggioErrore: "combinazione email e password errata",
                     bootstrapClasses: "text-left alert alert-danger"
                 });
                 console.log("password errata")  //password errata
