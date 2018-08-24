@@ -266,11 +266,15 @@ server.post('/login/locale', function (req, res) {
 
         if (!user) {
             console.log("err2");
-            return res.status(520).send();
+            res.render('login', {
+                messaggioErrore: "l'email inserita non è ancora stata usata per la registrazione",
+                bootstrapClasses: "text-left alert alert-danger"
+            });
+            return  //utente non trovato
         }
 
         bcrypt.compare(password, user.password, function (err, result) {
-            console.log(user.password);
+            
             if (result === false) {
 
                 res.render('login', {
