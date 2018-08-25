@@ -8,6 +8,9 @@
     npm install
     nodemon index.js
 
+Successivamente aprire il browser e collegarsi su:
+    http://localhost:2000
+
 ## Breve presentazione degli obiettivi dell’applicazione
 La nostra applicazione Trasloco Sicuro è una piattaforma utile per far comunicare i
 traslocatori e i clienti, permettendo una facile prenotazione del servizio di trasloco,
