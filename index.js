@@ -1,11 +1,12 @@
 var express = require("express");
 var index = express();
-const session = require('express-session');
+var session = require('express-session');
 var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
 
+var router = express.Router();
 var userController = require("./controllers/user.js");
 const modelUser = require('./models/user');
 const utentiSchema = modelUser.utentiSchema;
@@ -44,16 +45,20 @@ index.use(bodyParser.urlencoded({
 
 index.use(session({
     secret: 'pinkie pie',
-    resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: db
-    })
+    resave: true,
+    saveUninitialized: true,
+    //store: new MongoStore({
+    //  mongooseConnection: db
+    //})
 }));
 
 
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
+
+
+
+
 
 });
 
@@ -62,11 +67,20 @@ server.get("/", function(req, res) {
 });
 
 server.get("/chiSiamo", function(req, res) {
-    res.render('prenotazione', { nome: "prova", cognome: "cognome" });
+    if (session) {
+        return res.render('prenotazione');
+    } else {
+        return res.send('<h1>Devi essere loggato per vedere questa questa pagina </h1>')
+    }
 });
 
 server.get("/doveSiamo", function(req, res) {
-    res.render('doveSiamo');
+    if (session) {
+        res.render('doveSiamo');
+    } else {
+        res.render('home');
+    }
+
 });
 
 server.get("/comeFunziona", function(req, res) {
@@ -191,7 +205,6 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         return;
     }
 
-    globalUser = User;
 
 
     var newUser = new modelloUtenti({
@@ -209,7 +222,7 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
-
+    globalUser = newUser;
 
 
     // setup email data with unicode symbols
@@ -241,16 +254,43 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
 
 
 
+server.get('/logout', function(req, res, next) {
+    if (session) {
+        // delete session objecT
+        console.log("sessione eliminata = " + session);
+        session = null;
+        res.render('home');
+    }
 
+    console.log("Logout effettuato");
+});
+
+
+/*    TODO:---> DA VERIFICARE MEGLIO IL FUNZIONAMENTO DI NEXT()
+function verificaAutenticazione(req, res, next) {
+    if (session) {
+        return next();
+    } else {
+        var err = new Error('DEVI ESSERE LOGGATO PER VEDERE QUESTI CONTENUTI 8)');
+        err.status = 401;
+        return next(err);
+    }
+}
+*/
 
 server.post('/login/locale', function(req, res) {
+
     var email = req.body.email;
     var password = req.body.password;
 
+
+    var datiUtente = {
+        email: req.body.email,
+        password: req.body.password
+    }
+
     modelloUtenti.findOne({ email: email, }, function(err, user) {
-        console.log(email + " -> " + password);
         if (err) {
-            console.log(err);
             console.log("err1");
             return res.status(500).send();
         }
@@ -261,22 +301,17 @@ server.post('/login/locale', function(req, res) {
         }
 
         bcrypt.compare(password, user.password, function(err, result) {
-            console.log(user.password);
             if (result === false) {
                 console.log("password errata")
                 return res.redirect('/registrati');
             } else {
-                console.log("beh che dire");
+                console.log("Login Effettuato");
 
-
-
-
+                session = email;
+                res.render('prenotazione');
+                console.log("ciao " + user.nome + " " + user.cognome);
             }
         })
-
-        console.log("ciao mamma");
-        console.log(user.indirizzo);
-
     });
 });
 
@@ -284,3 +319,4 @@ server.post('/login/locale', function(req, res) {
 
 
 var Utente = mongoose.model('Utente', utentiSchema);
+module.exports = Utente;
