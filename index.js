@@ -21,7 +21,6 @@ var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 var globalUser;
 
-<<<<<<< HEAD
 
 
 
@@ -30,16 +29,6 @@ controlloTraslocatoriInizialiDelDatabase (listaTraslocatori);
 
 
 
-||||||| merged common ancestors
-
-
-controlloTraslocatoriInizialiDelDatabase(traslocatore1);
-
-
-
-=======
-var DistanceMatrix = require('./controllers/googleMaps');
->>>>>>> 1e8c5815465b3a4513752856d34c1e9a36229543
 
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
