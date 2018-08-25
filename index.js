@@ -6,7 +6,7 @@ const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
 const modelsTraslocatori = require("./models/traslocatore.js");
-const traslocatore1 = modelsTraslocatori.traslocatore1;
+const listaTraslocatori = modelsTraslocatori.traslocatori;
 const controllersTraslocatori = require("./controllers/traslocatore.js");
 const controlloTraslocatoriInizialiDelDatabase = controllersTraslocatori.controlloTraslocatoriInizialiDatabase;
 
@@ -23,7 +23,9 @@ var globalUser;
 
 
 
-controlloTraslocatoriInizialiDelDatabase(traslocatore1);
+
+
+controlloTraslocatoriInizialiDelDatabase (listaTraslocatori);
 
 
 

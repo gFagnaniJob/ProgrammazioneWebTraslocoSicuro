@@ -2,35 +2,42 @@ const ModelsTraslocatore = require('../models/traslocatore');
 const ModelloTraslocatore = ModelsTraslocatore.modelloTraslocatore;
 
 
-    controllaTraslocatoreGiaRegistrato = async function (traslocatore) {
-        const traslocatoreTrovato = await ModelloTraslocatore.findOne({
-            partitaIVA: traslocatore.partitaIVA
-        });
 
-        if (traslocatoreTrovato) {
-            return true;
-        } else {
+controllaTraslocatoreGiaRegistrato = async function (traslocatore) {
+    const traslocatoreTrovato = await ModelloTraslocatore.findOne({
+        partitaIVA: traslocatore.partitaIVA
+    });
 
-            return false;
+    if (traslocatoreTrovato) {
+        return true;
+    } else {
+
+        return false;
+    }
+}
+
+controlloTraslocatoriInizialiDatabase = async function (listaTraslocatori) {
+
+
+    for (var i = 0; i < listaTraslocatori.length; i++) {
+
+        if (await controllaTraslocatoreGiaRegistrato(listaTraslocatori[i]) === false) {
+
+            listaTraslocatori[i].save(function (err) {
+                if (err) {
+                    return res.status(355).send();
+                }
+
+            });
         }
-    }
-
-    controlloTraslocatoriInizialiDatabase = async function(traslocatore){
-
-        if (await controllaTraslocatoreGiaRegistrato(traslocatore) === false) {
-            
-            
-                traslocatore.save(function (err) {
-                    if (err) {
-                        return res.status(404).send();
-                    }
-            
-                });
-            }
 
     }
 
-    module.exports = {controllaTraslocatoreGiaRegistrato, controlloTraslocatoriInizialiDatabase};
+}
+
+
+
+module.exports = { controllaTraslocatoreGiaRegistrato, controlloTraslocatoriInizialiDatabase };
 
 
 
