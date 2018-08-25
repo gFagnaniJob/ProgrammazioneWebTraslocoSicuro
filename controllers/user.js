@@ -41,7 +41,7 @@ module.exports = {
     },
 
     controllaUtenteGiaRegistrato: async(utente) => {
-        const utenteTrovato = await ModelloUtente.findOne({ email: utente.email });
+        const utenteTrovato = await modelloUtenti.findOne({ email: utente.email });
         console.log("utenteTrovato", utenteTrovato);
         if (utenteTrovato) {
             return true;

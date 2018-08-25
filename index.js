@@ -5,18 +5,30 @@ var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
+const modelsTraslocatori = require("./models/traslocatore.js");
+const listaTraslocatori = modelsTraslocatori.traslocatori;
+const controllersTraslocatori = require("./controllers/traslocatore.js");
+const controlloTraslocatoriInizialiDelDatabase = controllersTraslocatori.controlloTraslocatoriInizialiDatabase;
 
-var router = express.Router();
-var userController = require("./controllers/user.js");
-const modelUser = require('./models/user');
-const utentiSchema = modelUser.utentiSchema;
-const modelloUtenti = modelUser.modelloUtenti;
+var controllersUser = require("./controllers/user.js");
+const modelsUser = require('./models/user');
+const modelloUtenti = modelsUser.modelloUtenti;
+const utentiSchema = modelsUser.utentiSchema;
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 var globalUser;
+
+
+
+
+
+controlloTraslocatoriInizialiDelDatabase(listaTraslocatori);
+
+
+
 
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
@@ -40,9 +52,6 @@ index.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-
-
 index.use(session({
     secret: 'pinkie pie',
     resave: true,
@@ -52,14 +61,8 @@ index.use(session({
     //})
 }));
 
-
 server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
-
-
-
-
-
 });
 
 server.get("/", function(req, res) {
@@ -106,7 +109,10 @@ server.get("/servizi", function(req, res) {
 
 server.get('/login', function(req, res) {
 
-    res.render('login');
+    res.render('login', {
+        messaggioErrore: "",
+        bootstrapClasses: ""
+    });
 
 });
 
@@ -114,8 +120,12 @@ server.get('/benvenuto', function(req, res) {
     res.render('benvenuto', globalUser);
 });
 
-server.get("/paginaPersonale", function(req, res) {
-    res.render('paginaPersonale');
+server.get("/iMieiAppuntamenti", function(req, res) {
+    res.render('iMieiAppuntamenti');
+});
+
+server.get("/modificaInfo", function(req, res) {
+    res.render('modificaInformazioni');
 });
 
 server.get('/registrati', function(req, res) {
@@ -161,7 +171,6 @@ server.post("/prenotazione/locale", function(req, res) {
     console.log(DatiPrenotazione);
 });
 
-
 server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
@@ -181,7 +190,7 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         confermaPassword: req.body.confermaPassword
     }
 
-    if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
+    if (!controllersUser.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
         res.render('registrati', {
             messaggioErrore: "Le due password non coincidono",
             bootstrapClasses: "text-left alert alert-danger"
@@ -189,7 +198,7 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         return;
     }
 
-    if (!userController.controlloData(User.dataNascita)) {
+    if (!controllersUser.controlloData(User.dataNascita)) {
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
             bootstrapClasses: "text-left alert alert-danger"
@@ -197,14 +206,13 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         return;
     }
 
-    if (await userController.controllaUtenteGiaRegistrato(User)) {
+    if (await controllersUser.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
             messaggioErrore: "Email già Registrata",
             bootstrapClasses: "text-left alert alert-danger"
         });
         return;
     }
-
 
 
     var newUser = new modelloUtenti({
@@ -247,9 +255,8 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
 
     res.redirect('/prenotazione');
 
-
-
-}); //FINE REGISTRATI LOCALE
+    //CHIUSURA REGISTRATI LOCALE
+});
 
 
 
@@ -297,26 +304,33 @@ server.post('/login/locale', function(req, res) {
 
         if (!user) {
             console.log("err2");
-            return res.status(520).send();
+            res.render('login', {
+                messaggioErrore: "combinazione email e password errata",
+                bootstrapClasses: "text-left alert alert-danger"
+            });
+            return //utente non trovato
         }
 
         bcrypt.compare(password, user.password, function(err, result) {
-            if (result === false) {
-                console.log("password errata")
-                return res.redirect('/registrati');
-            } else {
-                console.log("Login Effettuato");
 
-                session = email;
-                res.render('prenotazione');
-                console.log("ciao " + user.nome + " " + user.cognome);
+            if (result === false) {
+
+                res.render('login', {
+                    messaggioErrore: "combinazione email e password errata",
+                    bootstrapClasses: "text-left alert alert-danger"
+                });
+                console.log("password errata") //password errata
+
+            } else {
+                session = emai;
+                console.log("login effettuato");
+                return res.render('home');
             }
         })
+
     });
 });
 
-
-
-
 var Utente = mongoose.model('Utente', utentiSchema);
+
 module.exports = Utente;

@@ -19,4 +19,6 @@ transporter.creaMailOptions = function(destinatario) {
     }
 }
 
+
 module.exports = transporter;
+

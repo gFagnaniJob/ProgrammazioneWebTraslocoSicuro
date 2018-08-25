@@ -7,7 +7,8 @@
 
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css" type="text/css">
 
     <title>Login</title>
@@ -19,7 +20,7 @@
 
             <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                 <button type="button" class="btn btn-custom "><a href="..">Home</a>
-    
+
                 </button>
             </div>
 
@@ -59,47 +60,58 @@
 
             <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                 <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
-    
+
                 </button>
             </div>
         </div>
+        
+            <div class="row">
+                <div class="col ">
 
-        <div class="row">
-            <div class="col ">
-                <h2 class="p-4 text-center"> Accedi </h2>
-                <form method="POST" action="/login/locale">
+                    <h2 class="p-4 text-center"> Accedi </h2>
+                    <p class="<%=bootstrapClasses%>"> <%=messaggioErrore%></p>
+
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-6 centrato">
-                <label for="email">Email: </label>
-                <input type="email" class="form-control" id="email" name="email" required>
+            <form method="POST" action="/login/locale">
+            <div class="row">
+
+
+                <div class="form-group col-6 centrato">
+
+                    <label for="email">Email: </label>
+                    <input type="email" class="form-control" id="email" name="email" required>
 
 
 
-                <label for="password">Password: </label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 p-4 text-center">
-                <button type="submit" class="btn btn-info">Login</button>
+                    <label for="password">Password: </label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
 
             </div>
-            <div class="col text-center link">
-                Non sei ancora registrato? <a href="/registrati">Registrati</a>
+
+            <div class="row">
+                <div class="col-12 p-4 text-center">
+                    <button type="submit" class="btn btn-info">Login</button>
+
+                </div>
+                <div class="col text-center link">
+                    Non sei ancora registrato? <a href="/registrati">Registrati</a>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
 
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
