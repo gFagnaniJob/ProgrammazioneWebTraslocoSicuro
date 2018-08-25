@@ -5,11 +5,15 @@ var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
 const path = require('path');
+const modelsTraslocatori = require("./models/traslocatore.js");
+const traslocatore1 = modelsTraslocatori.traslocatore1;
+const controllersTraslocatori = require("./controllers/traslocatore.js");
+const controlloTraslocatoriInizialiDelDatabase = controllersTraslocatori.controlloTraslocatoriInizialiDatabase;
 
-var userController = require("./controllers/user.js");
-const modelUser = require('./models/user');
-const modelloUtenti = modelUser.modelloUtenti;
-const utentiSchema = modelUser.utentiSchema;
+var controllersUser = require("./controllers/user.js");
+const modelsUser = require('./models/user');
+const modelloUtenti = modelsUser.modelloUtenti;
+const utentiSchema = modelsUser.utentiSchema;
 const dotenv = require('dotenv');
 dotenv.config();
 const postino = require('./controllers/postino');
@@ -166,7 +170,7 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         confermaPassword: req.body.confermaPassword
     }
 
-    if (!userController.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
+    if (!controllersUser.controllaPasswordCoincidenti(User.password, User.confermaPassword)) {
         res.render('registrati', {
             messaggioErrore: "Le due password non coincidono",
             bootstrapClasses: "text-left alert alert-danger"
@@ -174,7 +178,7 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         return;
     }
 
-    if (!userController.controlloData(User.dataNascita)) {
+    if (!controllersUser.controlloData(User.dataNascita)) {
         res.render('registrati', {
             messaggioErrore: "Non sei maggiorenne",
             bootstrapClasses: "text-left alert alert-danger"
@@ -182,7 +186,7 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         return;
     }
 
-    if (await userController.controllaUtenteGiaRegistrato(User)) {
+    if (await controllersUser.controllaUtenteGiaRegistrato(User)) {
         res.render('registrati', {
             messaggioErrore: "Email già Registrata",
             bootstrapClasses: "text-left alert alert-danger"
@@ -255,7 +259,7 @@ server.post('/login/locale', function (req, res) {
         }
 
         bcrypt.compare(password, user.password, function (err, result) {
-            
+
             if (result === false) {
 
                 res.render('login', {
@@ -263,7 +267,7 @@ server.post('/login/locale', function (req, res) {
                     bootstrapClasses: "text-left alert alert-danger"
                 });
                 console.log("password errata")  //password errata
-                
+
             } else {
 
                 console.log("login effettuato");
