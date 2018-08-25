@@ -322,7 +322,7 @@ server.post('/login/locale', function(req, res) {
                 console.log("password errata") //password errata
 
             } else {
-                session = emai;
+                session = email;
                 console.log("login effettuato");
                 return res.render('home');
             }
