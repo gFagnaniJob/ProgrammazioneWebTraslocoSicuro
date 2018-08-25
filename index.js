@@ -19,16 +19,12 @@ dotenv.config();
 const postino = require('./controllers/postino');
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
+
 var globalUser;
-
-
-
-
 
 controlloTraslocatoriInizialiDelDatabase (listaTraslocatori);
 
-
-
+//const DistanceMatrix = require('./controllers/googleMaps');
 
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
@@ -41,7 +37,7 @@ server.set('view engine', 'ejs');
 
 var mongoDB = 'mongodb://127.0.0.1/traslocosicuro';
 
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 var db = mongoose.connection;
