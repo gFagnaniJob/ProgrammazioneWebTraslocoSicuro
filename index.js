@@ -21,6 +21,7 @@ var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 var globalUser;
 
+<<<<<<< HEAD
 
 
 
@@ -29,6 +30,16 @@ controlloTraslocatoriInizialiDelDatabase (listaTraslocatori);
 
 
 
+||||||| merged common ancestors
+
+
+controlloTraslocatoriInizialiDelDatabase(traslocatore1);
+
+
+
+=======
+var DistanceMatrix = require('./controllers/googleMaps');
+>>>>>>> 1e8c5815465b3a4513752856d34c1e9a36229543
 
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
@@ -52,9 +63,6 @@ index.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-
-
 index.use(session({
     secret: 'pinkie pie',
     resave: false,
@@ -64,10 +72,8 @@ index.use(session({
     })
 }));
 
-
 server.listen(porta, function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
-
 });
 
 server.get("/", function (req, res) {
@@ -163,7 +169,6 @@ server.post("/prenotazione/locale", function (req, res) {
     console.log(DatiPrenotazione);
 });
 
-
 server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
@@ -209,7 +214,6 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
 
     globalUser = User;
 
-
     var newUser = new modelloUtenti({
         nome: User.nome.toString().toLowerCase(),
         cognome: User.cognome.toString().toLowerCase(),
@@ -225,8 +229,6 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
-
-
 
     // setup email data with unicode symbols
     let mailOptions = {
@@ -250,16 +252,8 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
 
     res.redirect('/prenotazione');
 
-
-
-
-
-
     //CHIUSURA REGISTRATI LOCALE
 });
-
-
-
 
 server.post('/login/locale', function (req, res) {
     var email = req.body.email;
@@ -296,16 +290,11 @@ server.post('/login/locale', function (req, res) {
 
                 console.log("login effettuato");
                 return res.render('home');
-
-
-
             }
         })
 
     });
 });
-
-
 
 var Utente = mongoose.model('Utente', utentiSchema);
 
