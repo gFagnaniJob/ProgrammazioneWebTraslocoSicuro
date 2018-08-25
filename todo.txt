@@ -5,9 +5,9 @@ TODO list:
 3) Correggere bug registrazione stesso utente
 4) Gestire sessioni e autenticazione (con cookies)
 5) Gestire Esci dalla pagina
-6) Eliminare i bottoni dopo il login e visualizzare il bottone della pagina personale
-----> 7) Creare un database con tutti i traslocatori e inserire le voci nei collaboratori
-----> 8) algoritmo per i prezzi 
+----> 6) Eliminare i bottoni dopo il login e visualizzare il bottone della pagina personale
+----> 7) inserire le voci nei collaboratori
+----> 8) algoritmo per i prezzi (con api google maps)
 ----> 9) form "i miei appuntamenti"/"modifica info"
 
 

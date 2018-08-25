@@ -111,8 +111,12 @@ server.get('/benvenuto', function (req, res) {
     res.render('benvenuto', globalUser);
 });
 
-server.get("/paginaPersonale", function (req, res) {
-    res.render('paginaPersonale');
+server.get("/iMieiAppuntamenti", function (req, res) {
+    res.render('iMieiAppuntamenti');
+});
+
+server.get("/modificaInfo", function (req, res) {
+    res.render('modificaInformazioni');
 });
 
 server.get('/registrati', function (req, res) {
