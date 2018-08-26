@@ -12,6 +12,8 @@ var traslocatoriSchema = new Schema({
         numeroCivico: { type: Number, required: true },
         provincia: { type: String, required: true },
         citta: { type: String, required: true },
+        stato: { type: String, required: true },
+
     },
     costiBaseStanze: {
         cucina: { type: Number, required: true },
@@ -86,6 +88,7 @@ var traslocatoreTorino = new modelloTraslocatore({
         numeroCivico: "23",
         provincia: "Torino",
         citta: "Torino",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "260",
@@ -158,6 +161,7 @@ var traslocatoreCamerino = new modelloTraslocatore({
         numeroCivico: "10",
         provincia: "Macerata",
         citta: "Camerino",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "200",
@@ -230,6 +234,7 @@ var traslocatoreRoma1 = new modelloTraslocatore({
         numeroCivico: "58",
         provincia: "Roma",
         citta: "Roma",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "230",
@@ -302,6 +307,7 @@ var traslocatoreRoma2 = new modelloTraslocatore({
         numeroCivico: "12",
         provincia: "Roma",
         citta: "Roma",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "200",
@@ -374,6 +380,7 @@ var traslocatoreNapoli1 = new modelloTraslocatore({
         numeroCivico: "70",
         provincia: "Napoli",
         citta: "Napoli",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "200",
@@ -446,6 +453,7 @@ var traslocatoreNapoli2 = new modelloTraslocatore({
         numeroCivico: "8",
         provincia: "Napoli",
         citta: "Napoli",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "200",
@@ -518,6 +526,7 @@ var traslocatoreFirenze1 = new modelloTraslocatore({
         numeroCivico: "110",
         provincia: "Firenze",
         citta: "Firenze",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "250",
@@ -590,6 +599,7 @@ var traslocatoreFirenze2 = new modelloTraslocatore({
         numeroCivico: "53",
         provincia: "Firenze",
         citta: "Firenze",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "250",
@@ -662,6 +672,7 @@ var traslocatoreMilano1 = new modelloTraslocatore({
         numeroCivico: "86",
         provincia: "Milano",
         citta: "Milano",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "280",
@@ -734,6 +745,7 @@ var traslocatoreMilano2 = new modelloTraslocatore({
         numeroCivico: "20",
         provincia: "Milano",
         citta: "Milano",
+        stato: "Italia",
     },
     costiBaseStanze: {
         cucina: "270",
