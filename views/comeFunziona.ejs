@@ -14,7 +14,7 @@
 
             <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                 <button type="button" class="btn btn-custom "><a href="..">Home</a>
-    
+
                 </button>
             </div>
 
@@ -50,18 +50,36 @@
                     <a class="dropdown-item" href="/informativaSullaPrivacy">Informativa sulla Privacy</a>
                 </div>
             </div>
+            <% if(loggato == false){ %>
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
 
-            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
-    
-                </button>
-            </div>
+                    </button>
+                </div>
 
-            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
-    
-                </button>
-            </div>
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
+
+                    </button>
+                </div>
+                <%}
+            else {
+                %>
+                    <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagina Personale </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/modificaInfo">Modifica Informazioni</a>
+                            <a class="dropdown-item" href="/prenotazione">Prenota Appuntamento</a>
+                            <a class="dropdown-item" href="/iMieiAppuntamenti">I miei appuntamenti</a>
+                            <a class="dropdown-item" href="/logout">Esci</a>
+                        </div>
+
+
+                    </div>
+                    <%}%>
+
 
         </div>
         <div class="row">
@@ -93,7 +111,7 @@
                             <tr>
                                 <th>Servizi</th>
                                 <th>Distanza</th>
-                                
+
                                 <th>Costi</th>
                             </tr>
                         </thead>
@@ -101,7 +119,7 @@
                             <tr>
                                 <td>Imballaggio</td>
                                 <td></td>
-                                
+
                                 <td>100 - 200 €</td>
                             </tr>
                             <tr>
@@ -149,8 +167,9 @@
                         </p>
                     </ul>
                     <h5> Come preparare gli scatoloni? Consigli utili se vuoi occuparti tu dell'imballaggio </h5>
-                    <p> Se non hai mai traslocato, ti chiederai sicuramente come organizzare l'imballaggio, quali scatole usare
-                        o se ci sono delle regole precise da seguire. Ecco dei consigli utili per fare tutto al meglio </p>
+                    <p> Se non hai mai traslocato, ti chiederai sicuramente come organizzare l'imballaggio, quali scatole
+                        usare o se ci sono delle regole precise da seguire. Ecco dei consigli utili per fare tutto al meglio
+                        </p>
 
 
 
@@ -197,10 +216,10 @@
                                 e veloci da montare, chiudere e trasportare grazie alla presenza di maniglie). </li>
                     </p>
                     </ul>
-                    <p> Etichetta meticolosamente le tue scatole in modo da trovare a colpo d’occhio tutto quello che si cerca
-                        una volta arrivati nella nuova casa. Scrivi con un pennarello e in maniera leggibile ma cerca di
-                        essere più preciso possibile così da poterle organizzare al meglio e da non dover aprire ogni scatola
-                        per sapere cosa contiene (indica se possibile ogni oggetto contenuto nella scatola). </p>
+                    <p> Etichetta meticolosamente le tue scatole in modo da trovare a colpo d’occhio tutto quello che si
+                        cerca una volta arrivati nella nuova casa. Scrivi con un pennarello e in maniera leggibile ma cerca
+                        di essere più preciso possibile così da poterle organizzare al meglio e da non dover aprire ogni
+                        scatola per sapere cosa contiene (indica se possibile ogni oggetto contenuto nella scatola). </p>
 
                     <h5>Quante ne servono? </h5>
                     <p> Di solito si tende a sottovalutare la quantità di oggetti che si possiedono. Pensa al numero di scatole
@@ -211,20 +230,21 @@
                         <p>
 
                             <h5> Consigli Pratici </h5>
-                            <p> Puoi decidere se utilizzare solo normali scatoloni o comprare altri tipi di scatole molto più
-                                funzionali. <br>
+                            <p> Puoi decidere se utilizzare solo normali scatoloni o comprare altri tipi di scatole molto
+                                più funzionali. <br>
                                 <ul>
                                     <li> Fodere di Plastica per proteggere i mobili.</li> <br>
                                     <li> Alveolari per piatti e bicchieri (separi in maniera sicura gli oggetti più fragili).
                                     </li> <br>
-                                    <li> Scatola appendiabiti per i vestiti (un armadio viaggiante per i tuoi abiti). </li> <br>
+                                    <li> Scatola appendiabiti per i vestiti (un armadio viaggiante per i tuoi abiti). </li>
+                                    <br>
                                     <li> Scatole multiuso e contenitori archivio per i documenti. </li><br> </p>
                             </ul>
-                            <p> Se desideri utilizzare solo normali scatoloni ti consigliamo di ricoprire tutti gli oggetti singolarmente
-                                con la classica carta da imballo, in particolare piatti, bicchieri e oggetti fragili e di
-                                arrotolare jeans e magliette per evitare che si stroppiccino. Utilizza carta da giornale
-                                per riempire tutti i buchi e prepara una valigia con quello che ti può servire per i primi
-                                giorni nella nuova casa.
+                            <p> Se desideri utilizzare solo normali scatoloni ti consigliamo di ricoprire tutti gli oggetti
+                                singolarmente con la classica carta da imballo, in particolare piatti, bicchieri e oggetti
+                                fragili e di arrotolare jeans e magliette per evitare che si stroppiccino. Utilizza carta
+                                da giornale per riempire tutti i buchi e prepara una valigia con quello che ti può servire
+                                per i primi giorni nella nuova casa.
                             </p>
 
 
