@@ -32,8 +32,8 @@ currency: An ISO 4217 currency code indicating the currency that the amount is e
 value: The total fare amount, in the currency specified above.
 */
 
-function inizializzaOrigine(indirizzo) {
-    origins.push(indirizzo);
+async function inizializzaOrigine(indirizzo) {
+    
 }
 
 async function inizializzaDestinazioni() {
@@ -42,7 +42,8 @@ async function inizializzaDestinazioni() {
         var via = traslocatori[i].indirizzoAzienda.via;
         var citta = traslocatori[i].indirizzoAzienda.citta;
         var provincia = traslocatori[i].indirizzoAzienda.provincia;
-        destinations.push(via + ", " + citta + ", " + provincia);
+        //var stato = traslocatori[i].indirizzoAzienda.stato;
+        destinations.push(via + ", " + citta + ", " + provincia); //+ ", " + stato);
     }
     return destinations;
     /*for (i=0; i<listaIndirizzi.length; i++) {
@@ -100,6 +101,7 @@ function generaMatrice(origins, destinations) {
 
 module.exports = {
     restituisciTraslocatorePiùVicino: async (indirizzo) => {
+        origins = await inizializzaOrigine (indirizzo);
         destinations = await inizializzaDestinazioni();
         //generaMatrice(origins, destinations);
     }

@@ -57,11 +57,7 @@ index.use(session({
     //})
 }));
 
-<<<<<<< HEAD
 server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
-=======
-server.listen(porta, function() { //inserisco cosa fa il server quando lo richiamo
->>>>>>> 9c0aa56472ce24a8b673dc1473261a477a7317df
     console.log("server in ascolto sulla porta " + porta);
     await googleMapsController.restituisciTraslocatorePiùVicino();
 });
