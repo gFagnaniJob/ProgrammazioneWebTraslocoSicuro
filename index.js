@@ -395,7 +395,13 @@ server.get("/", function (req, res) {
                     messaggioErrore: "combinazione email e password errata",
                     bootstrapClasses: "text-left alert alert-danger"
                 });
-                return //utente non trovato
+                console.log("password errata") //password errata
+
+            } else {
+                //console.log(user);
+                session = email;
+                console.log("login effettuato");
+                return res.render('home');
             }
 
             bcrypt.compare(password, user.password, function (err, result) {
