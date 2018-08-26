@@ -24,7 +24,7 @@ var globalUser;
 
 controlloTraslocatoriInizialiDelDatabase (listaTraslocatori);
 
-//const DistanceMatrix = require('./controllers/googleMaps');
+const googleMapsController = require('./controllers/googleMaps');
 
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
@@ -57,8 +57,9 @@ index.use(session({
     })
 }));
 
-server.listen(porta, function () { //inserisco cosa fa il server quando lo richiamo
+server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
+    await googleMapsController.restituisciTraslocatorePiùVicino();
 });
 
 server.get("/", function (req, res) {
