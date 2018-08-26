@@ -57,37 +57,54 @@ index.use(session({
     //})
 }));
 
+var loggato = false;
+
 server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
-    await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
+    session = null;
+    //await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
 });
 
 server.get("/", function (req, res) {
 
-    return res.render('home')
+    if (session) {
+        loggato = true;
+        return res.render('home', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('home', {
+            loggato,
+        });
+    }
 
     });
 
     server.get("/chiSiamo", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('chiSiamo', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('chiSiamo', {
-                loggato: false,
+                loggato,
             });
         }
     });
 
     server.get("/doveSiamo", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('doveSiamo', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('doveSiamo', {
-                loggato: false,
+                loggato,
             });
         }
 
@@ -95,69 +112,81 @@ server.get("/", function (req, res) {
 
     server.get("/comeFunziona", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('comeFunziona', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('comeFunziona', {
-                loggato: false,
+                loggato,
             });
         }
     });
 
     server.get("/conChiLavoriamo", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('conChiLavoriamo', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('conChiLavoriamo', {
-                loggato: false,
+                loggato,
             });
         }
     });
 
     server.get("/condizioniDiVendita", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('condizioniDiVendita', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('condizioniDiVendita', {
-                loggato: false,
+                loggato,
             });
         }
     });
     server.get("/contattaci", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('contattaci', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('contattaci', {
-                loggato: false,
+                loggato,
             });
         }
     });
     server.get("/informativaSullaPrivacy", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('informativaSullaPrivacy', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('informativaSullaPrivacy', {
-                loggato: false,
+                loggato,
             });
         }
     });
     server.get("/servizi", function (req, res) {
         if (session) {
+            loggato = true;
             return res.render('servizi', {
-                loggato: true,
+                loggato,
             });
         } else {
+            loggato = false;
             return res.render('servizi', {
-                loggato: false,
+                loggato,
             });
         }
     });
