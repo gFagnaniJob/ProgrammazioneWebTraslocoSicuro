@@ -335,6 +335,8 @@ server.get("/", function (req, res) {
             if (err) return res.status(404).send();
         });
 
+        loggato = true;
+
         res.redirect('/prenotazione');
 
         //CHIUSURA REGISTRATI LOCALE
@@ -348,7 +350,10 @@ server.get("/", function (req, res) {
             // delete session objecT
             console.log("sessione eliminata = " + session);
             session = null;
-            res.render('home');
+            loggato = false;
+            res.render('home', {
+                loggato
+            });
         }
 
         console.log("Logout effettuato");
@@ -406,7 +411,10 @@ server.get("/", function (req, res) {
                 } else {
                     session = email;
                     console.log("login effettuato");
-                    return res.render('home');
+                    loggato = true;
+                    return res.render('home', {
+                        loggato
+                    });
                 }
             })
 
