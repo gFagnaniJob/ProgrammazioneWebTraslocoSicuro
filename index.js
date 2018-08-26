@@ -59,7 +59,7 @@ index.use(session({
 
 server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
-    await googleMapsController.restituisciTraslocatorePiùVicino();
+    await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
 });
 
 server.get("/", function(req, res) {
