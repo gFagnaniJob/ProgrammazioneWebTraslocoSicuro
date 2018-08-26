@@ -3,7 +3,7 @@ var DistanceMatrixService = require('google-distance-matrix');
 DistanceMatrixService.mode('driving');
 DistanceMatrixService.language('it');
 
-var origins = ['Caduti Del Lavoro, 53, Ancona, Ancona'];
+var origins = [];
 var destinations = [];
 
 var nearestDestinationIndex;
@@ -32,8 +32,16 @@ currency: An ISO 4217 currency code indicating the currency that the amount is e
 value: The total fare amount, in the currency specified above.
 */
 
-async function inizializzaOrigine(indirizzo) {
-    
+async function inizializzaOrigine(email) {
+    var utente = await modelloUtenti.findOne({email : email});
+    console.log(utente);
+    var indirizzo = utente.indirizzo.via + ", " + utente.indirizzo.citta + ", " + utente.indirizzo.provincia + ", " + utente.indirizzo.stato;
+    origins.push(indirizzo);
+    return origins;
+}
+
+async function trovaUtente (email) {
+    return await modelloUtenti.findOne({email : email});
 }
 
 async function inizializzaDestinazioni() {
@@ -100,8 +108,8 @@ function generaMatrice(origins, destinations) {
 }
 
 module.exports = {
-    restituisciTraslocatorePiùVicino: async (indirizzo) => {
-        origins = await inizializzaOrigine (indirizzo);
+    restituisciTraslocatorePiùVicino: async (email) => {
+        origins = await inizializzaOrigine (email);
         destinations = await inizializzaDestinazioni();
         //generaMatrice(origins, destinations);
     }
