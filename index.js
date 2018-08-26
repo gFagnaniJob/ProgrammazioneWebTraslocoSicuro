@@ -335,8 +335,8 @@ server.get("/", function (req, res) {
             if (err) return res.status(404).send();
         });
 
+        session = User.email;
         loggato = true;
-
         res.redirect('/prenotazione');
 
         //CHIUSURA REGISTRATI LOCALE
@@ -353,7 +353,7 @@ server.get("/", function (req, res) {
             loggato = false;
             res.render('home', {
                 loggato
-            });
+            } );
         }
 
         console.log("Logout effettuato");
@@ -395,13 +395,7 @@ server.get("/", function (req, res) {
                     messaggioErrore: "combinazione email e password errata",
                     bootstrapClasses: "text-left alert alert-danger"
                 });
-                console.log("password errata") //password errata
-
-            } else {
-                //console.log(user);
-                session = email;
-                console.log("login effettuato");
-                return res.render('home');
+                return //utente non trovato
             }
 
             bcrypt.compare(password, user.password, function (err, result) {
@@ -416,11 +410,9 @@ server.get("/", function (req, res) {
 
                 } else {
                     session = email;
-                    console.log("login effettuato");
                     loggato = true;
-                    return res.render('home', {
-                        loggato
-                    });
+                    console.log("login effettuato");
+                    return res.render('home', {loggato});
                 }
             })
 
