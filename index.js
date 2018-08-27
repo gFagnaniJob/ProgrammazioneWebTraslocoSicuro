@@ -206,8 +206,23 @@ server.get("/iMieiAppuntamenti", function(req, res) {
     res.render('iMieiAppuntamenti');
 });
 
-server.get("/modificaInfo", function(req, res) {
-    res.render('modificaInformazioni');
+server.get("/modificaInfo", async function(req, res) {
+
+    var utente = await modelloUtenti.findOne({ email: session, });
+
+    res.render('modificaInformazioni', {
+
+        datiUtenteNome: utente.nome,
+        datiUtenteCognome: utente.cognome,
+        datiUtenteVia: utente.indirizzo.via,
+        datiUtenteCitta: utente.indirizzo.citta,
+        datiUtenteProvincia: utente.indirizzo.provincia,
+        datiUtenteCap: utente.indirizzo.cap,
+        datiUtenteStato: utente.indirizzo.stato,
+        datiUtenteTelefono: utente.telefono,
+        datiUtenteEmail: utente.email,
+
+    });
 });
 
 server.get('/registrati', function(req, res) {
@@ -312,6 +327,7 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
+    globalUser = newUser;
 
 
     // setup email data with unicode symbols
@@ -334,14 +350,13 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         if (err) return res.status(404).send();
     });
 
-    globalUser = newUser;
-
     session = User.email;
     loggato = true;
     res.redirect('/prenotazione');
 
     //CHIUSURA REGISTRATI LOCALE
 });
+
 
 
 
@@ -378,6 +393,7 @@ server.post('/login/locale', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
+
     var datiUtente = {
         email: req.body.email,
         password: req.body.password
@@ -411,8 +427,7 @@ server.post('/login/locale', function(req, res) {
             } else {
                 session = email;
                 loggato = true;
-
-                console.log(globalUser);
+                console.log("login effettuato");
                 return res.render('home', { loggato });
             }
         })

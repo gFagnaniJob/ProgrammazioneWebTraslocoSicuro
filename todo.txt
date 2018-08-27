@@ -2,10 +2,12 @@ TODO list:
 
 ----> 1) inserire le voci nei collaboratori
 ----> 2) algoritmo per i prezzi (con api google maps)
-----> 3) form "i miei appuntamenti"/"modifica info"
+----> 3) form "i miei appuntamenti"
+----> 4) form "modifica informazioni" da aggiungere i campi del database
 
 
 
 OPTIONAL TODO list:
 1) Creare form per registrazione traslocatore
 2) Hai dimenticato la password?
+3) bisogna eliminare alcune voci dalla registrazione???
