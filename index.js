@@ -52,9 +52,9 @@ index.use(session({
     secret: 'pinkie pie',
     resave: true,
     saveUninitialized: true,
-    //store: new MongoStore({
-    //  mongooseConnection: db
-    //})
+    store: new MongoStore({
+        mongooseConnection: db
+    })
 }));
 
 var loggato = false;
@@ -312,7 +312,6 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
-    globalUser = newUser;
 
 
     // setup email data with unicode symbols
@@ -334,6 +333,8 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
     newUser.save(function(err) {
         if (err) return res.status(404).send();
     });
+
+    globalUser = newUser;
 
     session = User.email;
     loggato = true;
@@ -377,7 +378,6 @@ server.post('/login/locale', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
-
     var datiUtente = {
         email: req.body.email,
         password: req.body.password
@@ -411,7 +411,8 @@ server.post('/login/locale', function(req, res) {
             } else {
                 session = email;
                 loggato = true;
-                console.log("login effettuato");
+
+                console.log(globalUser);
                 return res.render('home', { loggato });
             }
         })
