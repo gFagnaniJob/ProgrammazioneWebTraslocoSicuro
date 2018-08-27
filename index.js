@@ -57,8 +57,9 @@ index.use(session({
     //})
 }));
 
-server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
+server.listen(porta, async function() { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
+    console.log(session);
     await googleMapsController.restituisciTraslocatorePiùVicino();
 });
 
@@ -322,6 +323,7 @@ server.post('/login/locale', function(req, res) {
                 session = email;
                 console.log("login effettuato");
                 return res.render('home');
+
             }
         })
 
