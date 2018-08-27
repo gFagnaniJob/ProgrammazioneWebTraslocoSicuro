@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <% if(req.user) {%>
+            <% if(loggato == false){%>
                 <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                     <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
     
@@ -66,11 +66,18 @@
             else {
                 %>
 
-                    <div class="<%=classiColonna%>">
-                        <button type="button" class="<%=classiBottone%>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Pagina Personale
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
 
-                </button>
+                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagina Personale </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/modificaInfo">Modifica Informazioni</a>
+                            <a class="dropdown-item" href="/prenotazione">Prenota Appuntamento</a>
+                            <a class="dropdown-item" href="/iMieiAppuntamenti">I miei appuntamenti</a>
+                            <a class="dropdown-item" href="/logout">Esci</a>
+                        </div>
+        
+        
                     </div>
                     <%}%>
 

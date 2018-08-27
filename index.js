@@ -57,52 +57,138 @@ index.use(session({
     //})
 }));
 
+var loggato = false;
+
 server.listen(porta, async function() { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
-    console.log(session);
-    await googleMapsController.restituisciTraslocatorePiùVicino();
+    session = null;
+    //await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
 });
 
 server.get("/", function(req, res) {
-    res.render('home');
+
+    if (session) {
+        loggato = true;
+        return res.render('home', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('home', {
+            loggato,
+        });
+    }
+
 });
 
 server.get("/chiSiamo", function(req, res) {
     if (session) {
-        return res.render('prenotazione');
+        loggato = true;
+        return res.render('chiSiamo', {
+            loggato,
+        });
     } else {
-        return res.send('<h1>Devi essere loggato per vedere questa questa pagina </h1>')
+        loggato = false;
+        return res.render('chiSiamo', {
+            loggato,
+        });
     }
 });
 
 server.get("/doveSiamo", function(req, res) {
     if (session) {
-        res.render('doveSiamo');
+        loggato = true;
+        return res.render('doveSiamo', {
+            loggato,
+        });
     } else {
-        res.render('home');
+        loggato = false;
+        return res.render('doveSiamo', {
+            loggato,
+        });
     }
 
 });
 
 server.get("/comeFunziona", function(req, res) {
-    res.render('comeFunziona');
+    if (session) {
+        loggato = true;
+        return res.render('comeFunziona', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('comeFunziona', {
+            loggato,
+        });
+    }
 });
 
 server.get("/conChiLavoriamo", function(req, res) {
-    res.render('conChiLavoriamo');
+    if (session) {
+        loggato = true;
+        return res.render('conChiLavoriamo', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('conChiLavoriamo', {
+            loggato,
+        });
+    }
 });
 
 server.get("/condizioniDiVendita", function(req, res) {
-    res.render('condizioniDiVendita');
+    if (session) {
+        loggato = true;
+        return res.render('condizioniDiVendita', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('condizioniDiVendita', {
+            loggato,
+        });
+    }
 });
 server.get("/contattaci", function(req, res) {
-    res.render('contattaci');
+    if (session) {
+        loggato = true;
+        return res.render('contattaci', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('contattaci', {
+            loggato,
+        });
+    }
 });
 server.get("/informativaSullaPrivacy", function(req, res) {
-    res.render('informativaSullaPrivacy');
+    if (session) {
+        loggato = true;
+        return res.render('informativaSullaPrivacy', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('informativaSullaPrivacy', {
+            loggato,
+        });
+    }
 });
 server.get("/servizi", function(req, res) {
-    res.render('servizi');
+    if (session) {
+        loggato = true;
+        return res.render('servizi', {
+            loggato,
+        });
+    } else {
+        loggato = false;
+        return res.render('servizi', {
+            loggato,
+        });
+    }
 });
 
 server.get('/login', function(req, res) {
@@ -114,9 +200,7 @@ server.get('/login', function(req, res) {
 
 });
 
-server.get('/benvenuto', function(req, res) {
-    res.render('benvenuto', globalUser);
-});
+
 
 server.get("/iMieiAppuntamenti", function(req, res) {
     res.render('iMieiAppuntamenti');
@@ -251,6 +335,8 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         if (err) return res.status(404).send();
     });
 
+    session = User.email;
+    loggato = true;
     res.redirect('/prenotazione');
 
     //CHIUSURA REGISTRATI LOCALE
@@ -264,7 +350,10 @@ server.get('/logout', function(req, res, next) {
         // delete session objecT
         console.log("sessione eliminata = " + session);
         session = null;
-        res.render('home');
+        loggato = false;
+        res.render('home', {
+            loggato
+        });
     }
 
     console.log("Logout effettuato");
@@ -321,9 +410,9 @@ server.post('/login/locale', function(req, res) {
 
             } else {
                 session = email;
+                loggato = true;
                 console.log("login effettuato");
-                return res.render('home');
-
+                return res.render('home', { loggato });
             }
         })
 

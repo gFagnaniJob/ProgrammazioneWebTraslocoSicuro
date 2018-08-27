@@ -14,7 +14,7 @@
 
             <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                 <button type="button" class="btn btn-custom "><a href="..">Home</a>
-    
+
                 </button>
             </div>
 
@@ -26,7 +26,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/chiSiamo">Chi Siamo</a>
                     <a class="dropdown-item" href="/doveSiamo">Dove Siamo</a>
-                     <a class="dropdown-item" href="/contattaci">Contattaci</a>
+                    <a class="dropdown-item" href="/contattaci">Contattaci</a>
                 </div>
 
 
@@ -51,32 +51,50 @@
                 </div>
             </div>
 
-            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
-    
-                </button>
-            </div>
+            <% if(loggato == false){%>
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
 
-            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
-    
-                </button>
-            </div>
+                    </button>
+                </div>
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
+
+                    </button>
+                </div>
+                <%}
+            else {
+                %>
+
+                    <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagina Personale </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/modificaInfo">Modifica Informazioni</a>
+                            <a class="dropdown-item" href="/prenotazione">Prenota Appuntamento</a>
+                            <a class="dropdown-item" href="/iMieiAppuntamenti">I miei appuntamenti</a>
+                            <a class="dropdown-item" href="/logout">Esci</a>
+                        </div>
+
+
+                    </div>
+                    <%}%>
 
         </div>
 
         <div class="row">
             <div class="col">
                 <div class="rettangolo text-left p-4 alto">
-            
-                   <!-- <img class="immagine" src="../sfondoTesto.jpg">-->
-                    
+
+                    <!-- <img class="immagine" src="../sfondoTesto.jpg">-->
+
                     <h3>Dove Siamo</h3>
                     <p> Università degli Sudi di Camerino (Unicam)</p>
-                    <p class="text-right"> Sede legale:<br> Piazza Cavour 19F<br> 62032 Camerino (MC) <br> Rettorato
-                        e Direzione Amministrativa: <br> Campus Universitario Unicam via D'Accorso, 16 <br>62032 Camerino
-                        (MC)</p><br>
-                        
+                    <p class="text-right"> Sede legale:<br> Piazza Cavour 19F<br> 62032 Camerino (MC) <br> Rettorato e Direzione
+                        Amministrativa: <br> Campus Universitario Unicam via D'Accorso, 16 <br>62032 Camerino (MC)
+                    </p><br>
+
 
                 </div>
             </div>
@@ -93,7 +111,7 @@
 
 
 
- <div class="col text-center">
+    <div class="col text-center">
         <img src="../immagineFinePagina.jpg" class="img-responsive" alt="logo finale">
     </div>
 
