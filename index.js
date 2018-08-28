@@ -24,8 +24,10 @@ var globalUser;
 
 const modelloTraslocatori = require('./models/traslocatore').modelloTraslocatore;
 
-var origins = [];
-var destinations = [];
+var indirizzoUtente = [];
+var indirizziTraslocatori = [];
+var indirizzoPartenzaUtente = [];
+var indirizzoArrivoUtente = [];
 
 controlloTraslocatoriInizialiDelDatabase(listaTraslocatori);
 
@@ -67,7 +69,7 @@ var loggato = false;
 server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
     session = null;
-    //await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
+    indirizziTraslocatori = await inizializzaDestinazioni();
 });
 
 server.get("/", function (req, res) {
@@ -329,6 +331,7 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
     });
     globalUser = newUser;
 
+    indirizzoUtente = [globalUser.indirizzo];
 
     // setup email data with unicode symbols
     let mailOptions = {
@@ -365,6 +368,7 @@ server.get('/logout', function (req, res, next) {
         console.log("sessione eliminata = " + session);
         session = null;
         loggato = false;
+        indirizzoUtente = [];
         res.render('home', {
             loggato
         });
@@ -426,23 +430,17 @@ server.post('/login/locale', function (req, res) {
                 session = email;
                 loggato = true;
                 globalUser = user;
-                console.log("login effettuato");
-                origins = await inizializzaOrigine(globalUser.indirizzo);
-                destinations = await inizializzaDestinazioni();
-                googleMapsController.getTraslocatorePiuVicino(origins,
-                                                         destinations, 
-                                                         function (traslocatore, distanceValue, distanceText) {
-                    console.log(traslocatore);
-                    console.log(distanceValue);
-                    console.log(distanceText);
-                });
-                googleMapsController.getDistance(["via caduti del lavoro ancona"],
-                                                    ["piazza cavour camerino"],
-                                                function (distanceValue, distanceText) {
-                                                    console.log(distanceText);
-                                                    console.log(distanceValue);
-                                                })
-                return res.render('home', { loggato });
+                indirizzoUtente = [globalUser.indirizzo];
+                googleMapsController.getTraslocatorePiuVicino(indirizzoUtente, indirizziTraslocatori, function (traslocatore) {
+                    if (!traslocatore) {
+                        console.log("ERRORE NESSUN TRASLOCATORE TROVATO");
+                    } else {
+                        console.log("E' stato selezionato il traslocatore " + traslocatore.nomeAzienda + " con sede in " + traslocatore.indirizzoAzienda);
+                        console.log("login effettuato");
+                        return res.render('home', { loggato });
+                    }
+                })
+
             }
         })
 
@@ -451,18 +449,13 @@ server.post('/login/locale', function (req, res) {
 
 var Utente = mongoose.model('Utente', utentiSchema);
 
-async function inizializzaOrigine(indirizzo) {
-    origins.push(indirizzo);
-    return origins;
-}
-
 async function inizializzaDestinazioni() {
     var traslocatori = await modelloTraslocatori.find({});
     for (i = 0; i < traslocatori.length; i++) {
         var indirizzoTraslocatore = traslocatori[i].indirizzoAzienda;
-        destinations.push(indirizzoTraslocatore); //+ ", " + stato);
+        indirizziTraslocatori.push(indirizzoTraslocatore); //+ ", " + stato);
     }
-    return destinations;
+    return indirizziTraslocatori;
     /*for (i=0; i<listaIndirizzi.length; i++) {
         destinations.push(listaIndirizzi);
     }*/
