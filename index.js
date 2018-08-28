@@ -347,14 +347,12 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
 
     session = User.email;
     loggato = true;
+    var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
+    console.log(traslocatorePiuVicino);
     res.redirect('/prenotazione');
 
     //CHIUSURA REGISTRATI LOCALE
 });
-
-
-
-
 
 server.get('/logout', function(req, res, next) {
     if (session) {
@@ -409,7 +407,7 @@ server.post('/login/locale', function(req, res) {
             return //utente non trovato
         }
 
-        bcrypt.compare(password, user.password, function(err, result) {
+        bcrypt.compare(password, user.password, async function(err, result) {
 
             if (result === false) {
 
@@ -422,7 +420,10 @@ server.post('/login/locale', function(req, res) {
             } else {
                 session = email;
                 loggato = true;
+                globalUser = user;
                 console.log("login effettuato");
+                var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
+                console.log("traslocatore index = ", traslocatorePiuVicino);
                 return res.render('home', { loggato });
             }
         })
