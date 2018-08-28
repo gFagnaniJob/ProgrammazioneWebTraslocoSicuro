@@ -2,6 +2,7 @@ var DistanceMatrixService = require('google-distance-matrix');
 
 DistanceMatrixService.mode('driving');
 DistanceMatrixService.language('it');
+DistanceMatrixService.key(process.env.GOOGLE_MAPS_API_KEY);
 
 var origins = [];
 var destinations = [];
@@ -76,7 +77,7 @@ function getTraslocatorePiuVicino(origins, destinations, callback) {
                         var distanceValue = distances.rows[i].elements[j].distance.value;
                         //mi salvo il testo della distanza (es. 10,8 km)
                         var distanceText = distances.rows[i].elements[j].distance.text;
-                        //console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
+                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
                         //controllo se distanceValue è minore o uguale di min
                         if (distanceValue <= min) {
                             //distanceValue diventa il nuovo min

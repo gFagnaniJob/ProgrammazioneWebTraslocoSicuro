@@ -14,8 +14,8 @@ var controllersUser = require("./controllers/user.js");
 const modelsUser = require('./models/user');
 const modelloUtenti = modelsUser.modelloUtenti;
 const utentiSchema = modelsUser.utentiSchema;
-const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv').config();
+console.log("dotenv", dotenv.parsed);
 const postino = require('./controllers/postino');
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -439,7 +439,7 @@ server.post('/login/locale', checkNotAuthentication, function (req, res) {
                         console.log("login effettuato");
                         return res.render('home', { loggato });
                     }
-                })
+                });
 
             }
         })
@@ -453,12 +453,9 @@ async function inizializzaDestinazioni() {
     var traslocatori = await modelloTraslocatori.find({});
     for (i = 0; i < traslocatori.length; i++) {
         var indirizzoTraslocatore = traslocatori[i].indirizzoAzienda;
-        indirizziTraslocatori.push(indirizzoTraslocatore); //+ ", " + stato);
+        indirizziTraslocatori.push(indirizzoTraslocatore);
     }
     return indirizziTraslocatori;
-    /*for (i=0; i<listaIndirizzi.length; i++) {
-        destinations.push(listaIndirizzi);
-    }*/
 }
 
 function checkAuthentication (req, res, next) {
