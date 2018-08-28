@@ -50,8 +50,8 @@ async function inizializzaDestinazioni() {
     }*/
 }
 
-async function generaMatrice(origins, destinations) {
-    await DistanceMatrixService.matrix(origins, destinations, function (err, distances) {
+function generaMatrice(origins, destinations) {
+    DistanceMatrixService.matrix(origins, destinations, async function (err, distances) {
         if (err) {
             return console.log(err);
         }
@@ -75,7 +75,7 @@ async function generaMatrice(origins, destinations) {
                         var distanceValue = distances.rows[i].elements[j].distance.value;
                         //mi salvo il testo della distanza (es. 10,8 km)
                         var distanceText = distances.rows[i].elements[j].distance.text;
-                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText);
+                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
                         //controllo se distanceValue è minore o uguale di min
                         if (distanceValue <= min) {
                             //distanceValue diventa il nuovo min
@@ -92,21 +92,24 @@ async function generaMatrice(origins, destinations) {
             }
             //alla fine dei for ho il valore della distanza minimo e quindi la destinazione più vicina
             nearestDestination = destinations[nearestDestinationIndex];
-            console.log("nearestDestination", nearestDestination);
+            console.log("nearestDestination dentro matrix", nearestDestination); //7 Corretti
+            traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
+            console.log("traslocatore dentro matrix", traslocatore); //8 Corretti
         } else {
             console.log("ERRORE");
         }
     });
-    console.log("nearestDestination fuori callback", nearestDestination);
+    console.log("nearestDestination fuori callback", nearestDestination); //2
 }
 
 module.exports = {
     restituisciTraslocatorePiùVicino: async (indirizzo) => {
-        console.log(indirizzo);
+        console.log(indirizzo); //1
         origins = await inizializzaOrigine(indirizzo);
         destinations = await inizializzaDestinazioni();
-        await generaMatrice(origins, destinations);
-        traslocatore = await findOne({ indirizzoAzienda: nearestDestination });
+        generaMatrice(origins, destinations);
+        traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
+        console.log("traslocatore alla fine di restituisci", traslocatore); //3
         return traslocatore;
     }
 }

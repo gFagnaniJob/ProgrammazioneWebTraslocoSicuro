@@ -51,10 +51,10 @@ index.use(bodyParser.urlencoded({
 index.use(session({
     secret: 'pinkie pie',
     resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-        mongooseConnection: db
-    })
+    saveUninitialized: true
+    //store: new MongoStore({
+    //    mongooseConnection: db
+    //})
 }));
 
 var loggato = false;
@@ -423,7 +423,7 @@ server.post('/login/locale', function(req, res) {
                 globalUser = user;
                 console.log("login effettuato");
                 var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
-                console.log("traslocatore index = ", traslocatorePiuVicino);
+                console.log("traslocatore index = ", traslocatorePiuVicino); //4
                 return res.render('home', { loggato });
             }
         })
