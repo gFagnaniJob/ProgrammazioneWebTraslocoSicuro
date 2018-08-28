@@ -210,13 +210,7 @@ var traslocatoreRoma1 = new modelloTraslocatore({
     nomeProprietario: "Roberto",
     cognomeProprietario: "Michelini",
     email: "Roberto.Michelini@giamail.com",
-    indirizzoAzienda: {
-        via: "Filippi",
-        numeroCivico: "58",
-        provincia: "Roma",
-        citta: "Roma",
-        stato: "Italia",
-    },
+    indirizzoAzienda: "Via Filippi, 58, Roma, Roma, Italia",
     costiBaseStanze: {
         cucina: "230",
         salone: "180",
@@ -278,7 +272,7 @@ var traslocatoreRoma1 = new modelloTraslocatore({
 });
 
 var traslocatoreRoma2 = new modelloTraslocatore({
-    partitaIVA: "4729RL8L2",
+    partitaIVA: "4729RV0L2",
     nomeAzienda: "Traslochi Easy",
     nomeProprietario: "Francesca",
     cognomeProprietario: "Garotti",

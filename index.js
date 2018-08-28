@@ -22,6 +22,13 @@ const mongoose = require('mongoose');
 
 var globalUser;
 
+const modelloTraslocatori = require('./models/traslocatore').modelloTraslocatore;
+
+var indirizzoUtente = [];
+var indirizziTraslocatori = [];
+var indirizzoPartenzaUtente = [];
+var indirizzoArrivoUtente = [];
+
 controlloTraslocatoriInizialiDelDatabase(listaTraslocatori);
 
 const googleMapsController = require('./controllers/googleMaps');
@@ -58,13 +65,13 @@ index.use(session({
 
 var loggato = false;
 
-server.listen(porta, async function() { //inserisco cosa fa il server quando lo richiamo
+server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
     session = null;
-    //await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
+    indirizziTraslocatori = await inizializzaDestinazioni();
 });
 
-server.get("/", function(req, res) {
+server.get("/", function (req, res) {
 
     if (session) {
         loggato = true;
@@ -80,7 +87,7 @@ server.get("/", function(req, res) {
 
 });
 
-server.get("/chiSiamo", function(req, res) {
+server.get("/chiSiamo", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('chiSiamo', {
@@ -94,7 +101,7 @@ server.get("/chiSiamo", function(req, res) {
     }
 });
 
-server.get("/doveSiamo", function(req, res) {
+server.get("/doveSiamo", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('doveSiamo', {
@@ -109,7 +116,7 @@ server.get("/doveSiamo", function(req, res) {
 
 });
 
-server.get("/comeFunziona", function(req, res) {
+server.get("/comeFunziona", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('comeFunziona', {
@@ -123,7 +130,7 @@ server.get("/comeFunziona", function(req, res) {
     }
 });
 
-server.get("/conChiLavoriamo", function(req, res) {
+server.get("/conChiLavoriamo", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('conChiLavoriamo', {
@@ -137,7 +144,7 @@ server.get("/conChiLavoriamo", function(req, res) {
     }
 });
 
-server.get("/condizioniDiVendita", function(req, res) {
+server.get("/condizioniDiVendita", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('condizioniDiVendita', {
@@ -150,7 +157,7 @@ server.get("/condizioniDiVendita", function(req, res) {
         });
     }
 });
-server.get("/contattaci", function(req, res) {
+server.get("/contattaci", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('contattaci', {
@@ -163,7 +170,7 @@ server.get("/contattaci", function(req, res) {
         });
     }
 });
-server.get("/informativaSullaPrivacy", function(req, res) {
+server.get("/informativaSullaPrivacy", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('informativaSullaPrivacy', {
@@ -176,7 +183,7 @@ server.get("/informativaSullaPrivacy", function(req, res) {
         });
     }
 });
-server.get("/servizi", function(req, res) {
+server.get("/servizi", function (req, res) {
     if (session) {
         loggato = true;
         return res.render('servizi', {
@@ -190,7 +197,7 @@ server.get("/servizi", function(req, res) {
     }
 });
 
-server.get('/login', function(req, res) {
+server.get('/login', function (req, res) {
 
     res.render('login', {
         messaggioErrore: "",
@@ -201,11 +208,11 @@ server.get('/login', function(req, res) {
 
 
 
-server.get("/iMieiAppuntamenti", function(req, res) {
+server.get("/iMieiAppuntamenti", function (req, res) {
     res.render('iMieiAppuntamenti');
 });
 
-server.get("/modificaInfo", async function(req, res) {
+server.get("/modificaInfo", async function (req, res) {
 
     var utente = globalUser;
     console.log(utente.nome);
@@ -312,11 +319,11 @@ server.get('/registrati', function (req, res) {
     });
 });
 
-server.get("/prenotazione", function(req, res) {
+server.get("/prenotazione", function (req, res) {
     res.render('prenotazione', globalUser);
 });
 
-server.post("/prenotazione/locale", function(req, res) {
+server.post("/prenotazione/locale", function (req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -348,7 +355,7 @@ server.post("/prenotazione/locale", function(req, res) {
     console.log(DatiPrenotazione);
 });
 
-server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -391,19 +398,21 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         return;
     }
 
-    var indirizzoUtente = User.indirizzo.via + ", " + User.indirizzo.citta + ", " + User.indirizzo.provincia + ", " + User.indirizzo.stato;
+    var indirizzoFormattato = User.indirizzo.via + ", " + User.indirizzo.citta + ", " + User.indirizzo.provincia + ", " + User.indirizzo.stato;
 
     var newUser = new modelloUtenti({
         nome: User.nome.toString().toLowerCase(),
         cognome: User.cognome.toString().toLowerCase(),
-        indirizzo: indirizzoUtente,
+        indirizzo: indirizzoFormattato,
         dataNascita: User.dataNascita,
         telefono: User.telefono,
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
+    
+    globalUser = newUser;
 
-
+    indirizzoUtente = [globalUser.indirizzo];
 
     // setup email data with unicode symbols
     let mailOptions = {
@@ -421,25 +430,24 @@ server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI
         console.log('Message sent to: %s', User.email);
     });
 
-    newUser.save(function(err) {
+    newUser.save(function (err) {
         if (err) return res.status(404).send();
     });
 
     session = User.email;
     loggato = true;
-    var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
-    console.log(traslocatorePiuVicino);
     res.redirect('/prenotazione');
 
     //CHIUSURA REGISTRATI LOCALE
 });
 
-server.get('/logout', function(req, res, next) {
+server.get('/logout', function (req, res, next) {
     if (session) {
         // delete session objecT
         console.log("sessione eliminata = " + session);
         session = null;
         loggato = false;
+        indirizzoUtente = [];
         res.render('home', {
             loggato
         });
@@ -461,7 +469,7 @@ function verificaAutenticazione(req, res, next) {
 }
 */
 
-server.post('/login/locale', function(req, res) {
+server.post('/login/locale', function (req, res) {
 
     var email = req.body.email;
     var password = req.body.password;
@@ -472,7 +480,7 @@ server.post('/login/locale', function(req, res) {
         password: req.body.password
     }
 
-    modelloUtenti.findOne({ email: email, }, function(err, user) {
+    modelloUtenti.findOne({ email: email, }, function (err, user) {
         if (err) {
             console.log("err1");
             return res.status(500).send();
@@ -487,7 +495,7 @@ server.post('/login/locale', function(req, res) {
             return //utente non trovato
         }
 
-        bcrypt.compare(password, user.password, async function(err, result) {
+        bcrypt.compare(password, user.password, async function (err, result) {
 
             if (result === false) {
 
@@ -501,10 +509,17 @@ server.post('/login/locale', function(req, res) {
                 session = email;
                 loggato = true;
                 globalUser = user;
-                console.log("login effettuato");
-                var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
-                console.log("traslocatore index = ", traslocatorePiuVicino); //4
-                return res.render('home', { loggato });
+                indirizzoUtente = [globalUser.indirizzo];
+                googleMapsController.getTraslocatorePiuVicino(indirizzoUtente, indirizziTraslocatori, function (traslocatore) {
+                    if (!traslocatore) {
+                        console.log("ERRORE NESSUN TRASLOCATORE TROVATO");
+                    } else {
+                        console.log("E' stato selezionato il traslocatore " + traslocatore.nomeAzienda + " con sede in " + traslocatore.indirizzoAzienda);
+                        console.log("login effettuato");
+                        return res.render('home', { loggato });
+                    }
+                })
+
             }
         })
 
@@ -513,4 +528,16 @@ server.post('/login/locale', function(req, res) {
 
 var Utente = mongoose.model('Utente', utentiSchema);
 
-module.exports = Utente;
+async function inizializzaDestinazioni() {
+    var traslocatori = await modelloTraslocatori.find({});
+    for (i = 0; i < traslocatori.length; i++) {
+        var indirizzoTraslocatore = traslocatori[i].indirizzoAzienda;
+        indirizziTraslocatori.push(indirizzoTraslocatore); //+ ", " + stato);
+    }
+    return indirizziTraslocatori;
+    /*for (i=0; i<listaIndirizzi.length; i++) {
+        destinations.push(listaIndirizzi);
+    }*/
+}
+
+//module.exports = Utente;

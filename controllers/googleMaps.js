@@ -50,7 +50,57 @@ async function inizializzaDestinazioni() {
     }*/
 }
 
-function generaMatrice(origins, destinations) {
+function getTraslocatorePiuVicino(origins, destinations, callback) {
+    DistanceMatrixService.matrix(origins, destinations, async function (err, distances) {
+        if (err) {
+            return console.log(err);
+        }
+        if (!distances) {
+            return console.log('no distances');
+        }
+        //Se la risposta è corretta
+        if (distances.status == 'OK') {
+            //imposto una variabile a infinito
+            var min = Infinity;
+            console.log("destinations.length = ", destinations.length);
+            //i -> indice per l'array delle origini (si trovano in rows)
+            for (var i = 0; i < origins.length; i++) {
+                //j -> indice per l'array delle destinazioni (si trovano in elements)
+                for (var j = 0; j < destinations.length; j++) {
+                    //mi salvo l'origin e la destination
+                    var origin = distances.origin_addresses[i];
+                    var destination = distances.destination_addresses[j];
+                    //se il calcolo è avvenuto correttamente
+                    if (distances.rows[i].elements[j].status == 'OK') {
+                        //mi salvo il valore della distanza (intero)
+                        var distanceValue = distances.rows[i].elements[j].distance.value;
+                        //mi salvo il testo della distanza (es. 10,8 km)
+                        var distanceText = distances.rows[i].elements[j].distance.text;
+                        //console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
+                        //controllo se distanceValue è minore o uguale di min
+                        if (distanceValue <= min) {
+                            //distanceValue diventa il nuovo min
+                            min = distanceValue;
+                            //mi salvo il valore di j
+                            nearestDestinationIndex = j;
+                        }
+                    } else {
+                        //se il calcolo della distanza non è stato possibile stampo messaggio di errore
+                        console.log(destination + ' is not reachable by land from ' + origin);
+                    }
+                }
+            }
+            //alla fine dei for ho il valore della distanza minimo e quindi la destinazione più vicina
+            nearestDestination = destinations[nearestDestinationIndex];
+            traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
+            callback(traslocatore, distanceValue, distanceText);
+        } else {
+            console.log("ERRORE");
+        }
+    });
+};
+
+function getDistance(origins, destinations, callback) {
     DistanceMatrixService.matrix(origins, destinations, async function (err, distances) {
         if (err) {
             return console.log(err);
@@ -75,15 +125,7 @@ function generaMatrice(origins, destinations) {
                         var distanceValue = distances.rows[i].elements[j].distance.value;
                         //mi salvo il testo della distanza (es. 10,8 km)
                         var distanceText = distances.rows[i].elements[j].distance.text;
-                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
-                        //controllo se distanceValue è minore o uguale di min
-                        if (distanceValue <= min) {
-                            //distanceValue diventa il nuovo min
-                            min = distanceValue;
-                            //mi salvo il valore di j
-                            nearestDestinationIndex = j;
-                            console.log(nearestDestinationIndex);
-                        }
+                        //console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
                     } else {
                         //se il calcolo della distanza non è stato possibile stampo messaggio di errore
                         console.log(destination + ' is not reachable by land from ' + origin);
@@ -91,29 +133,15 @@ function generaMatrice(origins, destinations) {
                 }
             }
             //alla fine dei for ho il valore della distanza minimo e quindi la destinazione più vicina
-            nearestDestination = destinations[nearestDestinationIndex];
-            console.log("nearestDestination dentro matrix", nearestDestination); //7 Corretti
-            traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
-            console.log("traslocatore dentro matrix", traslocatore); //8 Corretti
+            callback(distanceValue, distanceText);
         } else {
             console.log("ERRORE");
         }
     });
-    console.log("nearestDestination fuori callback", nearestDestination); //2
 }
 
 module.exports = {
-    restituisciTraslocatorePiùVicino: async (indirizzo) => {
-        console.log(indirizzo); //1
-        origins = await inizializzaOrigine(indirizzo);
-        destinations = await inizializzaDestinazioni();
-        generaMatrice(origins, destinations);
-        traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
-        console.log("traslocatore alla fine di restituisci", traslocatore); //3
-        return traslocatore;
-    }
+    getTraslocatorePiuVicino, //prende come input l'indirizzo di origine e restituisce il traslocatore più vicino
+    getDistance //prende come input l'indirizzo di partenza e quello di arrivo (sotto forma di array)
+    //e restituisce la distanza tra i due (distanceValue (int), distanceText (string -> es. 199 km))
 }
-
-//IDEA: esportare solo il DistanceMatrixService e
-//creare la matrice direttamente dove serve
-//(in questo modo tutte le operazioni si possono fare nel callback)
