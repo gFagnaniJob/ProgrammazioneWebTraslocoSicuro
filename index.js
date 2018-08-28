@@ -219,7 +219,7 @@ server.get("/modificaInfo", checkAuthentication, async function (req, res) {
     var utente = globalUser;
     console.log(utente.nome);
     res.render('modificaInformazioni', {
-       
+
         datiUtenteNome: utente.nome,
         datiUtenteCognome: utente.cognome,
         datiUtenteTelefono: utente.telefono,
@@ -231,21 +231,19 @@ server.get("/modificaInfo", checkAuthentication, async function (req, res) {
 
 
 
-server.post("/modificaInformazioni/Locale",checkNotAuthentication, async function (req, res) {
+server.post("/modificaInformazioni/Locale", checkAuthentication, async function (req, res) {
 
     utente = globalUser;
+    console.log(globalUser);
+
 
 
     if (req.body.nuovaEmail !== "" && req.body.confermaNuovaEmail !== "") {
         if (req.body.nuovaEmail === req.body.confermaNuovaEmail) {
+            //salvo l'email nel database
+            await modelloUtenti.findOneAndUpdate({ email: utente.email }, { email: req.body.nuovaEmail });
+            utente.email = req.body.nuovaEmail;
 
-
-            console.log("salvo l'email nel database");   
-            console.log(utente.email);
-            console.log(req.body.nuovaEmail);
-            console.log("dio budelllo");
-
-     modelloUtenti.findOneAndUpdate ({email : utente.email},{email : req.body.nuovaEmail});
 
         }
         else {
@@ -258,13 +256,23 @@ server.post("/modificaInformazioni/Locale",checkNotAuthentication, async functio
 
 
 
-    /*if (req.body.vecchiaPassword !== "" && req.body.nuovaPassword !== "" && req.body.confermaNuovaPassword !== "") {
+    if (req.body.vecchiaPassword !== "" && req.body.nuovaPassword !== "" && req.body.confermaNuovaPassword !== "") {
+       
 
-        bcrypt.compare(req.body.vecchiaPassword, utente.password, function (err, result) {
+
+
+        bcrypt.compare(req.body.vecchiaPassword, utente.password, async function (err, result) {
             if (result == true) {
 
+
+
                 if (req.body.nuovaPassword === req.body.confermaNuovaPassword) {
-                    console.log("salvo la nuova password");
+                    //cripto la password e la salvo nel database
+                    
+                    var passwordDB = bcrypt.hashSync(req.body.nuovaPassword, 10);
+
+                    
+                    await modelloUtenti.findOneAndUpdate({ email: utente.email }, { password: passwordDB });
                 }
                 else {
                     console.log("errore password non coincidono");
@@ -287,23 +295,24 @@ server.post("/modificaInformazioni/Locale",checkNotAuthentication, async functio
 
 
     }
-*/
+
+
     if (req.body.nome != "") {
-        console.log("cambiarlo nel database");
+        await modelloUtenti.findOneAndUpdate({ email: utente.email }, { nome: req.body.nome });
     }
 
 
     if (req.body.cognome != "") {
-        console.log("cambiarlo nel database");
+        await modelloUtenti.findOneAndUpdate({ email: utente.email }, { cognome: req.body.cognome });
     }
 
 
     if (req.body.telefono != "") {
-        console.log("cambiarlo nel database");
+        await modelloUtenti.findOneAndUpdate({ email: utente.email }, { telefono: req.body.telefono });
     }
-    
-     });
-   
+
+});
+
 
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -411,7 +420,7 @@ server.post('/registrati/locale', checkNotAuthentication, async function (req, r
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
-    
+
     globalUser = newUser;
 
     indirizzoUtente = [globalUser.indirizzo];
@@ -543,7 +552,7 @@ async function inizializzaDestinazioni() {
     }*/
 }
 
-function checkAuthentication (req, res, next) {
+function checkAuthentication(req, res, next) {
     if (session) {
         next();
     } else {
@@ -551,7 +560,7 @@ function checkAuthentication (req, res, next) {
     }
 }
 
-function checkNotAuthentication (req, res, next) {
+function checkNotAuthentication(req, res, next) {
     if (session) {
         res.redirect('/');
     } else {
