@@ -32,16 +32,13 @@ currency: An ISO 4217 currency code indicating the currency that the amount is e
 value: The total fare amount, in the currency specified above.
 */
 
-async function inizializzaOrigine(email) {
-    var utente = await modelloUtenti.findOne({email : email});
-    console.log(utente);
-    var indirizzo = utente.indirizzo.via + ", " + utente.indirizzo.citta + ", " + utente.indirizzo.provincia + ", " + utente.indirizzo.stato;
+async function inizializzaOrigine(indirizzo) {
     origins.push(indirizzo);
     return origins;
 }
 
-async function trovaUtente (email) {
-    return await modelloUtenti.findOne({email : email});
+async function trovaUtente(email) {
+    return await modelloUtenti.findOne({ email: email });
 }
 
 async function inizializzaDestinazioni() {
@@ -108,9 +105,10 @@ function generaMatrice(origins, destinations) {
 }
 
 module.exports = {
-    restituisciTraslocatorePiùVicino: async (email) => {
-        origins = await inizializzaOrigine (email);
+    restituisciTraslocatorePiùVicino: async (indirizzo) => {
+        origins = await inizializzaOrigine(indirizzo);
         destinations = await inizializzaDestinazioni();
         //generaMatrice(origins, destinations);
+        
     }
 }

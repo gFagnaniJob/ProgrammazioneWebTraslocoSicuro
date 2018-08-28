@@ -13,15 +13,7 @@ var user = express();
 var utentiSchema = new Schema({
     nome: { type: String, max: 100, required: true },
     cognome: { type: String, max: 100, required: true },
-
-
-    indirizzo: {
-        via: { type: String, required: true },
-        provincia: { type: String, required: true },
-        stato: { type: String, required: true },
-        citta: { type: String, required: true },
-        cap: { type: String, required: true }
-    },
+    indirizzo: {type: String, required: true },
     dataNascita: { type: Date, required: true },
     telefono: { type: String, max: 100, required: true },
     email: { type: String, max: 100, required: true },

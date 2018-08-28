@@ -296,17 +296,12 @@ server.get("/", function (req, res) {
             return;
         }
 
+        var indirizzoUtente = User.indirizzo.via + ", " + User.indirizzo.citta + ", " + User.indirizzo.provincia + ", " + User.indirizzo.stato;
 
         var newUser = new modelloUtenti({
             nome: User.nome.toString().toLowerCase(),
             cognome: User.cognome.toString().toLowerCase(),
-            indirizzo: {
-                via: User.indirizzo.via.toString().toLowerCase(),
-                provincia: User.indirizzo.provincia.toString().toLowerCase(),
-                stato: User.indirizzo.stato.toString().toLowerCase(),
-                citta: User.indirizzo.citta.toString().toLowerCase(),
-                cap: User.indirizzo.cap.toString().toLowerCase(),
-            },
+            indirizzo: indirizzoUtente.toString().toLocaleLowerCase(),
             dataNascita: User.dataNascita,
             telefono: User.telefono,
             email: User.email.toString().toLowerCase(),
