@@ -224,6 +224,8 @@ server.get("/modificaInfo", checkAuthentication, async function (req, res) {
         datiUtenteCognome: utente.cognome,
         datiUtenteTelefono: utente.telefono,
         datiUtenteEmail: utente.email,
+        messaggioErrore: "",
+        bootstrapClasses: "",
 
     });
 
@@ -247,8 +249,17 @@ server.post("/modificaInformazioni/Locale", checkAuthentication, async function 
 
         }
         else {
-            console.log("errore: le due email non coincidono");
 
+            res.render("modificaInformazioni", {
+                datiUtenteNome: utente.nome,
+                datiUtenteCognome: utente.cognome,
+                datiUtenteTelefono: utente.telefono,
+                datiUtenteEmail: utente.email,
+                messaggioErrore: "le due email inserite non coincidono ",
+                bootstrapClasses: "text-left alert alert-danger",
+
+            });
+           
         }
 
 
@@ -257,7 +268,7 @@ server.post("/modificaInformazioni/Locale", checkAuthentication, async function 
 
 
     if (req.body.vecchiaPassword !== "" && req.body.nuovaPassword !== "" && req.body.confermaNuovaPassword !== "") {
-       
+
 
 
 
@@ -268,22 +279,40 @@ server.post("/modificaInformazioni/Locale", checkAuthentication, async function 
 
                 if (req.body.nuovaPassword === req.body.confermaNuovaPassword) {
                     //cripto la password e la salvo nel database
-                    
+
                     var passwordDB = bcrypt.hashSync(req.body.nuovaPassword, 10);
 
-                    
+
                     await modelloUtenti.findOneAndUpdate({ email: utente.email }, { password: passwordDB });
+
                 }
                 else {
-                    console.log("errore password non coincidono");
+                    res.render("modificaInformazioni", {
+                        datiUtenteNome: utente.nome,
+                        datiUtenteCognome: utente.cognome,
+                        datiUtenteTelefono: utente.telefono,
+                        datiUtenteEmail: utente.email,
+                        messaggioErrore: "le password inserite non coincidono ",
+                        bootstrapClasses: "text-left alert alert-danger",
+        
+                    });
+                    
                 }
 
 
             }
 
             else {
-
-                console.log("errore password non valida");
+                res.render("modificaInformazioni", {
+                    datiUtenteNome: utente.nome,
+                    datiUtenteCognome: utente.cognome,
+                    datiUtenteTelefono: utente.telefono,
+                    datiUtenteEmail: utente.email,
+                    messaggioErrore: " le password inserite non sono valide ",
+                    bootstrapClasses: "text-left alert alert-danger",
+    
+                });
+                
             }
 
 
@@ -299,17 +328,30 @@ server.post("/modificaInformazioni/Locale", checkAuthentication, async function 
 
     if (req.body.nome != "") {
         await modelloUtenti.findOneAndUpdate({ email: utente.email }, { nome: req.body.nome });
+        utente.nome = req.body.nome;
     }
 
 
     if (req.body.cognome != "") {
         await modelloUtenti.findOneAndUpdate({ email: utente.email }, { cognome: req.body.cognome });
+        utente.cognome = req.body.cognome;
     }
 
 
     if (req.body.telefono != "") {
         await modelloUtenti.findOneAndUpdate({ email: utente.email }, { telefono: req.body.telefono });
+        utente.telefono = req.body.telefono;
     }
+
+    res.render("modificaInformazioni", {
+        datiUtenteNome: utente.nome,
+        datiUtenteCognome: utente.cognome,
+        datiUtenteTelefono: utente.telefono,
+        datiUtenteEmail: utente.email,
+        messaggioErrore: "le modifiche sono state apportate",
+        bootstrapClasses: "text-left alert alert-info",
+
+    });
 
 });
 
