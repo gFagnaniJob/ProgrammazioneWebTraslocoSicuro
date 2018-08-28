@@ -3,7 +3,8 @@ TODO list:
 ----> 1) inserire le voci nei collaboratori
 ----> 2) algoritmo per i prezzi (con api google maps)
 ----> 3) form "i miei appuntamenti"
-----> 4) form "modifica informazioni" da aggiungere i campi del database
+----> 4) form "modifica informazioni" da aggiungere i nuovi campi nel database
+----> 5) database per la prenotazione
 
 
 

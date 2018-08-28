@@ -25,7 +25,6 @@ var globalUser;
 controlloTraslocatoriInizialiDelDatabase(listaTraslocatori);
 
 const googleMapsController = require('./controllers/googleMaps');
-
 var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
@@ -208,10 +207,10 @@ server.get("/iMieiAppuntamenti", function (req, res) {
 
 server.get("/modificaInfo", async function (req, res) {
 
-    var utente = await modelloUtenti.findOne({ email : session, });
-
+    var utente = globalUser;
+    console.log(utente.nome);
     res.render('modificaInformazioni', {
-
+       
         datiUtenteNome: utente.nome,
         datiUtenteCognome: utente.cognome,
         datiUtenteVia: utente.indirizzo.via,
@@ -221,9 +220,120 @@ server.get("/modificaInfo", async function (req, res) {
         datiUtenteStato: utente.indirizzo.stato,
         datiUtenteTelefono: utente.telefono,
         datiUtenteEmail: utente.email,
-        
+
     });
+
 });
+
+
+
+server.post("/modificaInformazioni/Locale", async function (req, res) {
+
+    utente = globalUser;
+
+
+    if (req.body.nuovaEmail !== "" && req.body.confermaNuovaEmail !== "") {
+        if (req.body.nuovaEmail === req.body.confermaNuovaEmail) {
+
+
+            console.log("salvo l'email nel database");   
+            console.log(utente.email);
+            console.log(req.body.nuovaEmail);
+            console.log("dio budelllo");
+
+     modelloUtenti.findOneAndUpdate ({email : utente.email},{email : req.body.nuovaEmail});
+
+        }
+        else {
+            console.log("errore: le due email non coincidono");
+
+        }
+
+
+    }
+
+
+
+    /*if (req.body.vecchiaPassword !== "" && req.body.nuovaPassword !== "" && req.body.confermaNuovaPassword !== "") {
+
+        bcrypt.compare(req.body.vecchiaPassword, utente.password, function (err, result) {
+            if (result == true) {
+
+                if (req.body.nuovaPassword === req.body.confermaNuovaPassword) {
+                    console.log("salvo la nuova password");
+                }
+                else {
+                    console.log("errore password non coincidono");
+                }
+
+
+            }
+
+            else {
+
+                console.log("errore password non valida");
+            }
+
+
+
+
+        })
+
+
+
+
+    }
+*/
+    if (req.body.nome != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.cognome != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.via != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.citta != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.provincia != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.cap != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.stato != "") {
+        console.log("cambiarlo nel database");
+    }
+
+
+    if (req.body.telefono != "") {
+        console.log("cambiarlo nel database");
+    }
+    
+     });
+   
+
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+
+
+
+
 
 server.get('/registrati', function (req, res) {
     res.render('registrati', {
@@ -327,7 +437,7 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
-    globalUser = newUser;
+
 
 
     // setup email data with unicode symbols
@@ -427,6 +537,8 @@ server.post('/login/locale', function (req, res) {
                 session = email;
                 loggato = true;
                 console.log("login effettuato");
+                globalUser = user;
+
                 return res.render('home', { loggato });
             }
         })
