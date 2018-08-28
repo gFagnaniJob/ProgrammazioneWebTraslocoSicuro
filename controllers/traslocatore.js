@@ -25,7 +25,7 @@ controlloTraslocatoriInizialiDatabase = async function (listaTraslocatori) {
 
             listaTraslocatori[i].save(function (err) {
                 if (err) {
-                    return res.status(355).send();
+                    //return res.status(355).send();
                 }
 
             });

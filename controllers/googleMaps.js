@@ -8,6 +8,7 @@ var destinations = [];
 
 var nearestDestinationIndex;
 var nearestDestination;
+var traslocatore;
 
 const modelloTraslocatori = require('../models/traslocatore').modelloTraslocatore;
 const modelloUtenti = require('../models/user').modelloUtenti;
@@ -32,26 +33,16 @@ currency: An ISO 4217 currency code indicating the currency that the amount is e
 value: The total fare amount, in the currency specified above.
 */
 
-async function inizializzaOrigine(email) {
-    var utente = await modelloUtenti.findOne({email : email});
-    console.log(utente);
-    var indirizzo = utente.indirizzo.via + ", " + utente.indirizzo.citta + ", " + utente.indirizzo.provincia + ", " + utente.indirizzo.stato;
+async function inizializzaOrigine(indirizzo) {
     origins.push(indirizzo);
     return origins;
-}
-
-async function trovaUtente (email) {
-    return await modelloUtenti.findOne({email : email});
 }
 
 async function inizializzaDestinazioni() {
     var traslocatori = await modelloTraslocatori.find({});
     for (i = 0; i < traslocatori.length; i++) {
-        var via = traslocatori[i].indirizzoAzienda.via;
-        var citta = traslocatori[i].indirizzoAzienda.citta;
-        var provincia = traslocatori[i].indirizzoAzienda.provincia;
-        //var stato = traslocatori[i].indirizzoAzienda.stato;
-        destinations.push(via + ", " + citta + ", " + provincia); //+ ", " + stato);
+        var indirizzoTraslocatore = traslocatori[i].indirizzoAzienda;
+        destinations.push(indirizzoTraslocatore); //+ ", " + stato);
     }
     return destinations;
     /*for (i=0; i<listaIndirizzi.length; i++) {
@@ -60,7 +51,7 @@ async function inizializzaDestinazioni() {
 }
 
 function generaMatrice(origins, destinations) {
-    DistanceMatrixService.matrix(origins, destinations, function (err, distances) {
+    DistanceMatrixService.matrix(origins, destinations, async function (err, distances) {
         if (err) {
             return console.log(err);
         }
@@ -84,13 +75,14 @@ function generaMatrice(origins, destinations) {
                         var distanceValue = distances.rows[i].elements[j].distance.value;
                         //mi salvo il testo della distanza (es. 10,8 km)
                         var distanceText = distances.rows[i].elements[j].distance.text;
-                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText);
+                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
                         //controllo se distanceValue è minore o uguale di min
                         if (distanceValue <= min) {
                             //distanceValue diventa il nuovo min
                             min = distanceValue;
                             //mi salvo il valore di j
                             nearestDestinationIndex = j;
+                            console.log(nearestDestinationIndex);
                         }
                     } else {
                         //se il calcolo della distanza non è stato possibile stampo messaggio di errore
@@ -100,17 +92,28 @@ function generaMatrice(origins, destinations) {
             }
             //alla fine dei for ho il valore della distanza minimo e quindi la destinazione più vicina
             nearestDestination = destinations[nearestDestinationIndex];
-            console.log("nearestDestination", nearestDestination);
+            console.log("nearestDestination dentro matrix", nearestDestination); //7 Corretti
+            traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
+            console.log("traslocatore dentro matrix", traslocatore); //8 Corretti
         } else {
             console.log("ERRORE");
         }
     });
+    console.log("nearestDestination fuori callback", nearestDestination); //2
 }
 
 module.exports = {
-    restituisciTraslocatorePiùVicino: async (email) => {
-        origins = await inizializzaOrigine (email);
+    restituisciTraslocatorePiùVicino: async (indirizzo) => {
+        console.log(indirizzo); //1
+        origins = await inizializzaOrigine(indirizzo);
         destinations = await inizializzaDestinazioni();
-        //generaMatrice(origins, destinations);
+        generaMatrice(origins, destinations);
+        traslocatore = await modelloTraslocatori.findOne({ indirizzoAzienda: nearestDestination });
+        console.log("traslocatore alla fine di restituisci", traslocatore); //3
+        return traslocatore;
     }
 }
+
+//IDEA: esportare solo il DistanceMatrixService e
+//creare la matrice direttamente dove serve
+//(in questo modo tutte le operazioni si possono fare nel callback)

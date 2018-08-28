@@ -50,21 +50,21 @@ index.use(bodyParser.urlencoded({
 index.use(session({
     secret: 'pinkie pie',
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: true
     //store: new MongoStore({
-    //  mongooseConnection: db
+    //    mongooseConnection: db
     //})
 }));
 
 var loggato = false;
 
-server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
+server.listen(porta, async function() { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
     session = null;
     //await googleMapsController.restituisciTraslocatorePiùVicino("giusfag@hotmail.it");
 });
 
-server.get("/", function (req, res) {
+server.get("/", function(req, res) {
 
     if (session) {
         loggato = true;
@@ -80,7 +80,7 @@ server.get("/", function (req, res) {
 
 });
 
-server.get("/chiSiamo", function (req, res) {
+server.get("/chiSiamo", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('chiSiamo', {
@@ -94,7 +94,7 @@ server.get("/chiSiamo", function (req, res) {
     }
 });
 
-server.get("/doveSiamo", function (req, res) {
+server.get("/doveSiamo", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('doveSiamo', {
@@ -109,7 +109,7 @@ server.get("/doveSiamo", function (req, res) {
 
 });
 
-server.get("/comeFunziona", function (req, res) {
+server.get("/comeFunziona", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('comeFunziona', {
@@ -123,7 +123,7 @@ server.get("/comeFunziona", function (req, res) {
     }
 });
 
-server.get("/conChiLavoriamo", function (req, res) {
+server.get("/conChiLavoriamo", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('conChiLavoriamo', {
@@ -137,7 +137,7 @@ server.get("/conChiLavoriamo", function (req, res) {
     }
 });
 
-server.get("/condizioniDiVendita", function (req, res) {
+server.get("/condizioniDiVendita", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('condizioniDiVendita', {
@@ -150,7 +150,7 @@ server.get("/condizioniDiVendita", function (req, res) {
         });
     }
 });
-server.get("/contattaci", function (req, res) {
+server.get("/contattaci", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('contattaci', {
@@ -163,7 +163,7 @@ server.get("/contattaci", function (req, res) {
         });
     }
 });
-server.get("/informativaSullaPrivacy", function (req, res) {
+server.get("/informativaSullaPrivacy", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('informativaSullaPrivacy', {
@@ -176,7 +176,7 @@ server.get("/informativaSullaPrivacy", function (req, res) {
         });
     }
 });
-server.get("/servizi", function (req, res) {
+server.get("/servizi", function(req, res) {
     if (session) {
         loggato = true;
         return res.render('servizi', {
@@ -190,7 +190,7 @@ server.get("/servizi", function (req, res) {
     }
 });
 
-server.get('/login', function (req, res) {
+server.get('/login', function(req, res) {
 
     res.render('login', {
         messaggioErrore: "",
@@ -201,11 +201,11 @@ server.get('/login', function (req, res) {
 
 
 
-server.get("/iMieiAppuntamenti", function (req, res) {
+server.get("/iMieiAppuntamenti", function(req, res) {
     res.render('iMieiAppuntamenti');
 });
 
-server.get("/modificaInfo", async function (req, res) {
+server.get("/modificaInfo", async function(req, res) {
 
     var utente = globalUser;
     console.log(utente.nome);
@@ -342,11 +342,11 @@ server.get('/registrati', function (req, res) {
     });
 });
 
-server.get("/prenotazione", function (req, res) {
+server.get("/prenotazione", function(req, res) {
     res.render('prenotazione', globalUser);
 });
 
-server.post("/prenotazione/locale", function (req, res) {
+server.post("/prenotazione/locale", function(req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -378,7 +378,7 @@ server.post("/prenotazione/locale", function (req, res) {
     console.log(DatiPrenotazione);
 });
 
-server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', async function(req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -421,17 +421,12 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         return;
     }
 
+    var indirizzoUtente = User.indirizzo.via + ", " + User.indirizzo.citta + ", " + User.indirizzo.provincia + ", " + User.indirizzo.stato;
 
     var newUser = new modelloUtenti({
         nome: User.nome.toString().toLowerCase(),
         cognome: User.cognome.toString().toLowerCase(),
-        indirizzo: {
-            via: User.indirizzo.via.toString().toLowerCase(),
-            provincia: User.indirizzo.provincia.toString().toLowerCase(),
-            stato: User.indirizzo.stato.toString().toLowerCase(),
-            citta: User.indirizzo.citta.toString().toLowerCase(),
-            cap: User.indirizzo.cap.toString().toLowerCase(),
-        },
+        indirizzo: indirizzoUtente,
         dataNascita: User.dataNascita,
         telefono: User.telefono,
         email: User.email.toString().toLowerCase(),
@@ -456,21 +451,20 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         console.log('Message sent to: %s', User.email);
     });
 
-    newUser.save(function (err) {
+    newUser.save(function(err) {
         if (err) return res.status(404).send();
     });
 
     session = User.email;
     loggato = true;
+    var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
+    console.log(traslocatorePiuVicino);
     res.redirect('/prenotazione');
 
     //CHIUSURA REGISTRATI LOCALE
 });
 
-
-
-
-server.get('/logout', function (req, res, next) {
+server.get('/logout', function(req, res, next) {
     if (session) {
         // delete session objecT
         console.log("sessione eliminata = " + session);
@@ -497,7 +491,7 @@ function verificaAutenticazione(req, res, next) {
 }
 */
 
-server.post('/login/locale', function (req, res) {
+server.post('/login/locale', function(req, res) {
 
     var email = req.body.email;
     var password = req.body.password;
@@ -508,7 +502,7 @@ server.post('/login/locale', function (req, res) {
         password: req.body.password
     }
 
-    modelloUtenti.findOne({ email: email, }, function (err, user) {
+    modelloUtenti.findOne({ email: email, }, function(err, user) {
         if (err) {
             console.log("err1");
             return res.status(500).send();
@@ -523,7 +517,7 @@ server.post('/login/locale', function (req, res) {
             return //utente non trovato
         }
 
-        bcrypt.compare(password, user.password, function (err, result) {
+        bcrypt.compare(password, user.password, async function(err, result) {
 
             if (result === false) {
 
@@ -536,9 +530,10 @@ server.post('/login/locale', function (req, res) {
             } else {
                 session = email;
                 loggato = true;
-                console.log("login effettuato");
                 globalUser = user;
-
+                console.log("login effettuato");
+                var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
+                console.log("traslocatore index = ", traslocatorePiuVicino); //4
                 return res.render('home', { loggato });
             }
         })
