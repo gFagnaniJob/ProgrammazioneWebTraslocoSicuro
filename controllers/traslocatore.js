@@ -25,15 +25,11 @@ controlloTraslocatoriInizialiDatabase = async function (listaTraslocatori) {
             console.log(listaTraslocatori[i].nomeAzienda + " salvato correttamente");
             listaTraslocatori[i].save(function (err) {
                 if (err) {
-                    console.log("ERRORE DEL TIPO ", err);
-                    //return res.status(355).send();
+                    return console.log("ERRORE DEL TIPO ", err);
                 }
 
             });
-        } else {
-            console.log(listaTraslocatori[i].nomeAzienda + " ERRORE");
-        }
-
+        } 
     }
 
 }
