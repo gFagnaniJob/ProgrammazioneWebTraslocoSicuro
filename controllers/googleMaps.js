@@ -62,6 +62,7 @@ function getTraslocatorePiuVicino(origins, destinations, callback) {
         if (distances.status == 'OK') {
             //imposto una variabile a infinito
             var min = Infinity;
+            console.log("destinations.length = ", destinations.length);
             //i -> indice per l'array delle origini (si trovano in rows)
             for (var i = 0; i < origins.length; i++) {
                 //j -> indice per l'array delle destinazioni (si trovano in elements)

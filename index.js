@@ -356,8 +356,6 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
 
     session = User.email;
     loggato = true;
-    var traslocatorePiuVicino = await googleMapsController.restituisciTraslocatorePiùVicino(globalUser.indirizzo);
-    console.log(traslocatorePiuVicino);
     res.redirect('/prenotazione');
 
     //CHIUSURA REGISTRATI LOCALE
@@ -462,4 +460,4 @@ async function inizializzaDestinazioni() {
     }*/
 }
 
-module.exports = Utente;
+//module.exports = Utente;
