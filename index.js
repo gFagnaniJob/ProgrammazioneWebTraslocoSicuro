@@ -213,11 +213,6 @@ server.get("/modificaInfo", async function(req, res) {
        
         datiUtenteNome: utente.nome,
         datiUtenteCognome: utente.cognome,
-        datiUtenteVia: utente.indirizzo.via,
-        datiUtenteCitta: utente.indirizzo.citta,
-        datiUtenteProvincia: utente.indirizzo.provincia,
-        datiUtenteCap: utente.indirizzo.cap,
-        datiUtenteStato: utente.indirizzo.stato,
         datiUtenteTelefono: utente.telefono,
         datiUtenteEmail: utente.email,
 
@@ -290,31 +285,6 @@ server.post("/modificaInformazioni/Locale", async function (req, res) {
 
 
     if (req.body.cognome != "") {
-        console.log("cambiarlo nel database");
-    }
-
-
-    if (req.body.via != "") {
-        console.log("cambiarlo nel database");
-    }
-
-
-    if (req.body.citta != "") {
-        console.log("cambiarlo nel database");
-    }
-
-
-    if (req.body.provincia != "") {
-        console.log("cambiarlo nel database");
-    }
-
-
-    if (req.body.cap != "") {
-        console.log("cambiarlo nel database");
-    }
-
-
-    if (req.body.stato != "") {
         console.log("cambiarlo nel database");
     }
 
