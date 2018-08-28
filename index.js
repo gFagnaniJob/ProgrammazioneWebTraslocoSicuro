@@ -530,7 +530,7 @@ server.post('/login/locale', checkNotAuthentication, function (req, res) {
                         console.log("login effettuato");
                         return res.render('home', { loggato });
                     }
-                })
+                });
 
             }
         })
@@ -544,12 +544,9 @@ async function inizializzaDestinazioni() {
     var traslocatori = await modelloTraslocatori.find({});
     for (i = 0; i < traslocatori.length; i++) {
         var indirizzoTraslocatore = traslocatori[i].indirizzoAzienda;
-        indirizziTraslocatori.push(indirizzoTraslocatore); //+ ", " + stato);
+        indirizziTraslocatori.push(indirizzoTraslocatore);
     }
     return indirizziTraslocatori;
-    /*for (i=0; i<listaIndirizzi.length; i++) {
-        destinations.push(listaIndirizzi);
-    }*/
 }
 
 function checkAuthentication(req, res, next) {
