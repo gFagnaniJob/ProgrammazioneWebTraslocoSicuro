@@ -14,8 +14,8 @@ var controllersUser = require("./controllers/user.js");
 const modelsUser = require('./models/user');
 const modelloUtenti = modelsUser.modelloUtenti;
 const utentiSchema = modelsUser.utentiSchema;
-const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv').config();
+console.log("dotenv", dotenv.parsed);
 const postino = require('./controllers/postino');
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -197,7 +197,7 @@ server.get("/servizi", function (req, res) {
     }
 });
 
-server.get('/login', function (req, res) {
+server.get('/login', checkNotAuthentication, function (req, res) {
 
     res.render('login', {
         messaggioErrore: "",
@@ -208,11 +208,13 @@ server.get('/login', function (req, res) {
 
 
 
-server.get("/iMieiAppuntamenti", function (req, res) {
+server.get("/iMieiAppuntamenti", checkAuthentication, function (req, res) {
     res.render('iMieiAppuntamenti');
 });
 
-server.get("/modificaInfo", async function (req, res) {
+server.get("/modificaInfo", checkAuthentication, async function (req, res) {
+
+    var utente = await modelloUtenti.findOne({ email: session, });
 
     var utente = globalUser;
     console.log(utente.nome);
@@ -229,7 +231,7 @@ server.get("/modificaInfo", async function (req, res) {
 
 
 
-server.post("/modificaInformazioni/Locale", async function (req, res) {
+server.post("/modificaInformazioni/Locale",checkNotAuthentication, async function (req, res) {
 
     utente = globalUser;
 
@@ -319,11 +321,11 @@ server.get('/registrati', function (req, res) {
     });
 });
 
-server.get("/prenotazione", function (req, res) {
+server.get("/prenotazione", checkAuthentication, function (req, res) {
     res.render('prenotazione', globalUser);
 });
 
-server.post("/prenotazione/locale", function (req, res) {
+server.post("/prenotazione/locale", checkAuthentication, function (req, res) {
     var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
@@ -355,7 +357,7 @@ server.post("/prenotazione/locale", function (req, res) {
     console.log(DatiPrenotazione);
 });
 
-server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRATI LOCALE
+server.post('/registrati/locale', checkNotAuthentication, async function (req, res) { //INIZIO REGISTRATI LOCALE
 
     var User = {
         nome: req.body.nome,
@@ -441,7 +443,7 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
     //CHIUSURA REGISTRATI LOCALE
 });
 
-server.get('/logout', function (req, res, next) {
+server.get('/logout', checkAuthentication, function (req, res, next) {
     if (session) {
         // delete session objecT
         console.log("sessione eliminata = " + session);
@@ -454,6 +456,7 @@ server.get('/logout', function (req, res, next) {
     }
 
     console.log("Logout effettuato");
+    return;
 });
 
 
@@ -469,7 +472,7 @@ function verificaAutenticazione(req, res, next) {
 }
 */
 
-server.post('/login/locale', function (req, res) {
+server.post('/login/locale', checkNotAuthentication, function (req, res) {
 
     var email = req.body.email;
     var password = req.body.password;
@@ -540,4 +543,20 @@ async function inizializzaDestinazioni() {
     }*/
 }
 
-//module.exports = Utente;
+function checkAuthentication (req, res, next) {
+    if (session) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+}
+
+function checkNotAuthentication (req, res, next) {
+    if (session) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+}
+
+module.exports = Utente;
