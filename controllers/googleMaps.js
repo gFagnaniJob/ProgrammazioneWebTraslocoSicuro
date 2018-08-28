@@ -124,7 +124,7 @@ function getDistance(origins, destinations, callback) {
                         var distanceValue = distances.rows[i].elements[j].distance.value;
                         //mi salvo il testo della distanza (es. 10,8 km)
                         var distanceText = distances.rows[i].elements[j].distance.text;
-                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
+                        //console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
                     } else {
                         //se il calcolo della distanza non è stato possibile stampo messaggio di errore
                         console.log(destination + ' is not reachable by land from ' + origin);
@@ -140,10 +140,7 @@ function getDistance(origins, destinations, callback) {
 }
 
 module.exports = {
-    getTraslocatorePiuVicino,
-    getDistance
+    getTraslocatorePiuVicino, //prende come input l'indirizzo di origine e restituisce il traslocatore più vicino
+    getDistance //prende come input l'indirizzo di partenza e quello di arrivo (sotto forma di array)
+    //e restituisce la distanza tra i due (distanceValue (int), distanceText (string -> es. 199 km))
 }
-
-//IDEA: esportare solo il DistanceMatrixService e
-//creare la matrice direttamente dove serve
-//(in questo modo tutte le operazioni si possono fare nel callback)

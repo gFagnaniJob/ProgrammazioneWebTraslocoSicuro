@@ -318,17 +318,18 @@ server.post('/registrati/locale', async function (req, res) { //INIZIO REGISTRAT
         return;
     }
 
-    var indirizzoUtente = User.indirizzo.via + ", " + User.indirizzo.citta + ", " + User.indirizzo.provincia + ", " + User.indirizzo.stato;
+    var indirizzoFormattato = User.indirizzo.via + ", " + User.indirizzo.citta + ", " + User.indirizzo.provincia + ", " + User.indirizzo.stato;
 
     var newUser = new modelloUtenti({
         nome: User.nome.toString().toLowerCase(),
         cognome: User.cognome.toString().toLowerCase(),
-        indirizzo: indirizzoUtente,
+        indirizzo: indirizzoFormattato,
         dataNascita: User.dataNascita,
         telefono: User.telefono,
         email: User.email.toString().toLowerCase(),
         password: User.password
     });
+    
     globalUser = newUser;
 
     indirizzoUtente = [globalUser.indirizzo];
