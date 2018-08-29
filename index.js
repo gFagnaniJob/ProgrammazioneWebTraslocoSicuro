@@ -1,6 +1,6 @@
 var express = require("express");
-var index = express();
 var session = require('express-session');
+var cookieSession = require('cookie-session');
 var bodyParser = require("body-parser");
 const server = express(); //chiamata al server
 const porta = 2000; //la porta
@@ -35,8 +35,13 @@ var bcrypt = require('bcrypt');
 server.use(express.static("public"));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
+
+server.use(cookieSession({
+    name: 'session',
+    keys: ['username']
+}))
 
 server.set('view engine', 'ejs');
 
@@ -48,31 +53,17 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-index.use(bodyParser.json());
-index.use(bodyParser.urlencoded({
-    extended: true
-}));
-
-index.use(session({
-    secret: 'pinkie pie',
-    resave: true,
-    saveUninitialized: true
-    //store: new MongoStore({
-    //    mongooseConnection: db
-    //})
-}));
-
 var loggato = false;
 
 server.listen(porta, async function () { //inserisco cosa fa il server quando lo richiamo
     console.log("server in ascolto sulla porta " + porta);
-    session = null;
+    //session = null;
     indirizziTraslocatori = await inizializzaDestinazioni();
 });
 
 server.get("/", function (req, res) {
 
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('home', {
             loggato,
@@ -87,7 +78,7 @@ server.get("/", function (req, res) {
 });
 
 server.get("/chiSiamo", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('chiSiamo', {
             loggato,
@@ -101,7 +92,7 @@ server.get("/chiSiamo", function (req, res) {
 });
 
 server.get("/doveSiamo", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('doveSiamo', {
             loggato,
@@ -116,7 +107,7 @@ server.get("/doveSiamo", function (req, res) {
 });
 
 server.get("/comeFunziona", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('comeFunziona', {
             loggato,
@@ -131,7 +122,7 @@ server.get("/comeFunziona", function (req, res) {
 
 server.get("/conChiLavoriamo", async function (req, res) {
     var traslocatori = await modelloTraslocatori.find({});
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('conChiLavoriamo', {
             loggato,
@@ -147,7 +138,7 @@ server.get("/conChiLavoriamo", async function (req, res) {
 });
 
 server.get("/condizioniDiVendita", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('condizioniDiVendita', {
             loggato,
@@ -160,7 +151,7 @@ server.get("/condizioniDiVendita", function (req, res) {
     }
 });
 server.get("/contattaci", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('contattaci', {
             loggato,
@@ -173,7 +164,7 @@ server.get("/contattaci", function (req, res) {
     }
 });
 server.get("/informativaSullaPrivacy", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('informativaSullaPrivacy', {
             loggato,
@@ -186,7 +177,7 @@ server.get("/informativaSullaPrivacy", function (req, res) {
     }
 });
 server.get("/servizi", function (req, res) {
-    if (session) {
+    if (req.session && req.session.utente) {
         loggato = true;
         return res.render('servizi', {
             loggato,
@@ -216,9 +207,13 @@ server.get("/iMieiAppuntamenti", checkAuthentication, function (req, res) {
 
 server.get("/modificaInfo", checkAuthentication, async function (req, res) {
 
-    var utente = await modelloUtenti.findOne({ email: session, });
+    var utente = await modelloUtenti.findOne({ email: req.session.utente.email, });
 
-    var utente = globalUser;
+    globalUser = utente;
+
+    console.log(req.session.utente.email);
+
+    //var utente = globalUser;
     console.log(utente.nome);
     res.render('modificaInformazioni', {
 
@@ -489,7 +484,10 @@ server.post('/registrati/locale', checkNotAuthentication, async function (req, r
         if (err) return res.status(404).send();
     });
 
-    session = User.email;
+    session = req.session;
+    session.utente = newUser;
+    console.log('registrazione completata');
+    console.log('session dopo registrazione = ', req.session.utente.email);
     loggato = true;
     res.redirect('/prenotazione');
 
@@ -497,11 +495,15 @@ server.post('/registrati/locale', checkNotAuthentication, async function (req, r
 });
 
 server.get('/logout', checkAuthentication, function (req, res, next) {
-    if (session) {
+    if (req.session && req.session.utente) {
         // delete session objecT
-        console.log("sessione eliminata = " + session);
+        console.log("sessione eliminata = " + req.session.utente.email);
+        req.session = null;
         session = null;
         loggato = false;
+        console.log('session = ', session);
+        console.log('req.session = ', req.session);
+        console.log('loggato = ', loggato);
         indirizzoUtente = [];
         res.render('home', {
             loggato
@@ -530,6 +532,7 @@ server.post('/login/locale', checkNotAuthentication, function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
+    session = req.session;
 
     var datiUtente = {
         email: req.body.email,
@@ -562,23 +565,14 @@ server.post('/login/locale', checkNotAuthentication, function (req, res) {
                 console.log("password errata") //password errata
 
             } else {
-                session = email;
+                session.utente = user;
+                console.log('session dopo login = ', session);
                 loggato = true;
-                globalUser = user;
-                indirizzoUtente = [globalUser.indirizzo];
-                googleMapsController.getTraslocatorePiuVicino(indirizzoUtente, indirizziTraslocatori, function (traslocatore) {
-                    if (!traslocatore) {
-                        console.log("ERRORE NESSUN TRASLOCATORE TROVATO");
-                    } else {
-                        console.log("E' stato selezionato il traslocatore " + traslocatore.nomeAzienda + " con sede in " + traslocatore.indirizzoAzienda);
-                        console.log("login effettuato");
-                        return res.render('home', { loggato });
-                    }
-                });
-
+                globalUser = req.session.utente;
+                console.log('login effettuato');
+                res.render('home', { loggato });
             }
         })
-
     });
 });
 
@@ -594,7 +588,7 @@ async function inizializzaDestinazioni() {
 }
 
 function checkAuthentication(req, res, next) {
-    if (session) {
+    if (req.session && req.session.utente) {
         next();
     } else {
         res.redirect('/');
@@ -602,7 +596,7 @@ function checkAuthentication(req, res, next) {
 }
 
 function checkNotAuthentication(req, res, next) {
-    if (session) {
+    if (req.session && req.session.utente) {
         res.redirect('/');
     } else {
         next();
