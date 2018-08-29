@@ -89,6 +89,28 @@
                     <!--<img src="../sfondoTesto.jpg">-->
                     <h3>I nostri collaboratori</h3>
                     <p> </p>
+                    
+                            <table class="table table-bordered table-active">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" scope="col">Azienda</th>
+                                        <th class="text-center" scope="col">Sede</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% traslocatori.forEach(function(traslocatore) { %>
+                                        <tr>
+                                            <td class="align-baseline text-center">
+                                                <%=traslocatore.nomeAzienda %>
+                                            </td>
+                                            <td class="align-top text-center">
+                                                <%= traslocatore.indirizzoAzienda %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        
 
 
                 </div>
@@ -98,46 +120,9 @@
         </div>
     </div>
 
-    <div class="container pt-3">
-        <table class="table table-bordered table-active">
-            <thead>
-                <tr>
-                    <th class="text-center" scope="col">Azienda</th>
-                    <th class="text-center" scope="col">Sede</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% traslocatori.forEach(function(traslocatore) { %>
-                    <tr>
-                        <td class="align-baseline text-center">
-                            <%=traslocatore.nomeAzienda %>
-                        </td>
-                        <td class="align-top text-center">
-                            <%= traslocatore.indirizzoAzienda %>
-                        </td>
-                    </tr>
-                    <% }); %>
-            </tbody>
-        </table>
-    </div>
-
-
-
-
-
-
-
     <div class="col text-center">
         <img src="../immagineFinePagina.jpg" class="img-responsive" alt="logo finale">
     </div>
-
-
-
-
-
-
-
-
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
