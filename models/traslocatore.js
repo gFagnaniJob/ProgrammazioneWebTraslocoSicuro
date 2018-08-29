@@ -76,7 +76,7 @@ var traslocatoreTorino = new modelloTraslocatore({
     nomeProprietario: "Fabrizio",
     cognomeProprietario: "Giammarini",
     email: "fabrizio.giammarini@giamail.com",
-    indirizzoAzienda: "Via Tunisi 23, Torino, TO, Italia",
+    indirizzoAzienda: "Via Tunisi 23, Torino (TO), Italia",
     costiBaseStanze: {
         cucina: "260",
         salone: "230",
@@ -143,7 +143,7 @@ var traslocatoreCamerino = new modelloTraslocatore({
     nomeProprietario: "Laura",
     cognomeProprietario: "Spavoni",
     email: "Laura.Spavoni@giamail.com",
-    indirizzoAzienda: "Via A.Conti 10, Camerino, Macerata, Italia",
+    indirizzoAzienda: "Via A.Conti 10, Camerino (MC), Italia",
     costiBaseStanze: {
         cucina: "200",
         salone: "180",
@@ -210,7 +210,7 @@ var traslocatoreRoma1 = new modelloTraslocatore({
     nomeProprietario: "Roberto",
     cognomeProprietario: "Michelini",
     email: "Roberto.Michelini@giamail.com",
-    indirizzoAzienda: "Via Filippi, 58, Roma, Roma, Italia",
+    indirizzoAzienda: "Via Filippi 58, Roma (RM), Italia",
     costiBaseStanze: {
         cucina: "230",
         salone: "180",
@@ -277,7 +277,7 @@ var traslocatoreRoma2 = new modelloTraslocatore({
     nomeProprietario: "Francesca",
     cognomeProprietario: "Garotti",
     email: "Francesca.Garotti@giamail.com",
-    indirizzoAzienda: "Via degli elci, 12, Roma, Roma, Italia",
+    indirizzoAzienda: "Via Degli Elci 12, Roma (RM), Italia",
     costiBaseStanze: {
         cucina: "200",
         salone: "160",
@@ -344,7 +344,7 @@ var traslocatoreNapoli1 = new modelloTraslocatore({
     nomeProprietario: "Giorgio",
     cognomeProprietario: "Pallini",
     email: "Giorgio.Pallini@giamail.com",
-    indirizzoAzienda: "Via Elvira Notari 70, Napoli, NA, Italia",
+    indirizzoAzienda: "Via Elvira Notari 70, Napoli (NA), Italia",
     costiBaseStanze: {
         cucina: "200",
         salone: "160",
@@ -411,7 +411,7 @@ var traslocatoreNapoli2 = new modelloTraslocatore({
     nomeProprietario: "Matteo",
     cognomeProprietario: "Torini",
     email: "Matteo.Torini@giamail.com",
-    indirizzoAzienda: "Via Piedigrotta 8, Napoli, Napoli, Italia",
+    indirizzoAzienda: "Via Piedigrotta 8, Napoli (NA), Italia",
     costiBaseStanze: {
         cucina: "200",
         salone: "180",
@@ -478,7 +478,7 @@ var traslocatoreFirenze1 = new modelloTraslocatore({
     nomeProprietario: "Claudia",
     cognomeProprietario: "Ramini",
     email: "Claudia.Ramini@giamail.com",
-    indirizzoAzienda: "Via Cimabue, 110, Firenze, FI, Italia",
+    indirizzoAzienda: "Via Cimabue 110, Firenze (FI), Italia",
     costiBaseStanze: {
         cucina: "250",
         salone: "200",
@@ -545,7 +545,7 @@ var traslocatoreFirenze2 = new modelloTraslocatore({
     nomeProprietario: "Fiorello",
     cognomeProprietario: "Zampini",
     email: "Fiorello.Zampini@giamail.com",
-    indirizzoAzienda: "Via della palancola 53, Firenze, Firenze, Italia",
+    indirizzoAzienda: "Via Della Palancola 53, Firenze (FI), Italia",
     costiBaseStanze: {
         cucina: "250",
         salone: "200",
@@ -612,7 +612,7 @@ var traslocatoreMilano1 = new modelloTraslocatore({
     nomeProprietario: "Marcello",
     cognomeProprietario: "Giglio",
     email: "Marcello.Giglio@giamail.com",
-    indirizzoAzienda: "Via paolo lomazzo 86, Milano, Milano, Italia",
+    indirizzoAzienda: "Via Paolo Lomazzo 86, Milano (MI), Italia",
     costiBaseStanze: {
         cucina: "280",
         salone: "230",
@@ -679,7 +679,7 @@ var traslocatoreMilano2 = new modelloTraslocatore({
     nomeProprietario: "Patrizia",
     cognomeProprietario: "Spalo",
     email: "Patrizia.Spalo@giamail.com",
-    indirizzoAzienda: "Via Condino 20, Milano, Mi, Italia",
+    indirizzoAzienda: "Via Condino 20, Milano (MI), Italia",
     costiBaseStanze: {
         cucina: "270",
         salone: "210",

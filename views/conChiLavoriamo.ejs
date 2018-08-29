@@ -14,7 +14,7 @@
 
             <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                 <button type="button" class="btn btn-custom "><a href="..">Home</a>
-    
+
                 </button>
             </div>
 
@@ -54,19 +54,19 @@
             <% if(loggato == false){%>
                 <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                     <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
-    
-                </button>
+
+                    </button>
                 </div>
                 <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
                     <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
-    
-                </button>
+
+                    </button>
                 </div>
                 <%}
             else {
                 %>
 
-                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
 
                         <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Pagina Personale </button>
@@ -76,16 +76,16 @@
                             <a class="dropdown-item" href="/iMieiAppuntamenti">I miei appuntamenti</a>
                             <a class="dropdown-item" href="/logout">Esci</a>
                         </div>
-        
-        
+
+
                     </div>
                     <%}%>
 
         </div>
-          <div class="row">
+        <div class="row">
             <div class="col">
                 <div class="rettangolo text-left p-4">
-                   
+
                     <!--<img src="../sfondoTesto.jpg">-->
                     <h3>I nostri collaboratori</h3>
                     <p> </p>
@@ -98,13 +98,36 @@
         </div>
     </div>
 
+    <div class="container pt-3">
+        <table class="table table-bordered table-active">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Azienda</th>
+                    <th class="text-center" scope="col">Sede</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% traslocatori.forEach(function(traslocatore) { %>
+                    <tr>
+                        <td class="align-baseline text-center">
+                            <%=traslocatore.nomeAzienda %>
+                        </td>
+                        <td class="align-top text-center">
+                            <%= traslocatore.indirizzoAzienda %>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
 
 
 
 
 
 
- <div class="col text-center">
+
+    <div class="col text-center">
         <img src="../immagineFinePagina.jpg" class="img-responsive" alt="logo finale">
     </div>
 

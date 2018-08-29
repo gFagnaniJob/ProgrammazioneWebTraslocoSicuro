@@ -15,7 +15,6 @@ const modelsUser = require('./models/user');
 const modelloUtenti = modelsUser.modelloUtenti;
 const utentiSchema = modelsUser.utentiSchema;
 const dotenv = require('dotenv').config();
-console.log("dotenv", dotenv.parsed);
 const postino = require('./controllers/postino');
 var MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -130,16 +129,19 @@ server.get("/comeFunziona", function (req, res) {
     }
 });
 
-server.get("/conChiLavoriamo", function (req, res) {
+server.get("/conChiLavoriamo", async function (req, res) {
+    var traslocatori = await modelloTraslocatori.find({});
     if (session) {
         loggato = true;
         return res.render('conChiLavoriamo', {
             loggato,
+            traslocatori
         });
     } else {
         loggato = false;
         return res.render('conChiLavoriamo', {
             loggato,
+            traslocatori
         });
     }
 });
@@ -365,7 +367,7 @@ server.post("/modificaInformazioni/Locale", checkAuthentication, async function 
 
 
 
-server.get('/registrati', function (req, res) {
+server.get('/registrati', checkNotAuthentication, function (req, res) {
     res.render('registrati', {
         messaggioErrore: "",
         bootstrapClasses: ""
