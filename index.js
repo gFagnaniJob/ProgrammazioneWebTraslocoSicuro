@@ -9,6 +9,8 @@ const modelsTraslocatori = require("./models/traslocatore.js");
 const listaTraslocatori = modelsTraslocatori.traslocatori;
 const controllersTraslocatori = require("./controllers/traslocatore.js");
 const controlloTraslocatoriInizialiDelDatabase = controllersTraslocatori.controlloTraslocatoriInizialiDatabase;
+const modelsPrenotazione = require("./models/prenotazione.js");
+const modelloPrenotazione = modelsPrenotazione.modelloPrenotazione;
 
 var controllersUser = require("./controllers/user.js");
 const modelsUser = require('./models/user');
@@ -374,7 +376,7 @@ server.get("/prenotazione", checkAuthentication, function (req, res) {
 });
 
 server.post("/prenotazione/locale", checkAuthentication, function (req, res) {
-    var DatiPrenotazione = {
+   /* var DatiPrenotazione = {
         indirizzoPartenza: {
             via: req.body.viaPartenza,
             numero: req.body.numeroCivicoPartenza,
@@ -401,8 +403,66 @@ server.post("/prenotazione/locale", checkAuthentication, function (req, res) {
             smontaggioRimontaggio: req.body.smontaggioRiassemblaggio,
             depositoMerci: req.body.depositoMerci,
         },
+    }*/
+
+    var DatiPrenotazione = {
+        viaPartenza : req.body.viaPartenza,
+        numeroCivicoPartenza: req.body.numeroCivicoPartenza,
+        capPartenza: req.body.capPartenza,
+        cittaPartenza: req.body.cittaPartenza,
+        statoPartenza: req.body.statoPartenza,
+        ascensorePartenza: req.body.ascensorePartenza,
+        pianoPartenza: req.body.pianoPartenza,
+        viaArrivo : req.body.viaArrivo,
+        numeroCivicoArrivo: req.body.numeroCivicoArrivo,
+        capArrivo: req.body.capArrivo,
+        cittaArrivo: req.body.cittaArrivo,
+        statoArrivo: req.body.statoArrivo,
+        ascensoreArrivo: req.body.ascensoreArrivo,
+        pianoArrivo: req.body.pianoArrivo,
+        stanze: req.body.stanza,
+        imballaggio: req.body.imballaggio,
+        smontaggioRiassemblaggio: req.body.smontaggioRiassemblaggio,
+        depositoMerci: req.body.depositoMerci,
+
+      
     }
-    console.log(DatiPrenotazione);
+    
+
+
+    var newPrenotazione = new modelloPrenotazione({
+        viaPartenza: DatiPrenotazione.viaPartenza.toString().toLowerCase(),
+        numeroCivicoPartenza: DatiPrenotazione.numeroCivicoPartenza.toString(),
+        capPartenza: DatiPrenotazione.capPartenza.toString(),
+        cittaPartenza : DatiPrenotazione.cittaPartenza.toString().toLowerCase(),
+        statoPartenza : DatiPrenotazione.statoPartenza.toString().toLowerCase(),
+        ascensorePartenza : DatiPrenotazione.ascensorePartenza.toString(),
+        pianoPartenza : DatiPrenotazione.pianoPartenza.toString(),
+        viaArrivo: DatiPrenotazione.viaArrivo.toString().toLowerCase(),
+        numeroCivicoArrivo: DatiPrenotazione.numeroCivicoArrivo.toString(),
+        capArrivo: DatiPrenotazione.capArrivo.toString(),
+        cittaArrivo : DatiPrenotazione.cittaArrivo.toString().toLowerCase(),
+        statoArrivo : DatiPrenotazione.statoArrivo.toString().toLowerCase(),
+        ascensoreArrivo : DatiPrenotazione.ascensoreArrivo.toString().toLowerCase(),
+        pianoArrivo : DatiPrenotazione.pianoArrivo.toString(),
+        stanze : DatiPrenotazione.stanze,
+        imballaggio : DatiPrenotazione.imballaggio.toString().toLowerCase(),
+        smontaggioRiassemblaggio: DatiPrenotazione.smontaggioRiassemblaggio.toString().toLowerCase(),
+        depositoMerci: DatiPrenotazione.depositoMerci.toString().toLowerCase(),
+        
+
+    });
+
+
+
+    newPrenotazione.save(function (err) {
+        if (err) return res.status(500).send();
+    });
+
+    res.render("prenotazione");
+
+
+
 });
 
 server.post('/registrati/locale', checkNotAuthentication, async function (req, res) { //INIZIO REGISTRATI LOCALE
