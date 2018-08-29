@@ -1,9 +1,9 @@
 TODO list:
 
-----> 1) inserire le voci nei collaboratori
-----> 2) algoritmo per i prezzi (con api google maps)
-----> 3) aggiungere dati in "i miei appuntamenti" 
-----> 4) form "modifica informazioni" far si che gli utenti rimangano nella sessione + far apparire gli errori
+----> 1) algoritmo per i prezzi (con api google maps) <-- dopo il punto 3
+----> 2) aggiungere dati in "i miei appuntamenti" <-- dopo il punto 1
+----> 3) fare lo schema/modello prenotazione
+
 
 
 
