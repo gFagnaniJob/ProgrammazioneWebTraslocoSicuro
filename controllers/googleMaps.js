@@ -64,7 +64,6 @@ function getTraslocatorePiuVicino(origins, destinations, callback) {
         if (distances.status == 'OK') {
             //imposto una variabile a infinito
             var min = Infinity;
-            console.log("destinations.length = ", destinations.length);
             //i -> indice per l'array delle origini (si trovano in rows)
             for (var i = 0; i < origins.length; i++) {
                 //j -> indice per l'array delle destinazioni (si trovano in elements)
@@ -78,7 +77,7 @@ function getTraslocatorePiuVicino(origins, destinations, callback) {
                         var distanceValue = distances.rows[i].elements[j].distance.value;
                         //mi salvo il testo della distanza (es. 10,8 km)
                         var distanceText = distances.rows[i].elements[j].distance.text;
-                        //console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
+                        console.log('Distance from ' + origin + ' to ' + destination + ' is ' + distanceText); //5,...
                         //controllo se distanceValue è minore o uguale di min
                         if (distanceValue <= min) {
                             //distanceValue diventa il nuovo min
