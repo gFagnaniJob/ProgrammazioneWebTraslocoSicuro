@@ -1,6 +1,9 @@
 
 .bottoniHome{ line-height: 100px; }
 
+.interlinea{
+    line-height: 1px;}
+
 
 .banner{
     height: 50px;
@@ -67,10 +70,11 @@ color: black;
 .rettangolo {
     position: relative;
 	width:700px;
-	height:800px;
-    
+	
+    background-image: url("../sfondoTesto.jpg");
     margin: 0 auto;
-	background:tan;
+    border-radius: 50px 50px 50px 50px;
+    
 }
 .carousel {
   width:80%;
@@ -81,7 +85,33 @@ color: black;
   height: auto;
   max-width: 100%;
 }
+.registrazione{
+    position: absolute;
+    left: 68%;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    
+}
+.link a{
+    color: black;
+    text-decoration: underline;
+}
+.alto{
+    height: 500px;
+    position: relative;
+}
+.centrato{
+    margin:auto;
+}
+ul.lista-senza-decorazioni {
 
+
+    list-style: none;}
+
+    .sfondo-pagina{
+    background-color: #ff9a41;  
+    }
+    
+   
 
 
 

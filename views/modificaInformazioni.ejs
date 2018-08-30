@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="it">
+
+<head>
+    <title> modifica Informazioni</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css" type="text/css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row banner p-2">
+
+            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                <button type="button" class="btn btn-custom "><a href="..">Home</a>
+
+                </button>
+            </div>
+
+
+            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Azienda </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/chiSiamo">Chi Siamo</a>
+                    <a class="dropdown-item" href="/doveSiamo">Dove Siamo</a>
+                    <a class="dropdown-item" href="/contattaci">Contattaci</a>
+                </div>
+
+
+            </div>
+            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Informazioni </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/comeFunziona">Come funziona</a>
+                    <a class="dropdown-item" href="/servizi">Servizi</a>
+                    <a class="dropdown-item" href="/conChiLavoriamo">Con chi lavoriamo</a>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Condizioni </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/condizioniDiVendita">Condizioni di Vendita</a>
+                    <a class="dropdown-item" href="/informativaSullaPrivacy">Informativa sulla Privacy</a>
+                </div>
+            </div>
+
+            <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pagina Personale </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/modificaInfo">Modifica Informazioni</a>
+                    <a class="dropdown-item" href="/prenotazione">Prenota Appuntamento</a>
+                    <a class="dropdown-item" href="/iMieiAppuntamenti">I miei appuntamenti</a>
+                    <a class="dropdown-item" href="/logout">Esci</a>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center p-3">Modifica Informazioni</h2>
+                <p class="text-center interlinea"> Compila i campi dei dati personali che vuoi modificare</p>
+            </div>
+
+        </div>
+        <div>
+
+            <p class="<%=bootstrapClasses%>"> <%=messaggioErrore%> </p>
+        </div>
+        <form method="POST" action="/modificaInformazioni/Locale">
+            <div class="row">
+
+                <div class="col-6 p-5">
+
+                    <div class="form-group">
+                        <label for="nome">Nome: </label>
+                        <input type="text" class="form-control" id="nome" name="nome">
+
+                    </div>
+                    <div class="form-group ">
+                        <label for="cognome">Cognome: </label>
+                        <input type="text" class="form-control" id="cognome" name="cognome">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="telefono">Telefono: </label>
+                        <input type="number" class="form-control" id="telefono" name="telefono">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="email">Email: </label>
+                        <input type="email" class="form-control" id="nuovaEmail" name="nuovaEmail">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="email">Conferma Email: </label>
+                        <input type="email" class="form-control" id="confermaNuovaEmail" name="confermaNuovaEmail">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="password">Vecchia Password: </label>
+                        <input type="password" class="form-control" id="vecchiaPassword" name="vecchiaPassword">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="password">Nuova Password: </label>
+                        <input type="password" class="form-control" id="nuovaPassword" name="nuovaPassword">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="password">Conferma Nuova Password: </label>
+                        <input type="password" class="form-control" id="confermaNuovaPassword" name="confermaNuovaPassword">
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-6 p-5">
+                    <div class="form-group">
+                        <label for="nome">Nome Attuale: </label>
+                        <input disabled="disabled" type="text" class="form-control" id="nome" name="nome" value="<%=datiUtenteNome%>">
+
+                    </div>
+                    <div class="form-group ">
+                        <label for="cognome">Cognome Attuale: </label>
+                        <input disabled="disabled" type="text" class="form-control" id="cognome" name="cognome" value="<%=datiUtenteCognome%>">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="telefono">Telefono Attuale: </label>
+                        <input disabled="disabled" type="number" class="form-control" id="telefono" name="telefono" value="<%=datiUtenteTelefono%>">
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="email">Email Attuale: </label>
+                        <input disabled="disabled" type="email" class="form-control" id="email" name="email" value="<%=datiUtenteEmail%>">
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="row pt-1 pt-2">
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-info">Modifica Informazioni</button>
+                    <p class="p-2"></p>
+                </div>
+            </div>
+
+
+        </form>
+
+
+
+
+    </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+
+
+</html>

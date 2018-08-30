@@ -14,7 +14,8 @@
         <div class="row">
             <div class=" col ">
                 <!--bottone disabilitato in alto-->
-                <button class=" btn btn-info btn-block disabled"> Devi traslocare ma non sai come fare? <br> Affidati a noi, non dovrai pensare a nulla. </button>
+                <button class=" btn btn-info btn-block disabled"> Devi traslocare ma non sai come fare?
+                    <br> Affidati a noi, non dovrai pensare a nulla. </button>
 
 
 
@@ -37,8 +38,9 @@
             <!--navbar con bottoni dropup-->
 
             <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="..">Home</a>
-    
+                <button type="button" class="btn btn-custom ">
+                    <a href="..">Home</a>
+
                 </button>
             </div>
 
@@ -50,6 +52,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/chiSiamo">Chi Siamo</a>
                     <a class="dropdown-item" href="/doveSiamo">Dove Siamo</a>
+                    <a class="dropdown-item" href="/contattaci">Contattaci</a>
                 </div>
 
 
@@ -75,27 +78,44 @@
                 </div>
             </div>
 
-            <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="/contattaci">Contattaci</a>
-    
-                </button>
-            </div>
-            <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 btn-group dropup">
-                <button type="button" class="btn btn-custom "><a href="https://www.facebook.com/">Accedi</a>
-    
-                </button>
-            </div>
+
+            <% if(loggato == false){%>
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <button type="button" class="btn btn-custom "><a href="/login">Accedi</a>
+
+                    </button>
+                </div>
+                <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+                    <button type="button" class="btn btn-custom "><a href="/registrati">Registrati</a>
+
+                    </button>
+                </div>
+                <%}
+            else {
+                %>
+
+                    <div class="col-sm-2 col-xs-2 col-lg-2 col-md-2 btn-group dropup">
+
+                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pagina Personale </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/modificaInfo">Modifica Informazioni</a>
+                            <a class="dropdown-item" href="/prenotazione">Prenota Appuntamento</a>
+                            <a class="dropdown-item" href="/iMieiAppuntamenti">I miei appuntamenti</a>
+                            <a class="dropdown-item" href="/logout">Esci</a>
+                        </div>
 
 
+                    </div>
+                    <%}%>
 
 
         </div>
+
         <div class="row">
-            <div class="col ">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 ">
                 <!--carousel con immagini scorrevoli-->
                 <div id="carousel" class="carousel slide p-4" data-ride="carousel">
-
-
                     <!-- slideshow -->
                     <div class="carousel-inner text-center">
                         <div class="carousel-item active">
@@ -115,28 +135,20 @@
                     <a class="carousel-control-next" href="#carousel" data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </a>
-
-
                 </div>
             </div>
         </div>
+
+
         <div class="row">
             <div class=" col  ">
                 <!--bottone disabilitato in basso -->
-                <button class=" btn btn-info btn-block disabled">  
-                    <p>Cerchiamo di fare in modo che i nostri clienti siano soddisfatti, se hai domande, dubbi o hai bisogno di aiuto non esitare a contattarci.</p>
-                     Faremo del nostro meglio per aiutarti. </button>
-
-
-
+                <button class=" btn btn-info btn-block disabled">
+                    <p>Cerchiamo di fare in modo che i nostri clienti siano soddisfatti, se hai domande, dubbi o hai bisogno
+                        di aiuto non esitare a contattarci.</p>
+                    Faremo del nostro meglio per aiutarti. </button>
             </div>
-
         </div>
-
-
-
-
-
 
     </div>
 
